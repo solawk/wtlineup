@@ -147,6 +147,11 @@ function fillLineupTable()
         tdBR.innerHTML = vehicle.br;
         tdName.innerHTML = (locale === "ru" && vehicle.ruName !== "") ? vehicle.ruName : vehicle.enName;
 
+        tdNation.classList.add("vehicleTd");
+        tdClass.classList.add("vehicleTd");
+        tdBR.classList.add("vehicleTd");
+        tdName.classList.add("vehicleTd");
+
         tdBR.classList.add("vehicleNameSize");
         tdName.classList.add("vehicleNameSize");
 
