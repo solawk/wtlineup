@@ -111,3 +111,23 @@ body
 {
     text-shadow: 1px 1px 1px black;
 }
+
+.mainTableSize
+{
+    width: 50%;
+}
+
+.mainTableSizeBig
+{
+    width: 75%;
+}
+
+.vehicleNameSize
+{
+    font-size: 1em;
+}
+
+.vehicleNameSizeBig
+{
+    font-size: 1.5em;
+}

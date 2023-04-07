@@ -146,6 +146,9 @@ function fillLineupTable()
         tdClass.appendChild(getClass(vehicle.cl));
         tdBR.innerHTML = vehicle.br;
         tdName.innerHTML = (locale === "ru" && vehicle.ruName !== "") ? vehicle.ruName : vehicle.enName;
+
+        tdBR.classList.add("vehicleNameSize");
+        tdName.classList.add("vehicleNameSize");
     }
 
     for (const v of teamBlue)   addVehicle("lineupBlue", v, true);
@@ -203,4 +206,11 @@ function getClass(cl)
     img.src = src;
     img.title = title;
     return img;
+}
+
+function toggleSize()
+{
+    el("mainTable").classList.toggle("mainTableSizeBig");
+    const allResizableNodes = document.querySelectorAll("[class*='vehicleNameSize']");
+    for (const n of allResizableNodes) n.classList.toggle("vehicleNameSizeBig");
 }
