@@ -94,13 +94,70 @@ function fillLineupTable()
 
     function sortVehicles(a, b)
     {
+        const aStats = {};
+        const bStats = {};
+
+        switch (a.nation)
+        {
+            case "ussr":        aStats.nation = 2; break;
+            case "germany":     aStats.nation = 1; break;
+            case "usa":         aStats.nation = 0; break;
+            case "britain":     aStats.nation = 3; break;
+            case "france":      aStats.nation = 7; break;
+            case "italy":       aStats.nation = 6; break;
+            case "japan":       aStats.nation = 4; break;
+            case "china":       aStats.nation = 5; break;
+            case "sweden":      aStats.nation = 8; break;
+            case "israel":      aStats.nation = 9; break;
+        }
+
+        switch (b.nation)
+        {
+            case "ussr":        bStats.nation = 2; break;
+            case "germany":     bStats.nation = 1; break;
+            case "usa":         bStats.nation = 0; break;
+            case "britain":     bStats.nation = 3; break;
+            case "france":      bStats.nation = 7; break;
+            case "italy":       bStats.nation = 6; break;
+            case "japan":       bStats.nation = 4; break;
+            case "china":       bStats.nation = 5; break;
+            case "sweden":      bStats.nation = 8; break;
+            case "israel":      bStats.nation = 9; break;
+        }
+
+        switch (a.cl)
+        {
+            case "light":       aStats.cl = 0; break;
+            case "medium":      aStats.cl = 1; break;
+            case "heavy":       aStats.cl = 2; break;
+            case "spg":         aStats.cl = 3; break;
+            case "spaa":        aStats.cl = 4; break;
+            case "fighter":     aStats.cl = 5; break;
+            case "attacker":    aStats.cl = 6; break;
+            case "bomber":      aStats.cl = 7; break;
+            case "heli":        aStats.cl = 8; break;
+        }
+
+        switch (b.cl)
+        {
+            case "light":       bStats.cl = 0; break;
+            case "medium":      bStats.cl = 1; break;
+            case "heavy":       bStats.cl = 2; break;
+            case "spg":         bStats.cl = 3; break;
+            case "spaa":        bStats.cl = 4; break;
+            case "fighter":     bStats.cl = 5; break;
+            case "attacker":    bStats.cl = 6; break;
+            case "bomber":      bStats.cl = 7; break;
+            case "heli":        bStats.cl = 8; break;
+        }
+
         switch (sorting)
         {
-            case "nationForward": return a.nation.localeCompare(b.nation);
-            case "nationInverse": return b.nation.localeCompare(a.nation);
+            case "nationForward": return aStats.nation - bStats.nation;
+            case "nationInverse": return bStats.nation - aStats.nation;
 
-            case "classForward": return a.cl.localeCompare(b.cl);
-            case "classInverse": return b.cl.localeCompare(a.cl);
+            case "classForward": return aStats.cl - bStats.cl;
+            case "classInverse": return bStats.cl - aStats.cl;
 
             case "brForward": return a.br.localeCompare(b.br);
             case "brInverse": return b.br.localeCompare(a.br);
