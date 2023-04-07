@@ -35,6 +35,6 @@ function confirmLocale()
         n.innerHTML = l[name];
     }
 
-    fillLineupTable();
+    if (teamBlue != null) fillLineupTable();
     localStorage.setItem("locale", locale);
 }

@@ -12,7 +12,6 @@ let teamBlue = null;
 let teamRed = null;
 
 let sorting = "nationForward";
-let lineupHasBeenSelected = false;
 
 function selectLineup(name, ignoreToggle) // type = bottom or top lineup
 {
@@ -28,7 +27,6 @@ function selectLineup(name, ignoreToggle) // type = bottom or top lineup
     fillLineupTable();
 
     localStorage.setItem("lineup", name);
-    lineupHasBeenSelected = true;
 }
 
 function changeSorting(newSorting)
