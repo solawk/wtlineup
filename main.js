@@ -12,7 +12,16 @@ function getData()
             vehicles = JSON.parse(this.responseText);
             localStorage.setItem("vehicles", this.responseText);
             showCenter();
-            if (localStorage.getItem("lineup")) selectLineup(localStorage.getItem("lineup"), true);
+            if (localStorage.getItem("lineup"))
+            {
+                selectLineup(localStorage.getItem("lineup"), true);
+            }
+            else
+            {
+                selectLineup("4_1", true);
+            }
+
+
             console.log("Refreshed successfully");
         }
         else
