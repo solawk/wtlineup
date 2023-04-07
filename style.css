@@ -1,0 +1,113 @@
+body
+{
+    background-color: #404040;
+    font-family: 'Helvetica', sans-serif;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.dropdownContent
+{
+    display: none;
+    position: absolute;
+    z-index: 1;
+}
+
+.dropdownContent button
+{
+    display: block;
+    width: 100%;
+}
+
+.dropdownShow
+{
+    display: inline;
+}
+
+.headerTDs
+{
+    background-color: #303030;
+    border-radius: 5px;
+    padding: 1em;
+}
+
+.vehiclesTable
+{
+    width: 100%;
+    border-radius: 5px;
+}
+
+.tableHeaderBlue
+{
+    background-color: #7777ee;
+    user-select: none;
+}
+
+.tableHeaderBlue:hover
+{
+    background-color: #5555ee;
+}
+
+.tableHeaderRed
+{
+    background-color: #ee7777;
+    user-select: none;
+}
+
+.tableHeaderRed:hover
+{
+    background-color: #ee5555;
+}
+
+.blue
+{
+    background-color: #8888ee;
+}
+
+.red
+{
+    background-color: #ee8888;
+}
+
+.vibrantBlue
+{
+    background-color: #5555ee;
+    user-select: none;
+    text-shadow: 1px 1px 1px black;
+}
+
+.vibrantRed
+{
+    background-color: #ee5555;
+    user-select: none;
+    text-shadow: 1px 1px 1px black;
+}
+
+.suggestion
+{
+    background-color: #000000e0;
+    text-align: left;
+    user-select: none;
+}
+
+.suggestion:hover
+{
+    background-color: #000000ff;
+}
+
+#searchInput
+{
+    background-color: #505050;
+    color: #ffffff;
+}
+
+.lineupSuggestion
+{
+    color: #ffffff;
+    text-align: center;
+}
+
+.textShadow
+{
+    text-shadow: 1px 1px 1px black;
+}

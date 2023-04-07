@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WTLineup</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="loadingDiv" style="display: inline">
+        Loading data for the first time...<br>
+        Загружаем данные в первый раз...
+    </div>
+    <div id="centerDiv" style="text-align: center; display: none">
+        <table id="mainTable" style="margin-left: auto; margin-right: auto; width: 50%">
+            <tr>
+                <td class="headerTDs">
+                    <span id="LOC_lineupSpan" class="textShadow" style="user-select: none">Lineup</span>
+                    <button id="lineupButton" onclick="toggleLineupDropdown()"
+                            onfocusout="if (!el('lineupDropdownDiv').contains(event.relatedTarget)) toggleLineupDropdown()" class="suggestion lineupSuggestion">4_1</button>
+                    <div id="lineupDropdownDiv" class="dropdownContent">
+                        <button id="lineup11Button" onclick="selectLineup('1_1')" class="suggestion lineupSuggestion">1_1</button>
+                        <button id="lineup21Button" onclick="selectLineup('2_1')" class="suggestion lineupSuggestion">2_1</button>
+                        <button id="lineup31Button" onclick="selectLineup('3_1')" class="suggestion lineupSuggestion">3_1</button>
+                        <button id="lineup41Button" onclick="selectLineup('4_1')" class="suggestion lineupSuggestion">4_1</button>
+                        <button id="lineup51Button" onclick="selectLineup('5_1')" class="suggestion lineupSuggestion">5_1</button>
+                        <button id="lineup61Button" onclick="selectLineup('6_1')" class="suggestion lineupSuggestion">6_1</button>
+                        <button id="lineup82Button" onclick="selectLineup('8_2')" class="suggestion lineupSuggestion">8_2</button>
+                        <button id="lineup822Button" onclick="selectLineup('8_2_2')" class="suggestion lineupSuggestion">8_2_2</button>
+                        <button id="lineup92Button" onclick="selectLineup('9_2')" class="suggestion lineupSuggestion">9_2</button>
+                        <button id="lineup102Button" onclick="selectLineup('10_2')" class="suggestion lineupSuggestion">10_2</button>
+                    </div>
+                </td>
+                <td class="headerTDs">
+                    <span id="LOC_searchSpan" class="textShadow" style="user-select: none">Search</span> <input id="searchInput" type="text" autocomplete="off">
+                    <table id="searchDropdownTable" class="dropdownContent">
+                    </table>
+                </td>
+            </tr>
+            <tr style="vertical-align: top">
+                <td style="width: 50%">
+                    <table id="lineupBlue" class="vehiclesTable blue">
+                    </table>
+                </td>
+                <td style="width: 50%">
+                    <table id="lineupRed" class="vehiclesTable red">
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <div id="utilsDiv" style="position: fixed; right: 0; bottom: 0; padding: 2em">
+            <div id="LOC_switchLocale" onclick="switchLocale()" style="filter: drop-shadow(0px 0px 2px #000000)">Switch locale</div>
+            <button id="LOC_refreshData" onclick="refreshData()">Refresh data</button><br><br>
+            <span id="LOC_creditsSpan" class="textShadow">WTLineup made by Solawk</span>
+        </div>
+    </div>
+</body>
+<script src="localeDB.js"></script>
+<script src="frontend.js"></script>
+<script src="main.js"></script>
+<script src="search.js"></script>
+<script src="locale.js"></script>
+</html>
