@@ -149,6 +149,12 @@ function fillLineupTable()
 
         tdBR.classList.add("vehicleNameSize");
         tdName.classList.add("vehicleNameSize");
+
+        if (size === "big")
+        {
+            tdBR.classList.add("vehicleNameSizeBig");
+            tdName.classList.add("vehicleNameSizeBig");
+        }
     }
 
     for (const v of teamBlue)   addVehicle("lineupBlue", v, true);
@@ -208,8 +214,18 @@ function getClass(cl)
     return img;
 }
 
+let size = "normal";
 function toggleSize()
 {
+    if (size === "normal")
+    {
+        size = "big";
+    }
+    else
+    {
+        size = "normal";
+    }
+
     el("mainTable").classList.toggle("mainTableSizeBig");
     const allResizableNodes = document.querySelectorAll("[class*='vehicleNameSize']");
     for (const n of allResizableNodes) n.classList.toggle("vehicleNameSizeBig");
