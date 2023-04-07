@@ -1,6 +1,7 @@
 body
 {
     background-color: #404040;
+    background-image: repeating-linear-gradient(45deg, #101010, #202020 0.25%);
     font-family: 'Helvetica', sans-serif;
     font-weight: bold;
     color: #ffffff;
