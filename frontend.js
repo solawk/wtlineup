@@ -227,7 +227,7 @@ function fillLineupTable()
 function getNation(nation)
 {
     const img = document.createElement("img");
-    img.style.maxWidth = "60%";
+    img.style.maxWidth = "2em";
     img.style.filter = "drop-shadow(1px 1px 2px #000000)";
     let src;
     let title;
@@ -256,7 +256,7 @@ function getNation(nation)
 function getClass(cl)
 {
     const img = document.createElement("img");
-    img.style.maxWidth = "60%";
+    img.style.maxWidth = "2em";
     img.style.filter = "drop-shadow(1px 1px 2px #000000)";
     let src;
     let title;
