@@ -77,6 +77,12 @@ function searchSuggest()
         const span = document.createElement("span");
         span.innerHTML =(locale === "ru" && s.ruName !== "") ? s.ruName : s.enName;
         tdName.appendChild(span);
+
+        tdName.innerHTML += "&nbsp;";
+
+        const img = getNation(s.nation);
+        tdName.appendChild(img);
+
         tdName.style.padding = "0.5em";
 
         const lineups = s.lineups.split(" ");
