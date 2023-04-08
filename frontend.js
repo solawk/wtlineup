@@ -236,6 +236,7 @@ function getNation(nation)
 
     switch (nation)
     {
+        case "":            src = "";                   title = ""; break;
         case "ussr":        src = "flags/ussr.png";     title = l.ussr; break;
         case "germany":     src = "flags/germany.png";  title = l.germany; break;
         case "usa":         src = "flags/usa.png";      title = l.usa; break;
@@ -265,6 +266,7 @@ function getClass(cl)
 
     switch (cl)
     {
+        case "":            src = "";                       title = ""; break;
         case "light":       src = "classes/light.png";      title = l.light; break;
         case "medium":      src = "classes/medium.png";     title = l.medium; break;
         case "heavy":       src = "classes/heavy.png";      title = l.heavy; break;
