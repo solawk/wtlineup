@@ -17,18 +17,19 @@
                 <td class="headerTDs">
                     <span id="LOC_lineupSpan" class="textShadow" style="user-select: none">Lineup</span>
                     <button id="lineupButton" onclick="toggleLineupDropdown()"
-                            onfocusout="if (!el('lineupDropdownDiv').contains(event.relatedTarget)) toggleLineupDropdown()" class="suggestion lineupSuggestion">4_1</button>
+                            onfocusout="if (!el('lineupDropdownDiv').contains(event.relatedTarget)) toggleLineupDropdown()"
+                            class="suggestion lineupSuggestion"><span id="lineupSpan">4_1</span></button>
                     <div id="lineupDropdownDiv" class="dropdownContent">
-                        <button id="lineup11Button" onclick="selectLineup('1_1')" class="suggestion lineupSuggestion">1_1</button>
-                        <button id="lineup21Button" onclick="selectLineup('2_1')" class="suggestion lineupSuggestion">2_1</button>
-                        <button id="lineup31Button" onclick="selectLineup('3_1')" class="suggestion lineupSuggestion">3_1</button>
-                        <button id="lineup41Button" onclick="selectLineup('4_1')" class="suggestion lineupSuggestion">4_1</button>
-                        <button id="lineup51Button" onclick="selectLineup('5_1')" class="suggestion lineupSuggestion">5_1</button>
-                        <button id="lineup61Button" onclick="selectLineup('6_1')" class="suggestion lineupSuggestion">6_1</button>
-                        <button id="lineup82Button" onclick="selectLineup('8_2')" class="suggestion lineupSuggestion">8_2</button>
-                        <button id="lineup822Button" onclick="selectLineup('8_2_2')" class="suggestion lineupSuggestion">8_2_2</button>
-                        <button id="lineup92Button" onclick="selectLineup('9_2')" class="suggestion lineupSuggestion">9_2</button>
-                        <button id="lineup102Button" onclick="selectLineup('10_2')" class="suggestion lineupSuggestion">10_2</button>
+                        <button onclick="selectLineup('1_1')" class="suggestion lineupSuggestion">1_1</button>
+                        <button onclick="selectLineup('2_1')" class="suggestion lineupSuggestion">2_1</button>
+                        <button onclick="selectLineup('3_1')" class="suggestion lineupSuggestion">3_1</button>
+                        <button onclick="selectLineup('4_1')" class="suggestion lineupSuggestion">4_1</button>
+                        <button onclick="selectLineup('5_1')" class="suggestion lineupSuggestion">5_1</button>
+                        <button onclick="selectLineup('6_1')" class="suggestion lineupSuggestion">6_1</button>
+                        <button onclick="selectLineup('8_2')" class="suggestion lineupSuggestion">8_2</button>
+                        <button onclick="selectLineup('8_2_2')" class="suggestion lineupSuggestion">8_2_2</button>
+                        <button onclick="selectLineup('9_2')" class="suggestion lineupSuggestion">9_2</button>
+                        <button onclick="selectLineup('10_2')" class="suggestion lineupSuggestion">10_2</button>
                     </div>
                 </td>
                 <td class="headerTDs">
@@ -48,12 +49,67 @@
                 </td>
             </tr>
         </table>
+
         <div id="utilsDiv" style="position: fixed; right: 0; bottom: 0; padding: 2em">
             <div id="LOC_switchLocale" onclick="switchLocale()" style="filter: drop-shadow(0px 0px 2px #000000)">Switch locale</div>
-            <button id="LOC_sizeToggle" onclick="toggleSize()">Toggle size</button><br>
-            <button id="LOC_refreshData" onclick="refreshData()">Refresh data</button><br><br>
+            <button onclick="toggleSize()" style="background-color: #00000088"><img src="icons/zoom.png"></button>
+            <button id="refreshButton" onclick="refreshData()" style="background-color: #00000088"><img id="refreshIcon" src="icons/refresh.png"></button>
+            <button onclick="switchReportWindow(true)" style="background-color: #00000088"><img src="icons/report.png"></button><br><br>
             <a href="https://github.com/solawk/wtlineup" id="LOC_creditsSpan" class="textShadow" style="color: white; text-decoration: none">WTLineup made by Solawk</a>
         </div>
+    </div>
+    <div id="reportDiv" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; text-align: center; background-color: #000000f0; display: none">
+        <br><button onclick="switchReportWindow(false)" style="font-size: 1.2em"><span id="LOC_cancel">Cancel</span></button>
+        <h1><span id="LOC_creatingReport">Creating a report</span>:</h1>
+        <span id="LOC_reportType">Report type</span>*:
+        <input type="radio" name="report_type" value="add"><span id="LOC_addVehicle">Add vehicle</span>
+        <input type="radio" name="report_type" value="edit"><span id="LOC_editVehicle">Edit vehicle</span>
+        <input type="radio" name="report_type" value="misc"><span id="LOC_other">Other</span>
+        <br>
+        <span id="LOC_enName">English name</span>: <input type="text" id="report_enName"><br>
+        <span id="LOC_ruName">Russian name (leave empty if the same as the english name)</span>: <input type="text" id="report_ruName"><br>
+        <span id="LOC_cl">Class</span>:
+        <input type="radio" name="report_cl" value="" checked>-
+        <input type="radio" name="report_cl" value="light"><span id="LOC_light">Light tank</span>
+        <input type="radio" name="report_cl" value="medium"><span id="LOC_medium">Medium tank</span>
+        <input type="radio" name="report_cl" value="heavy"><span id="LOC_heavy">Heavy tank</span>
+        <input type="radio" name="report_cl" value="spg"><span id="LOC_spg">SPG</span>
+        <input type="radio" name="report_cl" value="spaa"><span id="LOC_spaa">SPAA</span>
+        <input type="radio" name="report_cl" value="fighter"><span id="LOC_fighter">Fighter</span>
+        <input type="radio" name="report_cl" value="attacker"><span id="LOC_attacker">Attacker</span>
+        <input type="radio" name="report_cl" value="bomber"><span id="LOC_bomber">Bomber</span>
+        <input type="radio" name="report_cl" value="heli"><span id="LOC_heli">Helicopter</span>
+        <br>
+        <span id="LOC_brReport">Battle rating (sim, e.g. "5.3")</span>: <input type="text" id="report_br"><br>
+        <span id="LOC_lineupsReport">Lineups, divided with spaces (e.g. "4_1 5_1")</span>: <input type="text" id="report_lineups"><br>
+        <span id="LOC_nation">Nation</span>:
+        <input type="radio" name="report_nation" value="" checked>-
+        <input type="radio" name="report_nation" value="usa"><span id="LOC_usa">USA</span>
+        <input type="radio" name="report_nation" value="germany"><span id="LOC_germany">Germany</span>
+        <input type="radio" name="report_nation" value="ussr"><span id="LOC_ussr">USSR</span>
+        <input type="radio" name="report_nation" value="britain"><span id="LOC_britain">Britain</span>
+        <input type="radio" name="report_nation" value="japan"><span id="LOC_japan">Japan</span>
+        <input type="radio" name="report_nation" value="china"><span id="LOC_china">China</span>
+        <input type="radio" name="report_nation" value="italy"><span id="LOC_italy">Italy</span>
+        <input type="radio" name="report_nation" value="france"><span id="LOC_france">France</span>
+        <input type="radio" name="report_nation" value="sweden"><span id="LOC_sweden">Sweden</span>
+        <input type="radio" name="report_nation" value="israel"><span id="LOC_israel">Israel</span>
+        <br>
+        <span id="LOC_teamReport">Team (pick a double team if it's both in a bottom and a top lineup)</span>:
+        <input type="radio" name="report_team" value="" checked>-
+        <input type="radio" name="report_team" value="axis"><span id="LOC_axisReport">Axis</span>
+        <input type="radio" name="report_team" value="allies"><span id="LOC_alliesReport">Allies</span>
+        <input type="radio" name="report_team" value="nato"><span id="LOC_natoReport">NATO</span>
+        <input type="radio" name="report_team" value="reds"><span id="LOC_redsReport">USSR+China</span>
+        <input type="radio" name="report_team" value="axis nato"><span id="LOC_axisNatoReport">Axis & NATO</span>
+        <input type="radio" name="report_team" value="allies nato"><span id="LOC_alliesNatoReport">Allies & NATO</span>
+        <input type="radio" name="report_team" value="allies reds"><span id="LOC_alliesRedsReport">Allies & USSR+China</span>
+        <br>
+        <span id="LOC_infoReport">Information</span>: <textarea id="report_info"></textarea>
+        <br><br>
+        <h2><span id="LOC_warning1">The reports are processed manually.</span></h2>
+        <h2><span id="LOC_warning2">Please only send relevant reports on missing/incorrect vehicle information or application bugs.</span></h2>
+        <button onclick="sendReport()"><span id="LOC_sendReport">Send report</span></button>
     </div>
 </body>
 <script src="localeDB.js"></script>
@@ -61,4 +117,5 @@
 <script src="main.js"></script>
 <script src="search.js"></script>
 <script src="locale.js"></script>
+<script src="report.js"></script>
 </html>

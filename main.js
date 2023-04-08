@@ -21,7 +21,8 @@ function getData()
                 selectLineup("4_1", true);
             }
 
-
+            el("refreshButton").disabled = false;
+            el("refreshIcon").style.filter = "";
             console.log("Refreshed successfully");
         }
         else
@@ -30,7 +31,7 @@ function getData()
         }
     });
 
-    xhr.open("GET", "https://script.google.com/macros/s/AKfycbzUwt3pDEbua0xJ67-J90GSYaiZjLkQlLtnuaHLTtgFYUMOD3UZ3LtC-r3M9XMpadmAjQ/exec?what=vehicles");
+    xhr.open("GET", "https://script.google.com/macros/s/AKfycbzq-ElAFHCDzk6dVqomddksLWLcNHbvBi2K5_4JZeh8OrejAt-isCrhleXiJYQA3A4Vnw/exec");
 
     xhr.send(null);
 }
@@ -58,6 +59,8 @@ function showCenter()
 
 function refreshData()
 {
+    el("refreshButton").disabled = true;
+    el("refreshIcon").style.filter = "blur(5px)";
     getData();
 }
 
@@ -83,31 +86,7 @@ function getAllVehiclesInLineup(lineup, type)
 
 // Reports
 
-let reports = [];
-
-function getReports()
-{
-    let xhr = new XMLHttpRequest();
-    xhr.withCredentials = false;
-
-    xhr.addEventListener("readystatechange", function ()
-    {
-        if (this.readyState === 4)
-        {
-            reports = JSON.parse(this.responseText);
-        }
-        else
-        {
-            console.log(this.status);
-        }
-    });
-
-    xhr.open("GET", "https://script.google.com/macros/s/AKfycbzUwt3pDEbua0xJ67-J90GSYaiZjLkQlLtnuaHLTtgFYUMOD3UZ3LtC-r3M9XMpadmAjQ/exec?what=reports");
-
-    xhr.send(null);
-}
-
-function post()
+function post(body)
 {
     let xhr = new XMLHttpRequest();
     xhr.withCredentials = false;
@@ -117,6 +96,7 @@ function post()
         if (this.readyState === 4)
         {
             console.log(this.responseText);
+            alert("OK");
         }
         else
         {
@@ -125,18 +105,6 @@ function post()
     });
 
     xhr.open("POST", "https://script.google.com/macros/s/AKfycbzq-ElAFHCDzk6dVqomddksLWLcNHbvBi2K5_4JZeh8OrejAt-isCrhleXiJYQA3A4Vnw/exec");
-
-    const body =
-        {
-            type: "add",
-            enName: "VFW",
-            ruName: "",
-            cl: "spg",
-            br: "20.0",
-            lineups: "4_1 5_1",
-            nation: "germany",
-            info: ""
-        };
 
     xhr.send(new Blob([JSON.stringify(body)]));
 }

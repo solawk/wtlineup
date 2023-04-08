@@ -38,12 +38,29 @@ function searchSuggest()
         return;
     }
 
-    let suggestions = [];
+    let suggestionsStartWith = [];
+    let suggestionsInclude = [];
 
     for (const v of vehicles)
     {
-        if ((v.enName.toLowerCase().includes(query.toLowerCase()) || v.ruName.toLowerCase().includes(query.toLowerCase())) && suggestions.length < 10)
-            suggestions.push(v);
+        if ((v.enName.toLowerCase().startsWith(query.toLowerCase()) || v.ruName.toLowerCase().startsWith(query.toLowerCase())) && suggestionsStartWith.length < 10)
+        {
+            suggestionsStartWith.push(v);
+            continue;
+        }
+
+        if ((v.enName.toLowerCase().includes(query.toLowerCase()) || v.ruName.toLowerCase().includes(query.toLowerCase())) && suggestionsInclude.length < 10)
+        {
+            suggestionsInclude.push(v);
+        }
+    }
+
+    let suggestions = [...suggestionsStartWith];
+    let remainingCapacity = 10 - suggestions.length;
+
+    for (let i = 0; i < remainingCapacity && suggestionsInclude.length > 0; i++)
+    {
+        suggestions.push(suggestionsInclude.shift());
     }
 
     suggestionsTable.innerHTML = "";

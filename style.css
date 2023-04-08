@@ -1,9 +1,11 @@
 body
 {
-    background-color: #202020;
+    background-image: repeating-linear-gradient(45deg, #101010, #303030 10px);
     font-family: 'Helvetica', sans-serif;
     font-weight: bold;
     color: #ffffff;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 .dropdownContent

@@ -17,7 +17,8 @@ function selectLineup(name, ignoreToggle) // type = bottom or top lineup
 {
     if (!ignoreToggle) toggleLineupDropdown();
 
-    el("lineupButton").innerHTML = name;
+    el("lineupButton").innerHTML = "<span id='lineupSpan' style='font-size: " + (size === "normal" ? "1" : "2") + "em'>" + name + "</span>";
+
     const type = name.split("_")[1] === '1' ? "bottom" : "top";
 
     const lineupVehicles = getAllVehiclesInLineup(name, type);
@@ -159,8 +160,8 @@ function fillLineupTable()
             case "classForward": return aStats.cl - bStats.cl;
             case "classInverse": return bStats.cl - aStats.cl;
 
-            case "brForward": return a.br.localeCompare(b.br);
-            case "brInverse": return b.br.localeCompare(a.br);
+            case "brForward": return parseFloat(b.br !== "" ? b.br : "0.0") - parseFloat(a.br !== "" ? a.br : "0.0");
+            case "brInverse": return parseFloat(a.br !== "" ? a.br : "0.0") - parseFloat(b.br !== "" ? b.br : "0.0");
 
             case "nameForward": return a.enName.localeCompare(b.enName);
             case "nameInverse": return b.enName.localeCompare(a.enName);
@@ -231,18 +232,20 @@ function getNation(nation)
     let src;
     let title;
 
+    let l = locale === "en" ? en : ru;
+
     switch (nation)
     {
-        case "ussr":        src = "flags/ussr.png";     title = "USSR"; break;
-        case "germany":     src = "flags/germany.png";  title = "Germany"; break;
-        case "usa":         src = "flags/usa.png";      title = "USA"; break;
-        case "britain":     src = "flags/britain.png";  title = "Great Britain"; break;
-        case "france":      src = "flags/france.png";   title = "France"; break;
-        case "italy":       src = "flags/italy.png";    title = "Italy"; break;
-        case "japan":       src = "flags/japan.png";    title = "Japan"; break;
-        case "china":       src = "flags/china.png";    title = "China"; break;
-        case "sweden":      src = "flags/sweden.png";   title = "Sweden"; break;
-        case "israel":      src = "flags/israel.png";   title = "Israel"; break;
+        case "ussr":        src = "flags/ussr.png";     title = l.ussr; break;
+        case "germany":     src = "flags/germany.png";  title = l.germany; break;
+        case "usa":         src = "flags/usa.png";      title = l.usa; break;
+        case "britain":     src = "flags/britain.png";  title = l.britain; break;
+        case "france":      src = "flags/france.png";   title = l.france; break;
+        case "italy":       src = "flags/italy.png";    title = l.italy; break;
+        case "japan":       src = "flags/japan.png";    title = l.japan; break;
+        case "china":       src = "flags/china.png";    title = l.china; break;
+        case "sweden":      src = "flags/sweden.png";   title = l.sweden; break;
+        case "israel":      src = "flags/israel.png";   title = l.israel; break;
     }
 
     img.src = src;
@@ -258,17 +261,19 @@ function getClass(cl)
     let src;
     let title;
 
+    let l = locale === "en" ? en : ru;
+
     switch (cl)
     {
-        case "light":       src = "classes/light.png";      title = "Light Tank"; break;
-        case "medium":      src = "classes/medium.png";     title = "Medium Tank"; break;
-        case "heavy":       src = "classes/heavy.png";      title = "Heavy Tank"; break;
-        case "spg":         src = "classes/spg.png";        title = "SPG"; break;
-        case "spaa":        src = "classes/spaa.png";       title = "SPAA"; break;
-        case "fighter":     src = "classes/fighter.png";    title = "Fighter"; break;
-        case "attacker":    src = "classes/attacker.png";   title = "Attacker"; break;
-        case "bomber":      src = "classes/bomber.png";     title = "Bomber"; break;
-        case "heli":        src = "classes/heli.png";       title = "Helicopter"; break;
+        case "light":       src = "classes/light.png";      title = l.light; break;
+        case "medium":      src = "classes/medium.png";     title = l.medium; break;
+        case "heavy":       src = "classes/heavy.png";      title = l.heavy; break;
+        case "spg":         src = "classes/spg.png";        title = l.spg; break;
+        case "spaa":        src = "classes/spaa.png";       title = l.spaa; break;
+        case "fighter":     src = "classes/fighter.png";    title = l.fighter; break;
+        case "attacker":    src = "classes/attacker.png";   title = l.attacker; break;
+        case "bomber":      src = "classes/bomber.png";     title = l.bomber; break;
+        case "heli":        src = "classes/heli.png";       title = l.heli; break;
     }
 
     img.src = src;
@@ -289,6 +294,14 @@ function toggleSize()
     }
 
     el("mainTable").classList.toggle("mainTableSizeBig");
+    el("lineupSpan").style.fontSize = (size === "normal" ? "1" : "2") + "em";
+
+    for (const lb of el("lineupDropdownDiv").childNodes)
+    {
+        if (lb.nodeName !== "BUTTON") continue;
+        lb.style.fontSize = (size === "normal" ? "1" : "2") + "em";
+    }
+
     const allResizableNodes = document.querySelectorAll("[class*='vehicleNameSize']");
     for (const n of allResizableNodes) n.classList.toggle("vehicleNameSizeBig");
 }
