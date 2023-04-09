@@ -15,6 +15,7 @@ function getData()
             if (localStorage.getItem("lineup"))
             {
                 selectLineup(localStorage.getItem("lineup"), true);
+                prepareForFirstDisplay();
             }
             else
             {
@@ -49,6 +50,20 @@ else
     vehicles = JSON.parse(vehicles);
     showCenter();
     if (localStorage.getItem("lineup")) selectLineup(localStorage.getItem("lineup"), true);
+    prepareForFirstDisplay();
+}
+
+function prepareForFirstDisplay()
+{
+    changeSorting("brForward");
+    changeSorting("classForward");
+    changeSorting("nationForward");
+
+    const selection = new URLSearchParams(window.location.search).get("select");
+    if (selection != null && [ "1_1", "2_1", "3_1", "4_1", "5_1", "6_1", "8_2", "8_2_2", "9_2", "10_2" ].includes(selection.toString()))
+    {
+        selectLineup(selection, true);
+    }
 }
 
 function showCenter()
@@ -64,6 +79,38 @@ function refreshData()
     getData();
 }
 
+function getAllLineupsOfBottomAircraft(v)
+{
+    const isAircraft = v.cl === "fighter" || v.cl === "attacker" || v.cl === "bomber";
+    if (!isAircraft || parseFloat(v.br) > 6.0) return null; // Return null if the vehicle isn't a bottom lineup aircraft
+
+    const lineups = [];
+    const brRanges =
+        {
+            '1_1': [ 1.0, 2.0 ],
+            '2_1': [ 1.7, 2.7 ],
+            '3_1': [ 2.3, 3.3 ],
+            '4_1': [ 3.0, 4.0 ],
+            '5_1': [ 4.0, 5.0 ],
+            '6_1': [ 5.0, 6.0 ],
+        };
+
+    for (const lineup in brRanges)
+    {
+        const isWithinRange = parseFloat(v.br) > brRanges[lineup][0] - 0.1 && parseFloat(v.br) < brRanges[lineup][1] + 0.1;
+        if (isWithinRange) lineups.push(lineup);
+    }
+
+    return lineups;
+}
+
+function getGuaranteedLineups(v)
+{
+    const bottomAircraftLineups = getAllLineupsOfBottomAircraft(v);
+    if (bottomAircraftLineups != null) return bottomAircraftLineups;
+    else return v.lineups.split(" ");
+}
+
 function getAllVehiclesInLineup(lineup, type)
 {
     const vehiclesBlue = []; // Axis or NATO
@@ -73,7 +120,7 @@ function getAllVehiclesInLineup(lineup, type)
 
     for (const v of vehicles)
     {
-        const lineups = v.lineups.split(" ");
+        const lineups = getGuaranteedLineups(v);
         if (!lineups.includes(lineup)) continue;
 
         const teams = v.team.split(" ");

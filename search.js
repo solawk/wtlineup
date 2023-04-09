@@ -85,7 +85,7 @@ function searchSuggest()
 
         tdName.style.padding = "0.5em";
 
-        const lineups = s.lineups.split(" ");
+        const lineups = getGuaranteedLineups(s);
         for (const l of lineups)
         {
             const btn = document.createElement("button");
