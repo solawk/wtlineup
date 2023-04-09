@@ -111,6 +111,24 @@ function getGuaranteedLineups(v)
     else return v.lineups.split(" ");
 }
 
+function getTeams(nation, type)
+{
+    switch (nation)
+    {
+        case "ussr":        return type === "bottom" ? "red" : "red";
+        case "germany":     return type === "bottom" ? "blue" : "blue";
+        case "usa":         return type === "bottom" ? "red" : "blue";
+        case "britain":     return type === "bottom" ? "red" : "blue";
+        case "france":      return type === "bottom" ? "red" : "blue";
+        case "italy":       return type === "bottom" ? "blue" : "blue";
+        case "japan":       return type === "bottom" ? "blue" : "blue";
+        case "china":       return type === "bottom" ? "red" : "red";
+        case "sweden":      return type === "bottom" ? "red" : "blue";
+        case "israel":      return type === "bottom" ? "red" : "blue";
+        default:            return "blue";
+    }
+}
+
 function getAllVehiclesInLineup(lineup, type)
 {
     const vehiclesBlue = []; // Axis or NATO
@@ -123,9 +141,12 @@ function getAllVehiclesInLineup(lineup, type)
         const lineups = getGuaranteedLineups(v);
         if (!lineups.includes(lineup)) continue;
 
-        const teams = v.team.split(" ");
-        if (teams.includes(blueName)) vehiclesBlue.push(v);
+        if (getTeams(v.nation, type) === "blue") vehiclesBlue.push(v);
         else vehiclesRed.push(v);
+
+        /*const teams = v.team.split(" ");
+        if (teams.includes(blueName)) vehiclesBlue.push(v);
+        else vehiclesRed.push(v);*/
     }
 
     return { blue: vehiclesBlue, red: vehiclesRed };

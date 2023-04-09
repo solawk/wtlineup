@@ -75,7 +75,7 @@ function searchSuggest()
         tr.appendChild(tdLineups);
 
         const span = document.createElement("span");
-        span.innerHTML =(locale === "ru" && s.ruName !== "") ? s.ruName : s.enName;
+        span.innerHTML = (locale === "ru" && s.ruName !== "") ? s.ruName : s.enName;
         tdName.appendChild(span);
 
         tdName.innerHTML += "&nbsp;";

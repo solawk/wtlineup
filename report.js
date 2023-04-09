@@ -33,9 +33,6 @@ function sendReport()
     const report_nationButton = document.querySelector("input[name='report_nation']:checked");
     body.nation = report_nationButton.value;
 
-    const report_teamButton = document.querySelector("input[name='report_team']:checked");
-    body.team = report_teamButton.value;
-
     const report_infoInput = el("report_info");
     body.info = report_infoInput.value;
 
