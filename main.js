@@ -55,10 +55,6 @@ else
 
 function prepareForFirstDisplay()
 {
-    changeSorting("brForward");
-    changeSorting("classForward");
-    changeSorting("nationForward");
-
     const selection = new URLSearchParams(window.location.search).get("select");
     if (selection != null && [ "1_1", "2_1", "3_1", "4_1", "5_1", "6_1", "8_2", "8_2_2", "9_2", "10_2" ].includes(selection.toString()))
     {

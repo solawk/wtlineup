@@ -25,7 +25,11 @@ function selectLineup(name, ignoreToggle) // type = bottom or top lineup
     teamBlue = lineupVehicles.blue;
     teamRed = lineupVehicles.red;
 
-    fillLineupTable();
+    //fillLineupTable();
+    changeSorting("nameForward");
+    changeSorting("brForward");
+    changeSorting("classForward");
+    changeSorting("nationForward");
 
     localStorage.setItem("lineup", name);
 }
