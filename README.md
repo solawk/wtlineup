@@ -8,6 +8,7 @@ The application also includes:
 * reporting system for the players to report missing vehicles, incorrect information or bugs in the application  
 * normal link https://solawk.github.io/wtlineup/ and short link https://bit.ly/wt-sim  
 * links directly to specific lineups by adding a "select" parameter, e.g. https://solawk.github.io/wtlineup/?select=4_1  
+
 WTLineup initially uses the War Thunder Wiki for the vehicle lists and their information by scraping its contents.  
 Application uses Google Sheets and Apps Script for data storage and access. After the data is loaded for the first time, it's stored in your device until you clear the browser's local storage. You can refresh the data with an according button.
 
@@ -19,5 +20,6 @@ WTLineup позволяет игрокам War Thunder просмотреть с
 * система репортов, позволяющая игрокам оповестить о недостающей технике, некорректной информации или ошибках в приложении  
 * обычная ссылка https://solawk.github.io/wtlineup/ и короткая ссылка https://bit.ly/wt-sim  
 * прямые ссылки на определённые сетапы при помощи параметра "select", например https://solawk.github.io/wtlineup/?select=4_1  
+
 WTLineup изначально использует вики War Thunder в качестве источника информации о технике путём скрейпинга её содержимого.  
 Приложение использует Google Таблицы и Apps Script для хранения данных и доступа к ним. После первой загрузки данных, они хранятся в вашем устройстве, пока вы не очистите локальное хранилище браузера. Вы можете обновить данные с помощью соответствующей кнопки.
