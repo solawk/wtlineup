@@ -2,7 +2,7 @@ const en =
         {
             lineupSpan: "Lineup",
             searchSpan: "Search",
-            switchLocale: "<img src='flags/britain.png'>",
+            switchLocale: "<img src='flags/britain.png' title='Переключить на русский'>",
             creditsSpan: "by Solawk",
             nation: "Nation",
             cl: "Class",
@@ -50,13 +50,18 @@ const en =
             warning1: "The reports are processed manually.",
             warning2: "Please only send relevant reports on missing/incorrect vehicle information or application bugs.",
             sendReport: "Send report",
+
+            availableLineups: "Available now",
+            inLineup: "in",
+            hLineup: "h",
+            minLineup: "min",
         };
 
 const ru =
         {
             lineupSpan: "Сетап",
             searchSpan: "Поиск",
-            switchLocale: "<img src='flags/russia.png'>",
+            switchLocale: "<img src='flags/russia.png' title='Switch to English'>",
             creditsSpan: "от Solawk",
             nation: "Нация",
             cl: "Класс",
@@ -104,6 +109,11 @@ const ru =
             warning1: "Репорты обрабатываются вручную.",
             warning2: "Пожалуйста, отправляйте только актуальные сообщения о недостающей/некорректной информации о технике или о багах приложения.",
             sendReport: "Отправить репорт",
+
+            availableLineups: "Доступны сейчас",
+            inLineup: "через",
+            hLineup: "ч",
+            minLineup: "мин",
         };
 
 let locale = localStorage.getItem("locale") ? localStorage.getItem("locale") : "en";

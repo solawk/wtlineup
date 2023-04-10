@@ -71,10 +71,12 @@ function fillLineupTable(sortings)
 
         const tdName = document.createElement("td");
         tdName.innerHTML = locale === "en" ? en.name : ru.name;
+        tdName.style.paddingRight = tdName.style.paddingLeft = "0.5em";
+        tdName.style.textAlign = isLeftOrder ? "right" : "left";
         tdName.classList.add(headerClass);
         tdName.onclick = () => { sorting !== 'nameForward' ? changeSorting('nameForward') : changeSorting('nameInverse'); };
 
-        if (isLeftOrder)
+        if (!isLeftOrder)
         {
             tr.appendChild(tdNation);
             tr.appendChild(tdClass);
@@ -195,8 +197,10 @@ function fillLineupTable(sortings)
         const tdClass = document.createElement("td");
         const tdBR = document.createElement("td");
         const tdName = document.createElement("td");
+        tdName.style.textAlign = isLeftOrder ? "right" : "left";
+        tdName.style.paddingRight = tdName.style.paddingLeft = "0.5em";
 
-        if (isLeftOrder)
+        if (!isLeftOrder)
         {
             tr.appendChild(tdNation);
             tr.appendChild(tdClass);

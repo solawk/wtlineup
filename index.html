@@ -51,14 +51,19 @@
             </tr>
         </table>
 
-        <div id="utilsDiv" style="position: fixed; right: 0; bottom: 0; padding: 2em">
-            <div id="LOC_switchLocale" onclick="switchLocale()" style="filter: drop-shadow(0px 0px 2px #000000)">Switch locale</div><br>
-            <button id="refreshButton" onclick="refreshData()" style="background-color: #00000088"><img id="refreshIcon" src="icons/refresh.png"></button><br>
-            <button onclick="switchReportWindow(true)" style="background-color: #00000088"><img src="icons/report.png"></button><br><br>
-            <a href="https://github.com/solawk/wtlineup" id="LOC_creditsSpan" class="textShadow" style="color: white; text-decoration: none">by Solawk</a>
+        <div id="utilsDiv" style="position: fixed; right: 0; bottom: 0; padding: 1em; margin: 1em; background-color: #00000088; border-radius: 15px">
+            <div id="LOC_switchLocale" onclick="switchLocale()" style="filter: drop-shadow(0px 0px 2px #000000)"></div><br>
+            <button id="refreshButton" onclick="refreshData()" style="background-color: #00000088"><img id="refreshIcon" src="icons/refresh.png" title="Refresh/Обновить"></button><br>
+            <button onclick="switchReportWindow(true)" style="background-color: #00000088"><img src="icons/report.png" title="Report/Репорт"></button><br><br>
+            <a href="https://github.com/solawk/wtlineup" id="LOC_creditsSpan" class="textShadow undecoratedLinks">by Solawk</a>
+        </div>
+        <div id="scheduleDiv" style="position: fixed; left: 0; bottom: 0; padding: 1em; margin: 1em; background-color: #00000088; border-radius: 15px" class="textShadow">
+            <span id="LOC_availableLineups">Available now</span>: <a id="sched_currentBottom" class="undecoratedLinks" onclick="clickOnScheduleLineup(this)"></a> & <a id="sched_currentTop" class="undecoratedLinks" onclick="clickOnScheduleLineup(this)"></a>
+            <br><br>
+            <a id="sched_nextBottom" class="undecoratedLinks" onclick="clickOnScheduleLineup(this)"></a> & <a id="sched_nextTop" class="undecoratedLinks" onclick="clickOnScheduleLineup(this)"></a> <span id="LOC_inLineup">in</span> <span id="sched_hours"></span> <span id="LOC_hLineup">h</span> <span id="sched_minutes"></span> <span id="LOC_minLineup">h</span>
         </div>
     </div>
-    <div id="reportDiv" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; text-align: center; background-color: #000000f0; display: none">
+    <div id="reportDiv" style="position: fixed; left: 0; top: 0; width: 100%; height: 100%; text-align: center; background-color: #000000f0; display: none">
         <br><button onclick="switchReportWindow(false)" style="font-size: 1.2em"><span id="LOC_cancel">Cancel</span></button>
         <h1><span id="LOC_creatingReport">Creating a report</span>:</h1>
         <span id="LOC_reportType">Report type</span>*:
@@ -108,4 +113,5 @@
 <script src="search.js"></script>
 <script src="locale.js"></script>
 <script src="report.js"></script>
+<script src="schedule.js"></script>
 </html>

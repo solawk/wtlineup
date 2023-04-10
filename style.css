@@ -129,3 +129,10 @@ body
 {
     background-color: #0000000a;
 }
+
+.undecoratedLinks
+{
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+}

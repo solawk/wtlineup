@@ -19,7 +19,7 @@ function getData()
             }
             else
             {
-                selectLineup("4_1", true);
+                selectLineup("1_1", true);
             }
 
             el("refreshButton").disabled = false;
@@ -88,7 +88,7 @@ function getAllLineupsOfBottomAircraft(v)
             '3_1': [ 2.3, 3.3 ],
             '4_1': [ 3.0, 4.0 ],
             '5_1': [ 4.0, 5.0 ],
-            '6_1': [ 5.0, 6.0 ],
+            '6_1': [ 5.0, 6.3 ],
         };
 
     for (const lineup in brRanges)
