@@ -17,7 +17,7 @@ function selectLineup(name, ignoreToggle) // type = bottom or top lineup
 {
     if (!ignoreToggle) toggleLineupDropdown();
 
-    el("lineupButton").innerHTML = "<span id='lineupSpan' style='font-size: " + (size === "normal" ? "1" : "2") + "em'>" + name + "</span>";
+    el("lineupButton").innerHTML = "<span id='lineupSpan'>" + name + "</span>";
 
     const type = name.split("_")[1] === '1' ? "bottom" : "top";
 
@@ -25,12 +25,7 @@ function selectLineup(name, ignoreToggle) // type = bottom or top lineup
     teamBlue = lineupVehicles.blue;
     teamRed = lineupVehicles.red;
 
-    //fillLineupTable();
-    changeSorting("nameForward");
-    changeSorting("brForward");
-    changeSorting("classForward");
-    changeSorting("nationForward");
-
+    fillLineupTable([ "nameForward", "brForward", "classForward", "nationForward" ]);
     localStorage.setItem("lineup", name);
 }
 
@@ -40,7 +35,7 @@ function changeSorting(newSorting)
     fillLineupTable();
 }
 
-function fillLineupTable()
+function fillLineupTable(sortings)
 {
     el("lineupBlue").innerHTML = "";
     el("lineupRed").innerHTML = "";
@@ -172,8 +167,20 @@ function fillLineupTable()
         }
     }
 
-    teamBlue.sort(sortVehicles);
-    teamRed.sort(sortVehicles);
+    if (sortings)
+    {
+        for (const s of sortings)
+        {
+            sorting = s;
+            teamBlue.sort(sortVehicles);
+            teamRed.sort(sortVehicles);
+        }
+    }
+    else
+    {
+        teamBlue.sort(sortVehicles);
+        teamRed.sort(sortVehicles);
+    }
 
     addHeader("lineupBlue", true);
     addHeader("lineupRed", false);
@@ -216,12 +223,6 @@ function fillLineupTable()
 
         tdBR.classList.add("vehicleNameSize");
         tdName.classList.add("vehicleNameSize");
-
-        if (size === "big")
-        {
-            tdBR.classList.add("vehicleNameSizeBig");
-            tdName.classList.add("vehicleNameSizeBig");
-        }
     }
 
     for (const v of teamBlue)   addVehicle("lineupBlue", v, true);
@@ -285,29 +286,4 @@ function getClass(cl)
     img.src = src;
     img.title = title;
     return img;
-}
-
-let size = "normal";
-function toggleSize()
-{
-    if (size === "normal")
-    {
-        size = "big";
-    }
-    else
-    {
-        size = "normal";
-    }
-
-    el("mainTable").classList.toggle("mainTableSizeBig");
-    el("lineupSpan").style.fontSize = (size === "normal" ? "1" : "2") + "em";
-
-    for (const lb of el("lineupDropdownDiv").childNodes)
-    {
-        if (lb.nodeName !== "BUTTON") continue;
-        lb.style.fontSize = (size === "normal" ? "1" : "2") + "em";
-    }
-
-    const allResizableNodes = document.querySelectorAll("[class*='vehicleNameSize']");
-    for (const n of allResizableNodes) n.classList.toggle("vehicleNameSizeBig");
 }

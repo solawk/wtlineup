@@ -107,6 +107,7 @@ body
 {
     color: #ffffff;
     text-align: center;
+    font-size: 2em;
 }
 
 .textShadow
@@ -119,17 +120,7 @@ body
     width: 50%;
 }
 
-.mainTableSizeBig
-{
-    width: 75%;
-}
-
 .vehicleNameSize
-{
-    font-size: 1em;
-}
-
-.vehicleNameSizeBig
 {
     font-size: 1.5em;
 }
