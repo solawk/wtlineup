@@ -78,7 +78,7 @@ function refreshData()
 function getAllLineupsOfBottomAircraft(v)
 {
     const isAircraft = v.cl === "fighter" || v.cl === "attacker" || v.cl === "bomber";
-    if (!isAircraft || v.br === "" || parseFloat(v.br) > 6.3) return null; // Return null if the vehicle isn't a bottom lineup aircraft
+    if (!isAircraft || v.br === "") return null; // Return null if the vehicle isn't a bottom lineup aircraft
 
     const lineups = [];
     const brRanges =
@@ -103,8 +103,10 @@ function getAllLineupsOfBottomAircraft(v)
 function getGuaranteedLineups(v)
 {
     const bottomAircraftLineups = getAllLineupsOfBottomAircraft(v);
-    if (bottomAircraftLineups != null) return bottomAircraftLineups;
-    else return v.lineups.split(" ");
+    let lineups = v.lineups.split(" ");
+    if (bottomAircraftLineups != null) lineups = lineups.concat(bottomAircraftLineups);
+
+    return lineups;
 }
 
 function getTeams(nation, type)
