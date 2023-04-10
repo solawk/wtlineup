@@ -38,6 +38,7 @@ function clickOnScheduleLineup(elem)
 {
     const lineup = elem.innerHTML;
     selectLineup(lineup, true);
+    window.scrollTo(0, 0);
 }
 
 setSchedule();
