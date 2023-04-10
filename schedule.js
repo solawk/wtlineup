@@ -24,11 +24,11 @@ function setSchedule()
     const nextBottom = (diffInDaysModBottom + 1) % bottomLineups.length;
     const nextTop = (diffInDaysModTop + 1) % topLineups.length;
 
-    el("sched_currentBottom").innerHTML = bottomLineups[diffInDaysModBottom];
-    el("sched_currentTop").innerHTML = topLineups[diffInDaysModTop];
+    el("sched_currentBottom").innerHTML = "[" + bottomLineups[diffInDaysModBottom] + "]";
+    el("sched_currentTop").innerHTML = "[" + topLineups[diffInDaysModTop] + "]";
 
-    el("sched_nextBottom").innerHTML = bottomLineups[nextBottom];
-    el("sched_nextTop").innerHTML = topLineups[nextTop];
+    el("sched_nextBottom").innerHTML = "[" + bottomLineups[nextBottom] + "]";
+    el("sched_nextTop").innerHTML = "[" + topLineups[nextTop] + "]";
 
     el("sched_hours").innerHTML = hoursRemaining.toString();
     el("sched_minutes").innerHTML = minutesRemaining.toString();
