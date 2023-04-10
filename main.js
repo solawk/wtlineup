@@ -78,7 +78,7 @@ function refreshData()
 function getAllLineupsOfBottomAircraft(v)
 {
     const isAircraft = v.cl === "fighter" || v.cl === "attacker" || v.cl === "bomber";
-    if (!isAircraft || v.br === "" || parseFloat(v.br) > 6.0) return null; // Return null if the vehicle isn't a bottom lineup aircraft
+    if (!isAircraft || v.br === "" || parseFloat(v.br) > 6.3) return null; // Return null if the vehicle isn't a bottom lineup aircraft
 
     const lineups = [];
     const brRanges =
