@@ -35,29 +35,42 @@
     </div>
     <div id="centerDiv" style="text-align: center; display: none">
         <table id="mainTable" style="margin-left: auto; margin-right: auto" class="mainTableSize">
-            <tr>
-                <td class="headerTDs">
-                    <span id="LOC_lineupSpan" class="textShadow" style="user-select: none; font-size: 2em">Lineup</span>
-                    <button id="lineupButton" onclick="toggleLineupDropdown()"
-                            onfocusout="if (!el('lineupDropdownDiv').contains(event.relatedTarget)) toggleLineupDropdown()"
-                            class="suggestion lineupSuggestion"><span id="lineupSpan">4_1</span></button>
-                    <div id="lineupDropdownDiv" class="dropdownContent">
-                        <button onclick="selectLineup('1_1')" class="suggestion lineupSuggestion">1_1</button>
-                        <button onclick="selectLineup('2_1')" class="suggestion lineupSuggestion">2_1</button>
-                        <button onclick="selectLineup('3_1')" class="suggestion lineupSuggestion">3_1</button>
-                        <button onclick="selectLineup('4_1')" class="suggestion lineupSuggestion">4_1</button>
-                        <button onclick="selectLineup('5_1')" class="suggestion lineupSuggestion">5_1</button>
-                        <button onclick="selectLineup('6_1')" class="suggestion lineupSuggestion">6_1</button>
-                        <button onclick="selectLineup('8_2')" class="suggestion lineupSuggestion">8_2</button>
-                        <button onclick="selectLineup('8_2_2')" class="suggestion lineupSuggestion">8_2_2</button>
-                        <button onclick="selectLineup('9_2')" class="suggestion lineupSuggestion">9_2</button>
-                        <button onclick="selectLineup('10_2')" class="suggestion lineupSuggestion">10_2</button>
-                    </div>
-                </td>
-                <td class="headerTDs">
-                    <span id="LOC_searchSpan" class="textShadow" style="user-select: none">Search</span>
-                    <input id="searchInput" type="text" autocomplete="off">
-                    <table id="searchDropdownTable" class="dropdownContent">
+            <tr style="width: 100%">
+                <td style="width: 100%" colspan="2">
+                    <table style="width: 100%">
+                        <tr style="width: 100%">
+                            <td class="headerTDs" style="width: 33%">
+                                <div id="scheduleDiv" class="textShadow" style="font-size: 1.3em">
+                                    <span id="LOC_availableLineups">Available now</span>: [<a id="sched_currentBottom" class="undecoratedLinks" onclick="clickOnScheduleLineup(this)"></a>] & [<a id="sched_currentTop" class="undecoratedLinks" onclick="clickOnScheduleLineup(this)"></a>]
+                                    <br><br>
+                                    [<a id="sched_nextBottom" class="undecoratedLinks" onclick="clickOnScheduleLineup(this)"></a>] & [<a id="sched_nextTop" class="undecoratedLinks" onclick="clickOnScheduleLineup(this)"></a>] <span id="LOC_inLineup">in</span> <span id="sched_hours"></span> <span id="LOC_hLineup">h</span> <span id="sched_minutes"></span> <span id="LOC_minLineup">h</span>
+                                </div>
+                            </td>
+                            <td class="headerTDs" style="width: 33%">
+                                <span id="LOC_lineupSpan" class="textShadow" style="user-select: none; font-size: 2em">Lineup</span>
+                                <button id="lineupButton" onclick="toggleLineupDropdown()"
+                                        onfocusout="if (!el('lineupDropdownDiv').contains(event.relatedTarget)) toggleLineupDropdown()"
+                                        class="suggestion lineupSuggestion"><span id="lineupSpan">4_1</span></button>
+                                <div id="lineupDropdownDiv" class="dropdownContent">
+                                    <button onclick="selectLineup('1_1')" class="suggestion lineupSuggestion">1_1</button>
+                                    <button onclick="selectLineup('2_1')" class="suggestion lineupSuggestion">2_1</button>
+                                    <button onclick="selectLineup('3_1')" class="suggestion lineupSuggestion">3_1</button>
+                                    <button onclick="selectLineup('4_1')" class="suggestion lineupSuggestion">4_1</button>
+                                    <button onclick="selectLineup('5_1')" class="suggestion lineupSuggestion">5_1</button>
+                                    <button onclick="selectLineup('6_1')" class="suggestion lineupSuggestion">6_1</button>
+                                    <button onclick="selectLineup('8_2')" class="suggestion lineupSuggestion">8_2</button>
+                                    <button onclick="selectLineup('8_2_2')" class="suggestion lineupSuggestion">8_2_2</button>
+                                    <button onclick="selectLineup('9_2')" class="suggestion lineupSuggestion">9_2</button>
+                                    <button onclick="selectLineup('10_2')" class="suggestion lineupSuggestion">10_2</button>
+                                </div>
+                            </td>
+                            <td class="headerTDs" style="width: 33%">
+                                <span id="LOC_searchSpan" class="textShadow" style="user-select: none; font-size: 2em">Search</span>&nbsp;&nbsp;
+                                <input id="searchInput" type="text" autocomplete="off" style="font-size: 1.4em" size="10">
+                                <table id="searchDropdownTable" class="dropdownContent">
+                                </table>
+                            </td>
+                        </tr>
                     </table>
                 </td>
             </tr>
@@ -88,11 +101,6 @@
             <span id="LOC_creditsSpan" class="textShadow">by Solawk</span><br><br>
             <a href="https://github.com/solawk/wtlineup" class="textShadow undecoratedLinks">[GitHub]</a><br>
             <a href="https://boosty.to/solawk" class="textShadow undecoratedLinks">[Boosty]</a>
-        </div>
-        <div id="scheduleDiv" style="position: fixed; left: 0; bottom: 0; padding: 1em; margin: 1em; background-color: #00000088; border-radius: 15px" class="textShadow">
-            <span id="LOC_availableLineups">Available now</span>: [<a id="sched_currentBottom" class="undecoratedLinks" onclick="clickOnScheduleLineup(this)"></a>] & [<a id="sched_currentTop" class="undecoratedLinks" onclick="clickOnScheduleLineup(this)"></a>]
-            <br><br>
-            [<a id="sched_nextBottom" class="undecoratedLinks" onclick="clickOnScheduleLineup(this)"></a>] & [<a id="sched_nextTop" class="undecoratedLinks" onclick="clickOnScheduleLineup(this)"></a>] <span id="LOC_inLineup">in</span> <span id="sched_hours"></span> <span id="LOC_hLineup">h</span> <span id="sched_minutes"></span> <span id="LOC_minLineup">h</span>
         </div>
     </div>
     <div id="reportDiv" style="position: fixed; left: 0; top: 0; width: 100%; height: 100%; text-align: center; background-color: #000000f0; display: none">

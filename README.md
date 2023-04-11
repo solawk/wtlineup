@@ -10,6 +10,7 @@ The application also includes:
 * links directly to specific lineups by adding a "select" parameter, e.g. https://solawk.github.io/wtlineup/?select=4_1  
 WTLineup initially uses the War Thunder Wiki for the vehicle lists and their information by scraping its contents.  
 Application uses Google Sheets and Apps Script for data storage and access. After the data is loaded for the first time, it's stored in your device until you clear the browser's local storage. You can refresh the data with an according button.
+If you are using the application on a mobile device and the website receives an update, you may need to clear your browser's cache for the application to display correctly.
 
 ## Русский
 WTLineup позволяет игрокам War Thunder просмотреть списки техники в сетапах симуляторных боёв.  
@@ -21,9 +22,11 @@ WTLineup позволяет игрокам War Thunder просмотреть с
 * прямые ссылки на определённые сетапы при помощи параметра "select", например https://solawk.github.io/wtlineup/?select=4_1  
 WTLineup изначально использует вики War Thunder в качестве источника информации о технике путём скрейпинга её содержимого.  
 Приложение использует Google Таблицы и Apps Script для хранения данных и доступа к ним. После первой загрузки данных, они хранятся в вашем устройстве, пока вы не очистите локальное хранилище браузера. Вы можете обновить данные с помощью соответствующей кнопки.  
+Если вы используете приложение на мобильном устройстве и происходит обновление сайта, вам может потребоваться очистить кэш браузера, чтобы приложение могло отображаться корректно.
 
 Changes:  
 (11.04.2023)
+* Schedule is now at the top as a third top cell. Font sizes readjusted
 * Swapped blue and red teams according to how they appear in-game  
 * Cursor will now look like a pointer when hovering above team table headers to indicate a presence of functionality (sorting by selected header)
 * Added flags to indicate which nations participate in which team in the selected lineup
