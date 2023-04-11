@@ -93,6 +93,7 @@ function searchSuggest()
             btn.className = "suggestion lineupSuggestion";
             btn.onclick = () =>
                 {
+                    if (l.length === 0) return;
                     selectLineup(l, true);
                     clearSuggestions();
                 };

@@ -11,6 +11,23 @@
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
+<!--
+       _
+       \`*-.
+        )  _`-.
+       .  : `. .
+       : _   '  \
+       ; *` _.   `*-._
+       `-.-'          `-.
+         ;       `       `.
+         :.       .        \
+         . \  .   :   .-'   .
+         '  `+.;  ;  '      :
+         :  '  |    ;       ;-.
+         ; '   : :`-:     _.`* ;
+      .*' /  .*' ; .*`- +'  `*'
+      `*-*   `*-*  `*-*'
+-->
 <body>
     <div id="loadingDiv" style="display: inline">
         Loading data for the first time...<br>
@@ -45,6 +62,14 @@
                 </td>
             </tr>
             <tr style="vertical-align: top">
+                <td style="width: 50%; text-align: right; padding: 0.2em" id="lineupFlagsRed">
+
+                </td>
+                <td style="width: 50%; text-align: left; padding: 0.2em" id="lineupFlagsBlue">
+
+                </td>
+            </tr>
+            <tr style="vertical-align: top">
                 <td style="width: 50%">
                     <table id="lineupRed" class="vehiclesTable red">
                     </table>
@@ -60,7 +85,9 @@
             <div id="LOC_switchLocale" onclick="switchLocale()" style="filter: drop-shadow(0px 0px 2px #000000)"></div><br>
             <button id="refreshButton" onclick="refreshData()" style="background-color: #00000088"><img id="refreshIcon" src="icons/refresh.png" title="Refresh/Обновить"></button><br>
             <button onclick="switchReportWindow(true)" style="background-color: #00000088"><img src="icons/report.png" title="Report/Репорт"></button><br><br>
-            <a href="https://github.com/solawk/wtlineup" id="LOC_creditsSpan" class="textShadow undecoratedLinks">by Solawk</a>
+            <span id="LOC_creditsSpan" class="textShadow">by Solawk</span><br><br>
+            <a href="https://github.com/solawk/wtlineup" class="textShadow undecoratedLinks">[GitHub]</a><br>
+            <a href="https://boosty.to/solawk" class="textShadow undecoratedLinks">[Boosty]</a>
         </div>
         <div id="scheduleDiv" style="position: fixed; left: 0; bottom: 0; padding: 1em; margin: 1em; background-color: #00000088; border-radius: 15px" class="textShadow">
             <span id="LOC_availableLineups">Available now</span>: [<a id="sched_currentBottom" class="undecoratedLinks" onclick="clickOnScheduleLineup(this)"></a>] & [<a id="sched_currentTop" class="undecoratedLinks" onclick="clickOnScheduleLineup(this)"></a>]

@@ -21,6 +21,60 @@ function selectLineup(name, ignoreToggle) // type = bottom or top lineup
 
     const type = name.split("_")[1] === '1' ? "bottom" : "top";
 
+    el("lineupFlagsRed").innerHTML = el("lineupFlagsBlue").innerHTML = "";
+
+    if (type === "bottom")
+    {
+        el("lineupFlagsRed").appendChild(getNation("usa"));
+        el("lineupFlagsRed").innerHTML += "&nbsp;";
+        el("lineupFlagsRed").appendChild(getNation("ussr"));
+        el("lineupFlagsRed").innerHTML += "&nbsp;";
+        el("lineupFlagsRed").appendChild(getNation("britain"));
+        el("lineupFlagsRed").innerHTML += "&nbsp;";
+        el("lineupFlagsRed").appendChild(getNation("china"));
+        el("lineupFlagsRed").innerHTML += "&nbsp;";
+        el("lineupFlagsRed").appendChild(getNation("france"));
+        el("lineupFlagsRed").innerHTML += "&nbsp;";
+        el("lineupFlagsRed").appendChild(getNation("sweden"));
+        el("lineupFlagsRed").innerHTML += "&nbsp;";
+        if (parseInt(name.split("_")[0]) >= 3)
+        {
+            el("lineupFlagsRed").appendChild(getNation("israel"));
+            el("lineupFlagsRed").innerHTML += "&nbsp;";
+        }
+
+        el("lineupFlagsBlue").innerHTML += "&nbsp;";
+        el("lineupFlagsBlue").appendChild(getNation("germany"));
+        el("lineupFlagsBlue").innerHTML += "&nbsp;";
+        el("lineupFlagsBlue").appendChild(getNation("japan"));
+        el("lineupFlagsBlue").innerHTML += "&nbsp;";
+        el("lineupFlagsBlue").appendChild(getNation("italy"));
+    }
+    else
+    {
+        el("lineupFlagsRed").appendChild(getNation("ussr"));
+        el("lineupFlagsRed").innerHTML += "&nbsp;";
+        el("lineupFlagsRed").appendChild(getNation("china"));
+        el("lineupFlagsRed").innerHTML += "&nbsp;";
+
+        el("lineupFlagsBlue").innerHTML += "&nbsp;";
+        el("lineupFlagsBlue").appendChild(getNation("usa"));
+        el("lineupFlagsBlue").innerHTML += "&nbsp;";
+        el("lineupFlagsBlue").appendChild(getNation("germany"));
+        el("lineupFlagsBlue").innerHTML += "&nbsp;";
+        el("lineupFlagsBlue").appendChild(getNation("britain"));
+        el("lineupFlagsBlue").innerHTML += "&nbsp;";
+        el("lineupFlagsBlue").appendChild(getNation("japan"));
+        el("lineupFlagsBlue").innerHTML += "&nbsp;";
+        el("lineupFlagsBlue").appendChild(getNation("italy"));
+        el("lineupFlagsBlue").innerHTML += "&nbsp;";
+        el("lineupFlagsBlue").appendChild(getNation("france"));
+        el("lineupFlagsBlue").innerHTML += "&nbsp;";
+        el("lineupFlagsBlue").appendChild(getNation("sweden"));
+        el("lineupFlagsBlue").innerHTML += "&nbsp;";
+        el("lineupFlagsBlue").appendChild(getNation("israel"));
+    }
+
     const lineupVehicles = getAllVehiclesInLineup(name, type);
     teamBlue = lineupVehicles.blue;
     teamRed = lineupVehicles.red;

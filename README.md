@@ -26,3 +26,6 @@ Changes:
 (11.04.2023)
 * Swapped blue and red teams according to how they appear in-game  
 * Cursor will now look like a pointer when hovering above team table headers to indicate a presence of functionality (sorting by selected header)
+* Added flags to indicate which nations participate in which team in the selected lineup
+* Links in the bottom-right corner are now displayed more explicitly
+* kity
