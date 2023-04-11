@@ -43,6 +43,7 @@ body
 {
     background-color: #7777ee;
     user-select: none;
+    cursor: pointer;
 }
 
 .tableHeaderBlue:hover
@@ -54,6 +55,7 @@ body
 {
     background-color: #ee7777;
     user-select: none;
+    cursor: pointer;
 }
 
 .tableHeaderRed:hover
