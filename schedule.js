@@ -32,6 +32,29 @@ function setSchedule()
 
     el("sched_hours").innerHTML = hoursRemaining.toString();
     el("sched_minutes").innerHTML = minutesRemaining.toString();
+
+    // Future days
+
+    const nextRotation = nowDate + ((diffInDays + 1) - diffInDaysUnfloored) * 24 * 60 * 60 * 1000;
+    const futureDiv = el("scheduleFuture");
+    futureDiv.innerHTML = "";
+    for (let d = 0; d < 5; d++)
+    {
+        const date = new Date(nextRotation + (24 * 60 * 60 * 1000 * (1 + d)));
+        const day = date.getDate().toString();
+        let month = (date.getMonth() + 1).toString();
+        if (month.length === 1) month = '0' + month;
+
+        const bottom = (diffInDaysModBottom + 2 + d) % bottomLineups.length;
+        const top = (diffInDaysModTop + 2 + d) % topLineups.length;
+
+        const bLineup = bottomLineups[bottom];
+        const tLineup = topLineups[top];
+        const dateString = day.toString() + "." + month.toString();
+
+        futureDiv.innerHTML += "<span style='white-space: nowrap'>[<a class='undecoratedLinks' onclick='clickOnScheduleLineup(this)'>" + bLineup + "</a>] & [<a class='undecoratedLinks' onclick='clickOnScheduleLineup(this)'>" + tLineup + "</a>]</span> <span style='white-space: nowrap'> – " + dateString + " </span>";
+        if (d !== 4) futureDiv.innerHTML += "<br>";
+    }
 }
 
 function clickOnScheduleLineup(elem)
@@ -44,3 +67,17 @@ function clickOnScheduleLineup(elem)
 setSchedule();
 
 setInterval(() => { setSchedule(); }, 1000 * 30); // Every 30 seconds
+
+function toggleFuture()
+{
+    const futureDiv = el("scheduleFuture");
+
+    if (futureDiv.style.display === "none")
+    {
+        futureDiv.style.display = "block";
+    }
+    else
+    {
+        futureDiv.style.display = "none";
+    }
+}

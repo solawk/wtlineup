@@ -253,6 +253,14 @@ function fillLineupTable(sortings)
         const tdName = document.createElement("td");
         tdName.style.textAlign = !isLeftOrder ? "right" : "left";
         tdName.style.paddingRight = tdName.style.paddingLeft = "0.5em";
+        const aName = document.createElement("a");
+        tdName.appendChild(aName);
+        aName.target = "_blank";
+
+        const capitalFirstLetterNation = vehicle.nation.substring(0, 1).toUpperCase() + vehicle.nation.substring(1);
+        aName.href = "https://www.google.com/search?q=War+Thunder+"
+            + vehicle.enName.toString().replace(" ", "+") + "+" + capitalFirstLetterNation.toString();
+        aName.classList.toggle("undecoratedLinks");
 
         if (isLeftOrder)
         {
@@ -272,7 +280,7 @@ function fillLineupTable(sortings)
         tdNation.appendChild(getNation(vehicle.nation));
         tdClass.appendChild(getClass(vehicle.cl));
         tdBR.innerHTML = vehicle.br;
-        tdName.innerHTML = (locale === "ru" && vehicle.ruName !== "") ? vehicle.ruName : vehicle.enName;
+        aName.innerHTML = (locale === "ru" && vehicle.ruName !== "") ? vehicle.ruName : vehicle.enName;
 
         tdNation.classList.add("vehicleTd");
         tdClass.classList.add("vehicleTd");
