@@ -1,7 +1,9 @@
 const keyDate = new Date(Date.UTC(2023, 3, 10, 11));
+const squadronResetDate = new Date(Date.UTC(2023, 3, 15, 0));
 
 function setSchedule()
 {
+    // Lineups
     const nowDate = Date.now();
 
     const diff = nowDate - keyDate;
@@ -33,6 +35,21 @@ function setSchedule()
     el("sched_hours").innerHTML = hoursRemaining.toString();
     el("sched_minutes").innerHTML = minutesRemaining.toString();
 
+    // Squadron
+
+    const squadron_diff = nowDate - squadronResetDate;
+    console.log("squadron_diff: " + squadron_diff);
+    let squadron_diffInDaysUnfloored = squadron_diff / (1000 * 60 * 60 * 24);
+    if (squadron_diffInDaysUnfloored < 0) squadron_diffInDaysUnfloored += 3;
+    const squadron_diffInDaysUntilReset = 3 - (squadron_diffInDaysUnfloored % 3);
+    console.log("squadron_diffInDaysUntilReset: " + squadron_diffInDaysUntilReset);
+
+    const squadron_totalMinutesRemaining = Math.floor(squadron_diffInDaysUntilReset * 24 * 60);
+    console.log("squadron_totalMinutesRemaining: " + squadron_totalMinutesRemaining);
+    const squadron_daysRemaining = Math.floor(squadron_totalMinutesRemaining / (24 * 60));
+    const squadron_hoursRemaining = Math.floor((squadron_totalMinutesRemaining - (squadron_daysRemaining * 24 * 60)) / 60);
+    const squadron_minutesRemaining = squadron_totalMinutesRemaining - (squadron_daysRemaining * 24 * 60) - (squadron_hoursRemaining * 60);
+
     // Future days
 
     const nextRotation = nowDate + ((diffInDays + 1) - diffInDaysUnfloored) * 24 * 60 * 60 * 1000;
@@ -53,8 +70,32 @@ function setSchedule()
         const dateString = day.toString() + "." + month.toString();
 
         futureDiv.innerHTML += "<span style='white-space: nowrap'>[<a class='undecoratedLinks' onclick='clickOnScheduleLineup(this)'>" + bLineup + "</a>] & [<a class='undecoratedLinks' onclick='clickOnScheduleLineup(this)'>" + tLineup + "</a>]</span> <span style='white-space: nowrap'> – " + dateString + " </span>";
-        if (d !== 4) futureDiv.innerHTML += "<br>";
+        futureDiv.innerHTML += "<br>";
     }
+
+    const upperSquadronSpan = document.createElement("span");
+    const lowerSquadronSpan = document.createElement("span");
+    const lowerSquadronInSpan = document.createElement("span");
+    const lowerSquadronDSpan = document.createElement("span");
+    const lowerSquadronHSpan = document.createElement("span");
+    const lowerSquadronMinSpan = document.createElement("span");
+    upperSquadronSpan.style.whiteSpace = lowerSquadronSpan.style.whiteSpace = "nowrap";
+
+    upperSquadronSpan.id = "LOC_squadronReset";
+    lowerSquadronInSpan.id = "LOC_inLineup2";
+    lowerSquadronDSpan.id = "LOC_dLineup2";
+    lowerSquadronHSpan.id = "LOC_hLineup2";
+    lowerSquadronMinSpan.id = "LOC_minLineup2";
+
+    futureDiv.appendChild(upperSquadronSpan);
+    futureDiv.innerHTML += "<br>";
+    futureDiv.appendChild(lowerSquadronInSpan);
+    futureDiv.innerHTML += "&nbsp;" + squadron_daysRemaining + "&nbsp;";
+    futureDiv.appendChild(lowerSquadronDSpan);
+    futureDiv.innerHTML += "&nbsp;" + squadron_hoursRemaining + "&nbsp;";
+    futureDiv.appendChild(lowerSquadronHSpan);
+    futureDiv.innerHTML += "&nbsp;" + squadron_minutesRemaining + "&nbsp;";
+    futureDiv.appendChild(lowerSquadronMinSpan);
 }
 
 function clickOnScheduleLineup(elem)

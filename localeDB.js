@@ -55,6 +55,11 @@ const en =
             inLineup: "in",
             hLineup: "h",
             minLineup: "min",
+            inLineup2: "in",
+            dLineup2: "d",
+            hLineup2: "h",
+            minLineup2: "min",
+            squadronReset: "Squadron activity reset",
         };
 
 const ru =
@@ -114,6 +119,11 @@ const ru =
             inLineup: "через",
             hLineup: "ч",
             minLineup: "мин",
+            inLineup2: "через",
+            dLineup2: "д",
+            hLineup2: "ч",
+            minLineup2: "мин",
+            squadronReset: "Сброс полковой активности",
         };
 
 let locale = localStorage.getItem("locale") ? localStorage.getItem("locale") : "en";
