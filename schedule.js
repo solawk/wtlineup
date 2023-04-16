@@ -38,14 +38,11 @@ function setSchedule()
     // Squadron
 
     const squadron_diff = nowDate - squadronResetDate;
-    console.log("squadron_diff: " + squadron_diff);
     let squadron_diffInDaysUnfloored = squadron_diff / (1000 * 60 * 60 * 24);
     if (squadron_diffInDaysUnfloored < 0) squadron_diffInDaysUnfloored += 3;
     const squadron_diffInDaysUntilReset = 3 - (squadron_diffInDaysUnfloored % 3);
-    console.log("squadron_diffInDaysUntilReset: " + squadron_diffInDaysUntilReset);
 
     const squadron_totalMinutesRemaining = Math.floor(squadron_diffInDaysUntilReset * 24 * 60);
-    console.log("squadron_totalMinutesRemaining: " + squadron_totalMinutesRemaining);
     const squadron_daysRemaining = Math.floor(squadron_totalMinutesRemaining / (24 * 60));
     const squadron_hoursRemaining = Math.floor((squadron_totalMinutesRemaining - (squadron_daysRemaining * 24 * 60)) / 60);
     const squadron_minutesRemaining = squadron_totalMinutesRemaining - (squadron_daysRemaining * 24 * 60) - (squadron_hoursRemaining * 60);
@@ -96,6 +93,8 @@ function setSchedule()
     futureDiv.appendChild(lowerSquadronHSpan);
     futureDiv.innerHTML += "&nbsp;" + squadron_minutesRemaining + "&nbsp;";
     futureDiv.appendChild(lowerSquadronMinSpan);
+
+    confirmLocale();
 }
 
 function clickOnScheduleLineup(elem)
