@@ -88,12 +88,13 @@ function searchSuggest()
         const lineups = getGuaranteedLineups(s);
         for (const l of lineups)
         {
+            if (l.length === 0) continue;
+
             const btn = document.createElement("button");
             btn.innerHTML = l;
             btn.className = "suggestion lineupSuggestion";
             btn.onclick = () =>
                 {
-                    if (l.length === 0) return;
                     selectLineup(l, true);
                     clearSuggestions();
                 };
