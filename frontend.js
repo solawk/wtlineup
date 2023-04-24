@@ -155,30 +155,30 @@ function fillLineupTable(sortings)
 
         switch (a.nation)
         {
-            case "ussr":        aStats.nation = 2; break;
-            case "germany":     aStats.nation = 1; break;
-            case "usa":         aStats.nation = 0; break;
-            case "britain":     aStats.nation = 3; break;
-            case "france":      aStats.nation = 7; break;
-            case "italy":       aStats.nation = 6; break;
-            case "japan":       aStats.nation = 4; break;
-            case "china":       aStats.nation = 5; break;
-            case "sweden":      aStats.nation = 8; break;
-            case "israel":      aStats.nation = 9; break;
+            case "ussr":        aStats.nation = 9; break;
+            case "germany":     aStats.nation = 2; break;
+            case "usa":         aStats.nation = 8; break;
+            case "britain":     aStats.nation = 7; break;
+            case "france":      aStats.nation = 1; break;
+            case "italy":       aStats.nation = 4; break;
+            case "japan":       aStats.nation = 5; break;
+            case "china":       aStats.nation = 0; break;
+            case "sweden":      aStats.nation = 6; break;
+            case "israel":      aStats.nation = 3; break;
         }
 
         switch (b.nation)
         {
-            case "ussr":        bStats.nation = 2; break;
-            case "germany":     bStats.nation = 1; break;
-            case "usa":         bStats.nation = 0; break;
-            case "britain":     bStats.nation = 3; break;
-            case "france":      bStats.nation = 7; break;
-            case "italy":       bStats.nation = 6; break;
-            case "japan":       bStats.nation = 4; break;
-            case "china":       bStats.nation = 5; break;
-            case "sweden":      bStats.nation = 8; break;
-            case "israel":      bStats.nation = 9; break;
+            case "ussr":        bStats.nation = 9; break;
+            case "germany":     bStats.nation = 2; break;
+            case "usa":         bStats.nation = 8; break;
+            case "britain":     bStats.nation = 7; break;
+            case "france":      bStats.nation = 1; break;
+            case "italy":       bStats.nation = 4; break;
+            case "japan":       bStats.nation = 5; break;
+            case "china":       bStats.nation = 0; break;
+            case "sweden":      bStats.nation = 6; break;
+            case "israel":      bStats.nation = 3; break;
         }
 
         switch (a.cl)

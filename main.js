@@ -11,6 +11,7 @@ function getData()
         {
             vehicles = JSON.parse(this.responseText);
             localStorage.setItem("vehicles", this.responseText);
+            localStorage.setItem("lastUpdate", Date.now().toString());
             showCenter();
             if (localStorage.getItem("lineup"))
             {
@@ -39,6 +40,8 @@ function getData()
 
 // Contains an array of all vehicles in the database
 let vehicles = localStorage.getItem("vehicles");
+let lastUpdate = localStorage.getItem("lastUpdate");
+
 if (vehicles == null)
 {
     console.log("Fetching from database");
@@ -51,6 +54,15 @@ else
     showCenter();
     if (localStorage.getItem("lineup")) selectLineup(localStorage.getItem("lineup"), true);
     prepareForFirstDisplay();
+
+    if (lastUpdate == null)
+    {
+        localStorage.setItem("lastUpdate", Date.now().toString());
+    }
+    else if (Date.now() - parseInt(lastUpdate) > 1000 * 60 * 60 * 12)
+    {
+        refreshData();
+    }
 }
 
 function prepareForFirstDisplay()
