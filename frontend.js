@@ -256,10 +256,7 @@ function fillLineupTable(sortings)
         const aName = document.createElement("a");
         tdName.appendChild(aName);
         aName.target = "_blank";
-
-        const capitalFirstLetterNation = vehicle.nation.substring(0, 1).toUpperCase() + vehicle.nation.substring(1);
-        aName.href = "https://www.google.com/search?q=War+Thunder+"
-            + vehicle.enName.toString().replace(" ", "+") + "+" + capitalFirstLetterNation.toString();
+        aName.href = hrefOfVehicle(vehicle);
         aName.classList.toggle("undecoratedLinks");
 
         if (isLeftOrder)
@@ -352,4 +349,10 @@ function getClass(cl)
     img.src = src;
     img.title = title;
     return img;
+}
+
+function hrefOfVehicle(v)
+{
+    return "https://www.google.com/search?q=War+Thunder+"
+        + v.enName.toString().replace(" ", "+") + "+" + v.nation.toString();
 }

@@ -74,9 +74,13 @@ function searchSuggest()
         tr.appendChild(tdName);
         tr.appendChild(tdLineups);
 
-        const span = document.createElement("span");
-        span.innerHTML = (locale === "ru" && s.ruName !== "") ? s.ruName : s.enName;
-        tdName.appendChild(span);
+        const a = document.createElement("a");
+        a.innerHTML = (locale === "ru" && s.ruName !== "") ? s.ruName : s.enName;
+        a.target = "_blank";
+        a.href = hrefOfVehicle(s);
+        a.classList.toggle("undecoratedLinks");
+
+        tdName.appendChild(a);
 
         tdName.innerHTML += "&nbsp;";
 
