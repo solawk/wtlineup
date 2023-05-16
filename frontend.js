@@ -375,6 +375,8 @@ function getNation(nation, isChoosable)
                 selectNation(nation, false);
             }
         };
+
+        img.style.maxWidth = "4em";
     }
 
     let src;
