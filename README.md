@@ -27,8 +27,12 @@ WTLineup изначально использует вики War Thunder в ка�
 Если вы используете приложение на мобильном устройстве и происходит обновление сайта, вам может потребоваться очистить кэш браузера, чтобы приложение могло отображаться корректно.
 
 Changes:  
+(16.05.2023)
+* Search window vehicle names are also links like in the table
+* Clicking on a nation flag at the top will show only the vehicles of that nation. Click it again to disable the filter
+
 (13.04.2023)
-* Names of vehicles are now links to searhing them in Google  
+* Names of vehicles are now links to searching them in Google  
 * Future lineups are now accessible in the schedule section  
 
 (11.04.2023)

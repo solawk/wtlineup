@@ -11,11 +11,15 @@ function toggleLineupDropdown()
 let teamBlue = null;
 let teamRed = null;
 
+let showOnlyNation = null;
+
 let sorting = "nationForward";
 
 function selectLineup(name, ignoreToggle) // type = bottom or top lineup
 {
     if (!ignoreToggle) toggleLineupDropdown();
+
+    showOnlyNation = null;
 
     el("lineupButton").innerHTML = "<span id='lineupSpan'>" + name + "</span>";
 
@@ -25,54 +29,54 @@ function selectLineup(name, ignoreToggle) // type = bottom or top lineup
 
     if (type === "bottom")
     {
-        el("lineupFlagsRed").appendChild(getNation("usa"));
-        el("lineupFlagsRed").innerHTML += "&nbsp;";
-        el("lineupFlagsRed").appendChild(getNation("ussr"));
-        el("lineupFlagsRed").innerHTML += "&nbsp;";
-        el("lineupFlagsRed").appendChild(getNation("britain"));
-        el("lineupFlagsRed").innerHTML += "&nbsp;";
-        el("lineupFlagsRed").appendChild(getNation("china"));
-        el("lineupFlagsRed").innerHTML += "&nbsp;";
-        el("lineupFlagsRed").appendChild(getNation("france"));
-        el("lineupFlagsRed").innerHTML += "&nbsp;";
-        el("lineupFlagsRed").appendChild(getNation("sweden"));
-        el("lineupFlagsRed").innerHTML += "&nbsp;";
+        el("lineupFlagsRed").appendChild(getNation("usa", true));
+        nbspSpan("lineupFlagsRed");
+        el("lineupFlagsRed").appendChild(getNation("ussr", true));
+        nbspSpan("lineupFlagsRed");
+        el("lineupFlagsRed").appendChild(getNation("britain", true));
+        nbspSpan("lineupFlagsRed");
+        el("lineupFlagsRed").appendChild(getNation("china", true));
+        nbspSpan("lineupFlagsRed");
+        el("lineupFlagsRed").appendChild(getNation("france", true));
+        nbspSpan("lineupFlagsRed");
+        el("lineupFlagsRed").appendChild(getNation("sweden", true));
+        nbspSpan("lineupFlagsRed");
         if (parseInt(name.split("_")[0]) >= 3)
         {
-            el("lineupFlagsRed").appendChild(getNation("israel"));
-            el("lineupFlagsRed").innerHTML += "&nbsp;";
+            el("lineupFlagsRed").appendChild(getNation("israel", true));
+            nbspSpan("lineupFlagsRed");
         }
 
-        el("lineupFlagsBlue").innerHTML += "&nbsp;";
-        el("lineupFlagsBlue").appendChild(getNation("germany"));
-        el("lineupFlagsBlue").innerHTML += "&nbsp;";
-        el("lineupFlagsBlue").appendChild(getNation("japan"));
-        el("lineupFlagsBlue").innerHTML += "&nbsp;";
-        el("lineupFlagsBlue").appendChild(getNation("italy"));
+        nbspSpan("lineupFlagsBlue");
+        el("lineupFlagsBlue").appendChild(getNation("germany", true));
+        nbspSpan("lineupFlagsBlue");
+        el("lineupFlagsBlue").appendChild(getNation("japan", true));
+        nbspSpan("lineupFlagsBlue");
+        el("lineupFlagsBlue").appendChild(getNation("italy", true));
     }
     else
     {
-        el("lineupFlagsRed").appendChild(getNation("ussr"));
-        el("lineupFlagsRed").innerHTML += "&nbsp;";
-        el("lineupFlagsRed").appendChild(getNation("china"));
-        el("lineupFlagsRed").innerHTML += "&nbsp;";
+        el("lineupFlagsRed").appendChild(getNation("ussr", true));
+        nbspSpan("lineupFlagsRed");
+        el("lineupFlagsRed").appendChild(getNation("china", true));
+        nbspSpan("lineupFlagsRed");
 
-        el("lineupFlagsBlue").innerHTML += "&nbsp;";
-        el("lineupFlagsBlue").appendChild(getNation("usa"));
-        el("lineupFlagsBlue").innerHTML += "&nbsp;";
-        el("lineupFlagsBlue").appendChild(getNation("germany"));
-        el("lineupFlagsBlue").innerHTML += "&nbsp;";
-        el("lineupFlagsBlue").appendChild(getNation("britain"));
-        el("lineupFlagsBlue").innerHTML += "&nbsp;";
-        el("lineupFlagsBlue").appendChild(getNation("japan"));
-        el("lineupFlagsBlue").innerHTML += "&nbsp;";
-        el("lineupFlagsBlue").appendChild(getNation("italy"));
-        el("lineupFlagsBlue").innerHTML += "&nbsp;";
-        el("lineupFlagsBlue").appendChild(getNation("france"));
-        el("lineupFlagsBlue").innerHTML += "&nbsp;";
-        el("lineupFlagsBlue").appendChild(getNation("sweden"));
-        el("lineupFlagsBlue").innerHTML += "&nbsp;";
-        el("lineupFlagsBlue").appendChild(getNation("israel"));
+        nbspSpan("lineupFlagsBlue");
+        el("lineupFlagsBlue").appendChild(getNation("usa", true));
+        nbspSpan("lineupFlagsBlue");
+        el("lineupFlagsBlue").appendChild(getNation("germany", true));
+        nbspSpan("lineupFlagsBlue");
+        el("lineupFlagsBlue").appendChild(getNation("britain", true));
+        nbspSpan("lineupFlagsBlue");
+        el("lineupFlagsBlue").appendChild(getNation("japan", true));
+        nbspSpan("lineupFlagsBlue");
+        el("lineupFlagsBlue").appendChild(getNation("italy", true));
+        nbspSpan("lineupFlagsBlue");
+        el("lineupFlagsBlue").appendChild(getNation("france", true));
+        nbspSpan("lineupFlagsBlue");
+        el("lineupFlagsBlue").appendChild(getNation("sweden", true));
+        nbspSpan("lineupFlagsBlue");
+        el("lineupFlagsBlue").appendChild(getNation("israel", true));
     }
 
     const lineupVehicles = getAllVehiclesInLineup(name, type);
@@ -86,6 +90,43 @@ function selectLineup(name, ignoreToggle) // type = bottom or top lineup
 function changeSorting(newSorting)
 {
     sorting = newSorting;
+    fillLineupTable();
+}
+
+function nbspSpan(elementId)
+{
+    const spannbsp = document.createElement("span");
+    spannbsp.innerHTML = "&nbsp;";
+    el(elementId).appendChild(spannbsp);
+}
+
+function selectNation(selectedNation, isDeselecting)
+{
+    const allNations = [ "usa", "germany", "ussr", "britain", "france", "italy", "japan", "china", "israel", "sweden" ];
+
+    for (const nation of allNations)
+    {
+        const flag = el("nation_flag_" + nation);
+        if (flag == null) continue; // may happen for Israel
+
+        if (!isDeselecting)
+        {
+            if (selectedNation !== nation)
+            {
+                flag.classList.add("nationFlagUnselected");
+            }
+            else
+            {
+                flag.classList.remove("nationFlagUnselected");
+            }
+        }
+        else
+        {
+            flag.classList.remove("nationFlagUnselected");
+        }
+    }
+
+    showOnlyNation = selectedNation;
     fillLineupTable();
 }
 
@@ -243,6 +284,8 @@ function fillLineupTable(sortings)
 
     function addVehicle(tableName, vehicle, isLeftOrder)
     {
+        if (showOnlyNation != null && vehicle.nation !== showOnlyNation) return;
+
         const tr = document.createElement("tr");
         tr.style.textShadow = "1px 1px 1px black";
         el(tableName).appendChild(tr);
@@ -253,11 +296,27 @@ function fillLineupTable(sortings)
         const tdName = document.createElement("td");
         tdName.style.textAlign = !isLeftOrder ? "right" : "left";
         tdName.style.paddingRight = tdName.style.paddingLeft = "0.5em";
+
         const aName = document.createElement("a");
         tdName.appendChild(aName);
         aName.target = "_blank";
         aName.href = hrefOfVehicle(vehicle);
         aName.classList.toggle("undecoratedLinks");
+
+        // Fetching repair cost
+        /*aName.onpointerenter = async (e) =>
+        {
+            const href = aName.href;
+            const response = await fetch(href, { mode: "no-cors" });
+            const htmlText = await response.text();
+            console.log(response);
+
+            const googlePageHtml = document.createElement("html");
+            googlePageHtml.innerHTML = htmlText;
+
+            //const wikiA = googlePageHtml.querySelector("a");
+            //console.log(wikiA);
+        }*/
 
         if (isLeftOrder)
         {
@@ -274,7 +333,7 @@ function fillLineupTable(sortings)
             tr.appendChild(tdNation);
         }
 
-        tdNation.appendChild(getNation(vehicle.nation));
+        tdNation.appendChild(getNation(vehicle.nation, false));
         tdClass.appendChild(getClass(vehicle.cl));
         tdBR.innerHTML = vehicle.br;
         aName.innerHTML = (locale === "ru" && vehicle.ruName !== "") ? vehicle.ruName : vehicle.enName;
@@ -292,11 +351,32 @@ function fillLineupTable(sortings)
     for (const v of teamRed)    addVehicle("lineupRed", v, false);
 }
 
-function getNation(nation)
+function getNation(nation, isChoosable)
 {
     const img = document.createElement("img");
     img.style.maxWidth = "2em";
-    img.style.filter = "drop-shadow(1px 1px 2px #000000)";
+    img.classList.add("nationFlags");
+    img.id = "nation_flag_" + nation;
+
+    if (isChoosable)
+    {
+        img.onclick = (e) =>
+        {
+            if (showOnlyNation == null)
+            {
+                selectNation(nation, false);
+            }
+            else if (showOnlyNation === nation)
+            {
+                selectNation(null, true);
+            }
+            else
+            {
+                selectNation(nation, false);
+            }
+        };
+    }
+
     let src;
     let title;
 
