@@ -438,7 +438,6 @@ function hrefOfVehicle(v)
     return "https://www.google.com/search?q=War+Thunder+"
         + v.enName.toString().replace(" ", "+") + "+" + v.nation.toString();
 }
-<<<<<<< HEAD
 
 let isMenuOpen = false;
 
@@ -460,5 +459,3 @@ function toggleMenu()
         button.innerHTML = "<";
     }
 }
-=======
->>>>>>> fca7db59f1d762ad4665749528958ebfe20a10a8
