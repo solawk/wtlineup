@@ -13,6 +13,7 @@
     <meta name="theme-color" content="#8D1A1B">
     <link rel="shortcut icon" href="icons/wt_mini.png" type="image/png">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="media.css">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <!--
@@ -101,15 +102,31 @@
             </tr>
         </table>
 
-        <div id="utilsDiv" style="position: fixed; right: 0; bottom: 0; padding: 1em; margin: 1em; background-color: #00000088; border-radius: 15px">
-            <div id="LOC_switchLocale" onclick="switchLocale()" style="filter: drop-shadow(0px 0px 2px #000000)"></div><br>
-            <button id="refreshButton" onclick="refreshData()" style="background-color: #00000088"><img id="refreshIcon" src="icons/refresh.png" title="Refresh/Обновить"></button><br>
-            <button onclick="switchReportWindow(true)" style="background-color: #00000088"><img src="icons/report.png" title="Report/Репорт"></button><br><br>
-            <span id="LOC_creditsSpan" class="textShadow">by Solawk</span><br><br>
-            <a href="https://github.com/solawk/wtlineup" class="textShadow undecoratedLinks">[GitHub]</a><br>
-            <a href="https://boosty.to/solawk" class="textShadow undecoratedLinks">[Boosty]</a>
+        <div id="utilsDiv">
+
+            <table>
+                <tr>
+                    <td id="utilsButtonTd">
+                        <div>
+                            <button id="utilsButton" onclick="toggleMenu()"><</button>
+                        </div>
+                    </td>
+                    <td id="utilsMenuTd" class="utilsMenuTdClass">
+                        <div id="utilsMenu">
+                            <div id="LOC_switchLocale" onclick="switchLocale()" style="filter: drop-shadow(0px 0px 2px #000000)"></div><br>
+                            <button id="refreshButton" onclick="refreshData()" style="background-color: #00000088"><img id="refreshIcon" src="icons/refresh.png" title="Refresh/Обновить"></button><br>
+                            <button onclick="switchReportWindow(true)" style="background-color: #00000088"><img src="icons/report.png" title="Report/Репорт"></button><br><br>
+                            <span id="LOC_creditsSpan" class="textShadow">by Solawk</span><br><br>
+                            <a href="https://github.com/solawk/wtlineup" class="textShadow undecoratedLinks">[GitHub]</a><br>
+                            <a href="https://boosty.to/solawk" class="textShadow undecoratedLinks">[Boosty]</a>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
         </div>
     </div>
+
     <div id="reportDiv" style="position: fixed; left: 0; top: 0; width: 100%; height: 100%; text-align: center; background-color: #000000f0; display: none">
         <br><button onclick="switchReportWindow(false)" style="font-size: 1.2em"><span id="LOC_cancel">Cancel</span></button>
         <h1><span id="LOC_creatingReport">Creating a report</span>:</h1>

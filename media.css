@@ -1,0 +1,40 @@
+@media (min-aspect-ratio: 4/3)
+{
+    #utilsButtonTd
+    {
+        display: none;
+    }
+
+    .mainTableSize
+    {
+        width: 75%;
+    }
+
+    .utilsMenuTdClass
+    {
+        display: table-cell;
+    }
+}
+
+@media (max-aspect-ratio: 4/3)
+{
+    #utilsButtonTd
+    {
+        display: table-cell;
+    }
+
+    .mainTableSize
+    {
+        width: 100%;
+    }
+
+    .utilsMenuTdClass
+    {
+        display: none;
+    }
+
+    .utilsMenuTdOpened
+    {
+        display: table-cell;
+    }
+}

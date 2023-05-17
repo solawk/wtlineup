@@ -148,3 +148,34 @@ body
 {
     filter: grayscale(100%);
 }
+
+#utilsDiv
+{
+    position: fixed;
+    right: 0;
+    bottom: 0;
+}
+
+#utilsButton
+{
+    margin-bottom: 1em;
+    padding: 0.5em;
+    background-color: #00000088;
+    border-radius: 15px;
+    color: white;
+    font-size: 2em;
+}
+
+#utilsButtonTd
+{
+    vertical-align: bottom;
+}
+
+#utilsMenu
+{
+    padding: 1em;
+    margin-right: 1em;
+    margin-bottom: 1em;
+    background-color: #00000088;
+    border-radius: 15px;
+}
