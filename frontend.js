@@ -30,52 +30,52 @@ function selectLineup(name, ignoreToggle) // type = bottom or top lineup
     if (type === "bottom")
     {
         el("lineupFlagsRed").appendChild(getNation("usa", true));
-        //nbspSpan("lineupFlagsRed");
+        nbspSpan("lineupFlagsRed");
         el("lineupFlagsRed").appendChild(getNation("ussr", true));
-        //nbspSpan("lineupFlagsRed");
+        nbspSpan("lineupFlagsRed");
         el("lineupFlagsRed").appendChild(getNation("britain", true));
-        //nbspSpan("lineupFlagsRed");
+        nbspSpan("lineupFlagsRed");
         el("lineupFlagsRed").appendChild(getNation("china", true));
-        //nbspSpan("lineupFlagsRed");
+        nbspSpan("lineupFlagsRed");
         el("lineupFlagsRed").appendChild(getNation("france", true));
-        //nbspSpan("lineupFlagsRed");
+        nbspSpan("lineupFlagsRed");
         el("lineupFlagsRed").appendChild(getNation("sweden", true));
-        //nbspSpan("lineupFlagsRed");
+        nbspSpan("lineupFlagsRed");
         if (parseInt(name.split("_")[0]) >= 3)
         {
             el("lineupFlagsRed").appendChild(getNation("israel", true));
-            //nbspSpan("lineupFlagsRed");
+            nbspSpan("lineupFlagsRed");
         }
 
-        //nbspSpan("lineupFlagsBlue");
+        nbspSpan("lineupFlagsBlue");
         el("lineupFlagsBlue").appendChild(getNation("germany", true));
-        //nbspSpan("lineupFlagsBlue");
+        nbspSpan("lineupFlagsBlue");
         el("lineupFlagsBlue").appendChild(getNation("japan", true));
-        //nbspSpan("lineupFlagsBlue");
+        nbspSpan("lineupFlagsBlue");
         el("lineupFlagsBlue").appendChild(getNation("italy", true));
     }
     else
     {
         el("lineupFlagsRed").appendChild(getNation("ussr", true));
-        //nbspSpan("lineupFlagsRed");
+        nbspSpan("lineupFlagsRed");
         el("lineupFlagsRed").appendChild(getNation("china", true));
-        //nbspSpan("lineupFlagsRed");
+        nbspSpan("lineupFlagsRed");
 
-        //nbspSpan("lineupFlagsBlue");
+        nbspSpan("lineupFlagsBlue");
         el("lineupFlagsBlue").appendChild(getNation("usa", true));
-        //nbspSpan("lineupFlagsBlue");
+        nbspSpan("lineupFlagsBlue");
         el("lineupFlagsBlue").appendChild(getNation("germany", true));
-        //nbspSpan("lineupFlagsBlue");
+        nbspSpan("lineupFlagsBlue");
         el("lineupFlagsBlue").appendChild(getNation("britain", true));
-        //nbspSpan("lineupFlagsBlue");
+        nbspSpan("lineupFlagsBlue");
         el("lineupFlagsBlue").appendChild(getNation("japan", true));
-        //nbspSpan("lineupFlagsBlue");
+        nbspSpan("lineupFlagsBlue");
         el("lineupFlagsBlue").appendChild(getNation("italy", true));
-        //nbspSpan("lineupFlagsBlue");
+        nbspSpan("lineupFlagsBlue");
         el("lineupFlagsBlue").appendChild(getNation("france", true));
-        //nbspSpan("lineupFlagsBlue");
+        nbspSpan("lineupFlagsBlue");
         el("lineupFlagsBlue").appendChild(getNation("sweden", true));
-        //nbspSpan("lineupFlagsBlue");
+        nbspSpan("lineupFlagsBlue");
         el("lineupFlagsBlue").appendChild(getNation("israel", true));
     }
 
