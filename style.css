@@ -23,7 +23,7 @@ body
 {
     display: none;
     position: absolute;
-    background-color: #000000e0;
+    background-color: #000000c0;
     border-radius: 20px;
     border: 3px solid black;
     padding: 20px;
@@ -105,14 +105,14 @@ body
 
 .suggestion
 {
-    background-color: #000000e0;
+    background-color: #000000a0;
     text-align: left;
     user-select: none;
 }
 
 .suggestion:hover
 {
-    background-color: #000000ff;
+    background-color: #111111ff;
 }
 
 #searchInput
