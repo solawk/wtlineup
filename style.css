@@ -140,7 +140,8 @@ body
     position: absolute;
     z-index: 1;
     line-height: 1.5em;
-    padding: 1em;
+    padding-top: 1em;
+    padding-bottom: 1em;
 }
 
 .textShadow
