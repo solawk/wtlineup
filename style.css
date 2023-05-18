@@ -1,3 +1,14 @@
+:root
+{
+    --bright-red: #dd8888e0;
+    --header-red: #dd7777;
+    --vibrant-red: #dd5555;
+
+    --bright-blue: #8888dde0;
+    --header-blue: #7777dd;
+    --vibrant-blue: #5555dd;
+}
+
 body
 {
     background-image: repeating-linear-gradient(45deg, #101010, #303030 10px);
@@ -12,6 +23,11 @@ body
 {
     display: none;
     position: absolute;
+    background-color: #000000e0;
+    border-radius: 20px;
+    border: 3px solid black;
+    padding: 20px;
+    margin-left: 0.3em;
     z-index: 1;
 }
 
@@ -41,48 +57,48 @@ body
 
 .tableHeaderBlue
 {
-    background-color: #7777ee;
+    background-color: var(--header-blue);
     user-select: none;
     cursor: pointer;
 }
 
 .tableHeaderBlue:hover
 {
-    background-color: #5555ee;
+    background-color: var(--vibrant-blue);
 }
 
 .tableHeaderRed
 {
-    background-color: #ee7777;
+    background-color: var(--header-red);
     user-select: none;
     cursor: pointer;
 }
 
 .tableHeaderRed:hover
 {
-    background-color: #ee5555;
+    background-color: var(--vibrant-red);
 }
 
 .blue
 {
-    background-color: #8888ee;
+    background-color: var(--bright-blue);
 }
 
 .red
 {
-    background-color: #ee8888;
+    background-color: var(--bright-red);
 }
 
 .vibrantBlue
 {
-    background-color: #5555ee;
+    background-color: var(--vibrant-blue);
     user-select: none;
     text-shadow: 1px 1px 1px black;
 }
 
 .vibrantRed
 {
-    background-color: #ee5555;
+    background-color: var(--vibrant-red);
     user-select: none;
     text-shadow: 1px 1px 1px black;
 }
@@ -112,6 +128,21 @@ body
     font-size: 2em;
 }
 
+.lineupsAmpersand
+{
+    font-size: 0.8em;
+}
+
+#scheduleFuture
+{
+    background-color: #000000f8;
+    width: 100%;
+    position: absolute;
+    z-index: 1;
+    line-height: 1.5em;
+    padding: 1em;
+}
+
 .textShadow
 {
     text-shadow: 1px 1px 1px black;
@@ -139,6 +170,11 @@ body
     cursor: pointer;
 }
 
+.scheduleTitles
+{
+    font-size: 0.7em;
+}
+
 .nationFlags
 {
     filter: drop-shadow(1px 1px 2px #000000);
@@ -156,13 +192,17 @@ body
     bottom: 0;
 }
 
+.semitransparentButtons
+{
+    background-color: #00000088;
+    border-radius: 15px;
+    color: white;
+}
+
 #utilsButton
 {
     margin-bottom: 1em;
     padding: 0.5em;
-    background-color: #00000088;
-    border-radius: 15px;
-    color: white;
     font-size: 2em;
 }
 

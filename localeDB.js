@@ -52,7 +52,7 @@ const en =
             sendReport: "Send report",
 
             availableLineups: "Available now",
-            inLineup: "in",
+            inLineup: "In",
             hLineup: "h",
             minLineup: "min",
             inLineup2: "in",
@@ -116,7 +116,7 @@ const ru =
             sendReport: "Отправить репорт",
 
             availableLineups: "Доступны сейчас",
-            inLineup: "через",
+            inLineup: "Через",
             hLineup: "ч",
             minLineup: "мин",
             inLineup2: "через",

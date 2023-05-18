@@ -45,14 +45,10 @@
                     <table style="width: 100%">
                         <tr style="width: 100%">
                             <td class="headerTDs" style="width: 33%">
-                                <div id="scheduleDiv" class="textShadow" style="font-size: 1.3em">
-                                    <span id="LOC_availableLineups">Available now</span>: <span style="white-space: nowrap">[<a id="sched_currentBottom" class="undecoratedLinks" onclick="clickOnScheduleLineup(this)"></a>] & [<a id="sched_currentTop" class="undecoratedLinks" onclick="clickOnScheduleLineup(this)"></a>]</span>
-                                    <br><br>
-                                    <span style="white-space: nowrap">[<a id="sched_nextBottom" class="undecoratedLinks" onclick="clickOnScheduleLineup(this)"></a>] & [<a id="sched_nextTop" class="undecoratedLinks" onclick="clickOnScheduleLineup(this)"></a>]</span> <span style="white-space: nowrap"><span id="LOC_inLineup">in</span> <span id="sched_hours"></span> <span id="LOC_hLineup">h</span> <span id="sched_minutes"></span> <span id="LOC_minLineup">h</span></span>
-                                    <a href="#" onclick="toggleFuture()" class="undecoratedLinks">[v]</a>
-                                    <div id="scheduleFuture" style="display: none">
-                                    </div>
-                                </div>
+                                <span id="LOC_searchSpan" class="textShadow" style="user-select: none; font-size: 2em">Search</span>&nbsp;&nbsp;
+                                <input id="searchInput" type="text" autocomplete="off" style="font-size: 1.4em" size="10">
+                                <table id="searchDropdownTable" class="dropdownContent">
+                                </table>
                             </td>
                             <td class="headerTDs" style="width: 33%">
                                 <span id="LOC_lineupSpan" class="textShadow" style="user-select: none; font-size: 2em">Lineup</span>
@@ -72,10 +68,52 @@
                                     <button onclick="selectLineup('10_2')" class="suggestion lineupSuggestion">10_2</button>
                                 </div>
                             </td>
-                            <td class="headerTDs" style="width: 33%">
-                                <span id="LOC_searchSpan" class="textShadow" style="user-select: none; font-size: 2em">Search</span>&nbsp;&nbsp;
-                                <input id="searchInput" type="text" autocomplete="off" style="font-size: 1.4em" size="10">
-                                <table id="searchDropdownTable" class="dropdownContent">
+                            <td style="width: 33%">
+                                <table style="width: 100%">
+                                    <tr>
+                                        <td class="headerTDs">
+                                            <div id="scheduleDiv" class="textShadow" style="font-size: 1.3em">
+                                                <table style="width: 100%">
+                                                    <tr>
+                                                        <td class="scheduleTitles">
+                                                            <span id="LOC_availableLineups">Available now</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <span style="white-space: nowrap">[<a id="sched_currentBottom" class="undecoratedLinks" onclick="clickOnScheduleLineup(this)"></a>]<span class='lineupsAmpersand'> & </span>[<a id="sched_currentTop" class="undecoratedLinks" onclick="clickOnScheduleLineup(this)"></a>]</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="scheduleTitles">
+                                                            <br><span style="white-space: nowrap"><span id="LOC_inLineup">in</span> <span id="sched_hours"></span> <span id="LOC_hLineup">h</span> <span id="sched_minutes"></span> <span id="LOC_minLineup">h</span></span>:
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <span style="white-space: nowrap">[<a id="sched_nextBottom" class="undecoratedLinks" onclick="clickOnScheduleLineup(this)"></a>]<span class='lineupsAmpersand'> & </span>[<a id="sched_nextTop" class="undecoratedLinks" onclick="clickOnScheduleLineup(this)"></a>]</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <button onclick="toggleFuture()" class="undecoratedLinks semitransparentButtons" style="width:100%"><b>V</b></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 100%; position: relative">
+                                            <div id="scheduleFuture" class="semitransparentButtons" style="display: none">
+                                            </div>
+                                        </td>
+                                    </tr>
                                 </table>
                             </td>
                         </tr>
@@ -108,7 +146,7 @@
                 <tr>
                     <td id="utilsButtonTd">
                         <div>
-                            <button id="utilsButton" onclick="toggleMenu()"><</button>
+                            <button id="utilsButton" class="semitransparentButtons" onclick="toggleMenu()"><</button>
                         </div>
                     </td>
                     <td id="utilsMenuTd" class="utilsMenuTdClass">
