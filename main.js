@@ -115,8 +115,9 @@ function getAllLineupsOfBottomAircraft(v)
 function getGuaranteedLineups(v)
 {
     const bottomAircraftLineups = getAllLineupsOfBottomAircraft(v);
-    let lineups = v.lineups.split(" ");
+    let lineups = [];
     if (bottomAircraftLineups != null) lineups = lineups.concat(bottomAircraftLineups);
+    lineups = lineups.concat(v.lineups.split(" "));
 
     return lineups;
 }

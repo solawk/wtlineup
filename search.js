@@ -89,10 +89,18 @@ function searchSuggest()
 
         tdName.style.padding = "0.5em";
 
+        const lTable = document.createElement("table");
+        tdLineups.appendChild(lTable);
         const lineups = getGuaranteedLineups(s);
         for (const l of lineups)
         {
             if (l.length === 0) continue;
+
+            const lTr = document.createElement("tr");
+            lTable.appendChild(lTr);
+
+            const lTdButton = document.createElement("td");
+            lTr.appendChild(lTdButton);
 
             const btn = document.createElement("button");
             btn.innerHTML = l;
@@ -102,11 +110,39 @@ function searchSuggest()
                     selectLineup(l, true);
                     clearSuggestions();
                 };
-            tdLineups.appendChild(btn);
+            lTdButton.appendChild(btn);
+
+
+            const lTdWhen = document.createElement("td");
+            lTr.appendChild(lTdWhen);
+
+            const when = whenIsLineup(l);
+
+            let whenString = " – ";
+            switch (when)
+            {
+                case "now": whenString += (locale === "ru") ? ru.whenNow : en.whenNow; break;
+                case "today": whenString += (locale === "ru") ? ru.whenToday : en.whenToday; break;
+                case 1: whenString += (locale === "ru") ? ru.whenTomorrow : en.whenTomorrow; break;
+                case 2: whenString += (locale === "ru") ? ru.whenAfterTomorrow : en.whenAfterTomorrow; break;
+
+                default:
+                    whenString += ((locale === "ru") ? ru.whenAfterDaysBefore : en.whenAfterDaysBefore)
+                        + (when - 1).toString() + ((locale === "ru") ? ru.whenAfterDaysAfter : en.whenAfterDaysAfter);
+                    break;
+            }
+
+            lTdWhen.innerHTML = whenString;
+            lTdWhen.style.paddingRight = "0.5em";
         }
 
         tr.classList.add("suggestion");
         suggestionsTable.appendChild(tr);
+    }
+
+    if (suggestions.length === 0)
+    {
+        suggestionsTable.innerHTML = (locale === "ru") ? ru.noneFound : en.noneFound;
     }
 }
 

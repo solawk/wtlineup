@@ -1,21 +1,25 @@
 const keyDate = new Date(Date.UTC(2023, 3, 10, 11));
 const squadronResetDate = new Date(Date.UTC(2023, 3, 15, 0));
 
+const bottomLineups = [ "6_1", "1_1", "3_1", "2_1", "5_1", "4_1" ];
+const topLineups = [ "9_2", "8_2", "10_2", "8_2_2" ];
+
+const whenBottomLineups = [ "", "", "", "", "", "" ]; // "now", "today" or number of days to change (1 = tomorrow, 2 = after tomorrow etc.)
+const whenTopLineups = [ "", "", "", "" ];
+
 function setSchedule()
 {
     // Lineups
-    const nowDate = Date.now();
+    const nowDateMs = Date.now();
 
-    const diff = nowDate - keyDate;
+    const diff = nowDateMs - keyDate;
     const diffInDaysUnfloored = diff / (1000 * 60 * 60 * 24);
     const diffInDays = Math.floor(diffInDaysUnfloored);
 
+    const totalMsRemaining = ((diffInDays + 1) - diffInDaysUnfloored) * 24 * 60 * 60 * 1000;
     const totalMinutesRemaining = Math.floor(((diffInDays + 1) - diffInDaysUnfloored) * 24 * 60);
     const hoursRemaining = Math.floor(totalMinutesRemaining / 60);
     const minutesRemaining = totalMinutesRemaining - (hoursRemaining * 60);
-
-    const bottomLineups = [ "6_1", "1_1", "3_1", "2_1", "5_1", "4_1" ];
-    const topLineups = [ "9_2", "8_2", "10_2", "8_2_2" ];
 
     let diffInDaysModBottom = diffInDays % bottomLineups.length;
     if (diffInDaysModBottom < 0) diffInDaysModBottom += bottomLineups.length;
@@ -23,21 +27,40 @@ function setSchedule()
     let diffInDaysModTop = diffInDays % topLineups.length;
     if (diffInDaysModTop < 0) diffInDaysModTop += topLineups.length;
 
-    const nextBottom = (diffInDaysModBottom + 1) % bottomLineups.length;
-    const nextTop = (diffInDaysModTop + 1) % topLineups.length;
+    const indexOfBottomLineupNext = (diffInDaysModBottom + 1) % bottomLineups.length;
+    const indexOfTopLineupNext = (diffInDaysModTop + 1) % topLineups.length;
 
-    el("sched_currentBottom").innerHTML = bottomLineups[diffInDaysModBottom];
-    el("sched_currentTop").innerHTML = topLineups[diffInDaysModTop];
+    const indexOfBottomLineupNow = diffInDaysModBottom;
+    const indexOfTopLineupNow = diffInDaysModTop;
 
-    el("sched_nextBottom").innerHTML = bottomLineups[nextBottom];
-    el("sched_nextTop").innerHTML = topLineups[nextTop];
+    const bottomLineupNow = bottomLineups[indexOfBottomLineupNow];
+    const topLineupNow = topLineups[indexOfTopLineupNow];
+
+    whenBottomLineups[indexOfBottomLineupNow] = "now";
+    whenTopLineups[indexOfTopLineupNow] = "now";
+
+    const bottomLineupNext = bottomLineups[indexOfBottomLineupNext];
+    const topLineupNext = topLineups[indexOfTopLineupNext];
+
+    const nowDate = new Date();
+    const nextDate = new Date(Date.now() + totalMsRemaining);
+    const isNextToday = nowDate.getHours() < nextDate.getHours();
+
+    whenBottomLineups[indexOfBottomLineupNext] = isNextToday ? "today" : 1;
+    whenTopLineups[indexOfTopLineupNext] = isNextToday ? "today" : 1;
+
+    el("sched_currentBottom").innerHTML = bottomLineupNow;
+    el("sched_currentTop").innerHTML = topLineupNow;
+
+    el("sched_nextBottom").innerHTML = bottomLineupNext;
+    el("sched_nextTop").innerHTML = topLineupNext;
 
     el("sched_hours").innerHTML = hoursRemaining.toString();
     el("sched_minutes").innerHTML = minutesRemaining.toString();
 
     // Squadron
 
-    const squadron_diff = nowDate - squadronResetDate;
+    const squadron_diff = nowDateMs - squadronResetDate;
     let squadron_diffInDaysUnfloored = squadron_diff / (1000 * 60 * 60 * 24);
     if (squadron_diffInDaysUnfloored < 0) squadron_diffInDaysUnfloored += 3;
     const squadron_diffInDaysUntilReset = 3 - (squadron_diffInDaysUnfloored % 3);
@@ -49,7 +72,7 @@ function setSchedule()
 
     // Future days
 
-    const nextRotation = nowDate + ((diffInDays + 1) - diffInDaysUnfloored) * 24 * 60 * 60 * 1000;
+    const nextRotation = nowDateMs + ((diffInDays + 1) - diffInDaysUnfloored) * 24 * 60 * 60 * 1000;
     const futureDiv = el("scheduleFuture");
     futureDiv.innerHTML = "";
     for (let d = 0; d < 5; d++)
@@ -68,6 +91,9 @@ function setSchedule()
 
         futureDiv.innerHTML += "<span style='white-space: nowrap'>[<a class='undecoratedLinks' onclick='clickOnScheduleLineup(this)'>" + bLineup + "</a>]<span class='lineupsAmpersand'> & </span>[<a class='undecoratedLinks' onclick='clickOnScheduleLineup(this)'>" + tLineup + "</a>]</span> <span style='white-space: nowrap'> – " + dateString + " </span>";
         futureDiv.innerHTML += "<br>";
+
+        if (whenBottomLineups[bottom] === "") whenBottomLineups[bottom] = isNextToday ? 1 + d : 2 + d;
+        if (whenTopLineups[top] === "") whenTopLineups[top] = isNextToday ? 1 + d : 2 + d;
     }
 
     const upperSquadronSpan = document.createElement("span");
@@ -95,6 +121,19 @@ function setSchedule()
     futureDiv.appendChild(lowerSquadronMinSpan);
 
     confirmLocale();
+}
+
+function whenIsLineup(lineup)
+{
+    let index = bottomLineups.indexOf(lineup);
+
+    if (index === -1)
+    {
+        index = topLineups.indexOf(lineup);
+        return whenTopLineups[index];
+    }
+
+    return whenBottomLineups[index];
 }
 
 function clickOnScheduleLineup(elem)

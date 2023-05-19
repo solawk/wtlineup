@@ -27,6 +27,7 @@ const en =
             attacker: "Attacker",
             bomber: "Bomber",
             heli: "Helicopter",
+            noneFound: "No matching vehicles",
 
             cancel: "Cancel",
             creatingReport: "Creating a report",
@@ -60,6 +61,13 @@ const en =
             hLineup2: "h",
             minLineup2: "min",
             squadronReset: "Squadron activity reset",
+
+            whenNow: "Available now!",
+            whenToday: "Available later today",
+            whenTomorrow: "Available tomorrow",
+            whenAfterTomorrow: "Available after tomorrow",
+            whenAfterDaysBefore: "Available after ",
+            whenAfterDaysAfter: " days",
         };
 
 const ru =
@@ -91,6 +99,7 @@ const ru =
             attacker: "Штурмовик",
             bomber: "Бомбардировщик",
             heli: "Вертолёт",
+            noneFound: "Подходящей техники не найдено",
 
             cancel: "Отмена",
             creatingReport: "Создание репорта",
@@ -124,6 +133,13 @@ const ru =
             hLineup2: "ч",
             minLineup2: "мин",
             squadronReset: "Сброс полковой активности",
+
+            whenNow: "Доступен сейчас!",
+            whenToday: "Будет позже сегодня",
+            whenTomorrow: "Будет завтра",
+            whenAfterTomorrow: "Будет послезавтра",
+            whenAfterDaysBefore: "Будет через ",
+            whenAfterDaysAfter: " д",
         };
 
 let locale = localStorage.getItem("locale") ? localStorage.getItem("locale") : "en";
