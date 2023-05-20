@@ -1,0 +1,214 @@
+const { Client, Events, GatewayIntentBits, SlashCommandBuilder, EmbedBuilder, REST, Routes
+} = require("discord.js");
+const fetch = require("cross-fetch");
+
+const { token, clientId, guildId } = require("./config.json");
+const { getLineups } = require("./schedule.js");
+const { getSuggestions } = require("./search.js");
+const { getGuaranteedLineups } = require("./main.js");
+
+const client = new Client({ intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent,
+        GatewayIntentBits.GuildMembers,
+    ] });
+
+let vehicles = null;
+
+client.once(Events.ClientReady, async () =>
+{
+    console.log("Bot ready");
+
+    // Fetching the database
+    const response = await fetch("https://script.google.com/macros/s/AKfycbzq-ElAFHCDzk6dVqomddksLWLcNHbvBi2K5_4JZeh8OrejAt-isCrhleXiJYQA3A4Vnw/exec");
+    const responseText = await response.text();
+    vehicles = JSON.parse(responseText);
+    console.log("Vehicles loaded successfully");
+});
+
+client.on(Events.MessageCreate, async (message) => {
+    const ruLineupMsg = message.content.startsWith("!сетап");
+    const enLineupMsg = message.content.startsWith("!lineup");
+
+    if (ruLineupMsg) await message.reply({ content: "Бот теперь использует слэш-команды: /сетап, /поиск" });
+    if (enLineupMsg) await message.reply({ content: "Bot now uses slash-commands: /lineup, /search" });
+});
+
+async function lineupFunction(interaction, en)
+{
+    const lineups = getLineups();
+
+    // String localization
+    const name = en ? "Lineups" : "Сетапы";
+    const availableNow = en ? "Available now" : "Доступны сейчас";
+    const availableIn = en ? "In " : "Через ";
+    const hours = en ? " h " : " ч ";
+    const minutes = en ? " min" : " мин";
+    const future = en ? "Future lineups" : "Будущие сетапы";
+    const linkDisclaimer = en ? "Clicking a lineup opens the WTLineup website with the list of vehicles" :
+        "Нажатие на сетап направляет на веб-сайт WTLineup со списком техники";
+    const authors = en ? "by Solawk and _nik4ik_" : "от Solawk и _nik4ik_";
+
+    // Links
+    function link(lineup)
+    {
+        return "https://solawk.github.io/wtlineup/?select=" + lineup;
+    }
+
+    const boosty = "[Boosty](https://boosty.to/solawk)";
+    const github = "[GitHub](https://github.com/solawk/wtlineup)";
+
+    // Future lineups
+    let futureLineupsString = "";
+    for (let i = 0; i < 5; i++)
+    {
+        futureLineupsString += lineups.future[i].date + " - [" + lineups.future[i].b + "](" + link(lineups.future[i].b)
+            + ") & " + "[" + lineups.future[i].t + "](" + link(lineups.future[i].t) + ")";
+        if (i < 4) futureLineupsString += "\n";
+    }
+
+    const msg = new EmbedBuilder()
+        .setTitle(name)
+        .setDescription(linkDisclaimer)
+        .setURL('https://solawk.github.io/wtlineup')
+        .addFields(
+            { name: availableNow,
+                value: "[**" + lineups.bottomNow + "**](" + link(lineups.bottomNow) + ") & " + "[**" + lineups.topNow + "**](" + link(lineups.topNow) + ")"},
+            { name: availableIn + lineups.nextHours + hours + lineups.nextMinutes + minutes,
+                value: "[**" + lineups.bottomNext + "**](" + link(lineups.bottomNext) + ") & " + "[**" + lineups.topNext + "**](" + link(lineups.topNext) + ")" },
+            { name: future,
+                value: futureLineupsString },
+            { name: " ",
+                value: boosty + ", " + github }
+        )
+        .setFooter({ text: authors });
+
+    await interaction.reply({ embeds: [ msg ], ephemeral: true });
+}
+
+async function searchFunction(interaction, en)
+{
+    if (vehicles == null)
+    {
+        await interaction.reply({ content: "Vehicles not loaded in!!! / Список техники не загружен!!!" });
+        return;
+    }
+
+    const query = interaction.options.getString(en ? "name" : "название");
+    const suggestions = getSuggestions(query, vehicles, getGuaranteedLineups);
+
+    // String localization
+    const name = en ? "Search results - " : "Результаты поиска - ";
+    const availableNow = en ? "Available now" : "Доступны сейчас";
+    const availableIn = en ? "In " : "Через ";
+    const hours = en ? " h " : " ч ";
+    const minutes = en ? " min" : " мин";
+    const future = en ? "Future lineups" : "Будущие сетапы";
+    const linkDisclaimer = en ? "Clicking a lineup opens the WTLineup website with the list of vehicles" :
+        "Нажатие на сетап направляет на веб-сайт WTLineup со списком техники";
+    const authors = en ? "by Solawk and _nik4ik_" : "от Solawk и _nik4ik_";
+
+    // Links
+    function link(lineup)
+    {
+        return "https://solawk.github.io/wtlineup/?select=" + lineup;
+    }
+
+    const boosty = "[Boosty](https://boosty.to/solawk)";
+    const github = "[GitHub](https://github.com/solawk/wtlineup)";
+
+    const msg = new EmbedBuilder()
+        .setTitle(name + query)
+        .setDescription(linkDisclaimer)
+        .setFooter({ text: authors });
+
+    for (const s of suggestions)
+    {
+        let lineupsString = "";
+
+        for (let i = 0; i < s.l.length; i++)
+        {
+            lineupsString += "[" + s.l[i] + "](" + link(s.l[i]) + ")";
+            if (i < s.l.length - 1) lineupsString += ", ";
+        }
+
+        msg.addFields(
+            { name: (!en && s.v.ruName !== "") ? s.v.ruName : s.v.enName,
+                value: lineupsString.length > 0 ? lineupsString : "-" }
+        );
+    }
+
+    msg.addFields({ name: " ", value: boosty + ", " + github });
+
+    await interaction.reply({ embeds: [ msg ], ephemeral: true });
+}
+
+const enLineupCmd = new SlashCommandBuilder()
+    .setName("lineup")
+    .setDescription("Simulator battles lineup information");
+const ruLineupCmd = new SlashCommandBuilder()
+    .setName("сетап")
+    .setDescription("Информация о сетапах симуляторных боёв");
+
+const enSearchCmd = new SlashCommandBuilder()
+    .setName("search")
+    .addStringOption(option =>
+        option
+            .setName('name')
+            .setDescription('Vehicle name'))
+    .setDescription("Query lineups by the vehicle name");
+const ruSearchCmd = new SlashCommandBuilder()
+    .setName("поиск")
+    .addStringOption(option =>
+        option
+            .setName('название')
+            .setDescription('Название техники'))
+    .setDescription("Запрос сетапов по названию техники");
+
+client.on(Events.InteractionCreate, async (interaction) =>
+{
+    if (!interaction.isChatInputCommand()) return;
+
+    switch (interaction.commandName)
+    {
+        case "lineup":
+            await lineupFunction(interaction, true);
+            return;
+
+        case "сетап":
+            await lineupFunction(interaction, false);
+            return;
+
+        case "search":
+            await searchFunction(interaction, true);
+            return;
+
+        case "поиск":
+            await searchFunction(interaction, false);
+            return;
+
+        default:
+            await interaction.reply({ content: "Команда не распознана / Invalid command", ephemeral: true });
+            return;
+    }
+});
+
+client.login(token);
+
+const rest = new REST().setToken(token);
+registerCommands();
+
+async function registerCommands()
+{
+    try
+    {
+        const commands = [ enLineupCmd, ruLineupCmd, enSearchCmd, ruSearchCmd ];
+        await rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: commands });
+        console.log("Commands registered successfully");
+    }
+    catch (e)
+    {
+        console.log(e);
+    }
+}

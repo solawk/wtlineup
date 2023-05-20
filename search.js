@@ -1,30 +1,69 @@
 let searchTimeout = null;
-const suggestionsTable = el("searchDropdownTable");
+let suggestionTable = null;
 
-el("searchInput").oninput = (e) =>
+if (typeof exports === 'undefined')
 {
-    searchInput();
-}
+    searchTimeout = null;
+    suggestionsTable = el("searchDropdownTable");
 
-el("searchInput").onfocus = (e) =>
-{
-    if (e.currentTarget.value.trim() === "") return;
+    el("searchInput").oninput = (e) =>
+    {
+        searchInput();
+    }
 
-    searchInput();
-}
+    el("searchInput").onfocus = (e) =>
+    {
+        if (e.currentTarget.value.trim() === "") return;
 
-el("searchInput").onblur = (e) =>
-{
-    if (el('searchDropdownTable').contains(e.relatedTarget)) return;
+        searchInput();
+    }
 
-    if (searchTimeout) clearTimeout(searchTimeout);
-    clearSuggestions();
+    el("searchInput").onblur = (e) =>
+    {
+        if (el('searchDropdownTable').contains(e.relatedTarget)) return;
+
+        if (searchTimeout) clearTimeout(searchTimeout);
+        clearSuggestions();
+    }
 }
 
 function searchInput()
 {
     if (searchTimeout) clearTimeout(searchTimeout);
     searchTimeout = setTimeout(() => { searchSuggest(); }, 200);
+}
+
+function getSuggestions(input, source, glFuncFromBot)
+{
+    let suggestionsStartWith = [];
+    let suggestionsInclude = [];
+
+    const glFunc = glFuncFromBot ? glFuncFromBot : getGuaranteedLineups;
+
+    for (const v of source)
+    {
+        if ((v.enName.toLowerCase().startsWith(input.toLowerCase()) || v.ruName.toLowerCase().startsWith(input.toLowerCase())) && suggestionsStartWith.length < 10)
+        {
+            suggestionsStartWith.push({ v: v, l: glFunc(v) });
+            continue;
+        }
+
+        if ((v.enName.toLowerCase().includes(input.toLowerCase()) || v.ruName.toLowerCase().includes(input.toLowerCase())) && suggestionsInclude.length < 10)
+        {
+            suggestionsInclude.push({ v: v, l: glFunc(v) });
+        }
+    }
+
+    let suggestions = [...suggestionsStartWith];
+    let remainingCapacity = 10 - suggestions.length;
+
+    for (let i = 0; i < remainingCapacity && suggestionsInclude.length > 0; i++)
+    {
+        suggestions.push(suggestionsInclude.shift());
+    }
+
+    //console.log(suggestions);
+    return suggestions;
 }
 
 function searchSuggest()
@@ -38,30 +77,7 @@ function searchSuggest()
         return;
     }
 
-    let suggestionsStartWith = [];
-    let suggestionsInclude = [];
-
-    for (const v of vehicles)
-    {
-        if ((v.enName.toLowerCase().startsWith(query.toLowerCase()) || v.ruName.toLowerCase().startsWith(query.toLowerCase())) && suggestionsStartWith.length < 10)
-        {
-            suggestionsStartWith.push(v);
-            continue;
-        }
-
-        if ((v.enName.toLowerCase().includes(query.toLowerCase()) || v.ruName.toLowerCase().includes(query.toLowerCase())) && suggestionsInclude.length < 10)
-        {
-            suggestionsInclude.push(v);
-        }
-    }
-
-    let suggestions = [...suggestionsStartWith];
-    let remainingCapacity = 10 - suggestions.length;
-
-    for (let i = 0; i < remainingCapacity && suggestionsInclude.length > 0; i++)
-    {
-        suggestions.push(suggestionsInclude.shift());
-    }
+    const suggestions = getSuggestions(query, vehicles);
 
     suggestionsTable.innerHTML = "";
 
@@ -75,23 +91,23 @@ function searchSuggest()
         tr.appendChild(tdLineups);
 
         const a = document.createElement("a");
-        a.innerHTML = (locale === "ru" && s.ruName !== "") ? s.ruName : s.enName;
+        a.innerHTML = (locale === "ru" && s.v.ruName !== "") ? s.v.ruName : s.v.enName;
         a.target = "_blank";
-        a.href = hrefOfVehicle(s);
+        a.href = hrefOfVehicle(s.v);
         a.classList.toggle("undecoratedLinks");
 
         tdName.appendChild(a);
 
         tdName.innerHTML += "&nbsp;";
 
-        const img = getNation(s.nation);
+        const img = getNation(s.v.nation);
         tdName.appendChild(img);
 
         tdName.style.padding = "0.5em";
 
         const lTable = document.createElement("table");
         tdLineups.appendChild(lTable);
-        const lineups = getGuaranteedLineups(s);
+        const lineups = s.l;
         for (const l of lineups)
         {
             if (l.length === 0) continue;
@@ -150,3 +166,10 @@ function clearSuggestions()
 {
     suggestionsTable.classList.remove("dropdownShow");
 }
+
+// Bot integration
+
+(function(exports)
+{
+    exports.getSuggestions = getSuggestions
+})(typeof exports === 'undefined' ? this['search'] = {} : exports);

@@ -7,6 +7,67 @@ const topLineups = [ "9_2", "8_2", "10_2", "8_2_2" ];
 const whenBottomLineups = [ "", "", "", "", "", "" ]; // "now", "today" or number of days to change (1 = tomorrow, 2 = after tomorrow etc.)
 const whenTopLineups = [ "", "", "", "" ];
 
+function getLineups()
+{
+    // Now and next
+    const nowDateMs = Date.now();
+
+    const diff = nowDateMs - keyDate;
+    const diffInDaysUnfloored = diff / (1000 * 60 * 60 * 24);
+    const diffInDays = Math.floor(diffInDaysUnfloored);
+
+    const totalMsRemaining = ((diffInDays + 1) - diffInDaysUnfloored) * 24 * 60 * 60 * 1000;
+    const totalMinutesRemaining = Math.floor(((diffInDays + 1) - diffInDaysUnfloored) * 24 * 60);
+    const hoursRemaining = Math.floor(totalMinutesRemaining / 60);
+    const minutesRemaining = totalMinutesRemaining - (hoursRemaining * 60);
+
+    let diffInDaysModBottom = diffInDays % bottomLineups.length;
+    if (diffInDaysModBottom < 0) diffInDaysModBottom += bottomLineups.length;
+
+    let diffInDaysModTop = diffInDays % topLineups.length;
+    if (diffInDaysModTop < 0) diffInDaysModTop += topLineups.length;
+
+    const indexOfBottomLineupNext = (diffInDaysModBottom + 1) % bottomLineups.length;
+    const indexOfTopLineupNext = (diffInDaysModTop + 1) % topLineups.length;
+
+    const indexOfBottomLineupNow = diffInDaysModBottom;
+    const indexOfTopLineupNow = diffInDaysModTop;
+
+    const bottomLineupNow = bottomLineups[indexOfBottomLineupNow];
+    const topLineupNow = topLineups[indexOfTopLineupNow];
+
+    const bottomLineupNext = bottomLineups[indexOfBottomLineupNext];
+    const topLineupNext = topLineups[indexOfTopLineupNext];
+
+    const nextHours = hoursRemaining.toString();
+    const nextMinutes = minutesRemaining.toString();
+
+    // Future
+    const nextRotation = nowDateMs + ((diffInDays + 1) - diffInDaysUnfloored) * 24 * 60 * 60 * 1000;
+    const futureLineups = [];
+    for (let d = 0; d < 5; d++)
+    {
+        const date = new Date(nextRotation + (24 * 60 * 60 * 1000 * (1 + d)));
+        const day = date.getDate().toString();
+        let month = (date.getMonth() + 1).toString();
+        if (month.length === 1) month = '0' + month;
+
+        const bottom = (diffInDaysModBottom + 2 + d) % bottomLineups.length;
+        const top = (diffInDaysModTop + 2 + d) % topLineups.length;
+
+        const bLineup = bottomLineups[bottom];
+        const tLineup = topLineups[top];
+        const dateString = day.toString() + "." + month.toString();
+
+        futureLineups.push({ b: bLineup, t: tLineup, date: dateString })
+    }
+
+    return { bottomNow: bottomLineupNow, topNow: topLineupNow,
+        bottomNext: bottomLineupNext, topNext: topLineupNext,
+        nextHours: nextHours, nextMinutes: nextMinutes,
+        future: futureLineups};
+}
+
 function setSchedule()
 {
     // Lineups
@@ -143,9 +204,12 @@ function clickOnScheduleLineup(elem)
     window.scrollTo(0, 0);
 }
 
-setSchedule();
+if (typeof exports === 'undefined')
+{
+    setSchedule();
 
-setInterval(() => { setSchedule(); }, 1000 * 30); // Every 30 seconds
+    setInterval(() => { setSchedule(); }, 1000 * 30); // Every 30 seconds
+}
 
 function toggleFuture()
 {
@@ -160,3 +224,10 @@ function toggleFuture()
         futureDiv.style.display = "none";
     }
 }
+
+// Bot integration
+
+(function(exports)
+{
+    exports.getLineups = getLineups
+})(typeof exports === 'undefined' ? this['schedule'] = {} : exports);

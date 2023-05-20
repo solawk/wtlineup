@@ -39,29 +39,35 @@ function getData()
 }
 
 // Contains an array of all vehicles in the database
-let vehicles = localStorage.getItem("vehicles");
-let lastUpdate = localStorage.getItem("lastUpdate");
+let vehicles;
+let lastUpdate;
 
-if (vehicles == null)
+if (typeof exports === 'undefined')
 {
-    console.log("Fetching from database");
-    getData();
-}
-else
-{
-    console.log("Fetched from local storage");
-    vehicles = JSON.parse(vehicles);
-    showCenter();
-    if (localStorage.getItem("lineup")) selectLineup(localStorage.getItem("lineup"), true);
-    prepareForFirstDisplay();
+    vehicles = localStorage.getItem("vehicles");
+    lastUpdate = localStorage.getItem("lastUpdate");
 
-    if (lastUpdate == null)
+    if (vehicles == null)
     {
-        localStorage.setItem("lastUpdate", Date.now().toString());
+        console.log("Fetching from database");
+        getData();
     }
-    else if (Date.now() - parseInt(lastUpdate) > 1000 * 60 * 60 * 12)
+    else
     {
-        refreshData();
+        console.log("Fetched from local storage");
+        vehicles = JSON.parse(vehicles);
+        showCenter();
+        if (localStorage.getItem("lineup")) selectLineup(localStorage.getItem("lineup"), true);
+        prepareForFirstDisplay();
+
+        if (lastUpdate == null)
+        {
+            localStorage.setItem("lastUpdate", Date.now().toString());
+        }
+        else if (Date.now() - parseInt(lastUpdate) > 1000 * 60 * 60 * 12)
+        {
+            refreshData();
+        }
     }
 }
 
@@ -117,7 +123,7 @@ function getGuaranteedLineups(v)
     const bottomAircraftLineups = getAllLineupsOfBottomAircraft(v);
     let lineups = [];
     if (bottomAircraftLineups != null) lineups = lineups.concat(bottomAircraftLineups);
-    lineups = lineups.concat(v.lineups.split(" "));
+    if (v.lineups !== "") lineups = lineups.concat(v.lineups.split(" "));
 
     return lineups;
 }
@@ -187,3 +193,10 @@ function post(body)
 
     xhr.send(new Blob([JSON.stringify(body)]));
 }
+
+// Bot integration
+
+(function(exports)
+{
+    exports.getGuaranteedLineups = getGuaranteedLineups
+})(typeof exports === 'undefined' ? this['main'] = {} : exports);
