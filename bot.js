@@ -2,7 +2,7 @@ const { Client, Events, GatewayIntentBits, SlashCommandBuilder, EmbedBuilder, RE
 } = require("discord.js");
 const fetch = require("cross-fetch");
 
-let token, clientId, guildId;//
+let token, clientId, guildId, waffeId;
 
 try
 {
@@ -11,6 +11,7 @@ try
     token = configFile.token;
     clientId = configFile.clientId;
     guildId = configFile.guildId;
+    waffeId = configFile.waffeId;
 }
 catch (e)
 {
@@ -18,6 +19,7 @@ catch (e)
     token = process.env.TOKEN;
     clientId = process.env.CLIENTID;
     guildId = process.env.GUILDID;
+    waffeId = process.env.WAFFEID;
 }
 
 //const { token, clientId, guildId } = require("./config.json");
@@ -25,6 +27,7 @@ catch (e)
 const { getLineups } = require("./schedule.js");
 const { getSuggestions } = require("./search.js");
 const { getGuaranteedLineups } = require("./main.js");
+const configFile = require("./config.json");
 
 const client = new Client({ intents: [
         GatewayIntentBits.Guilds,
@@ -219,7 +222,9 @@ async function registerCommands()
     {
         const commands = [ enLineupCmd, ruLineupCmd, enSearchCmd, ruSearchCmd ];
         await rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: commands });
-        console.log("Commands registered successfully");
+        console.log("Commands in test server registered successfully");
+        await rest.put(Routes.applicationGuildCommands(clientId, waffeId), { body: commands });
+        console.log("Commands in K2 Waffe registered successfully");
     }
     catch (e)
     {
