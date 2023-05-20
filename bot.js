@@ -27,7 +27,6 @@ catch (e)
 const { getLineups } = require("./schedule.js");
 const { getSuggestions } = require("./search.js");
 const { getGuaranteedLineups } = require("./main.js");
-const configFile = require("./config.json");
 
 const client = new Client({ intents: [
         GatewayIntentBits.Guilds,
