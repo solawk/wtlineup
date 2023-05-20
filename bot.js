@@ -2,7 +2,26 @@ const { Client, Events, GatewayIntentBits, SlashCommandBuilder, EmbedBuilder, RE
 } = require("discord.js");
 const fetch = require("cross-fetch");
 
-const { token, clientId, guildId } = require("./config.json");
+let token, clientId, guildId;
+
+try
+{
+    // dev
+    const configFile = require("./config.json");
+    token = configFile.token;
+    clientId = configFile.clientId;
+    guildId = configFile.guildId;
+}
+catch (e)
+{
+    // prod
+    token = process.env.TOKEN;
+    clientId = process.env.CLIENTID;
+    guildId = process.env.GUILDID;
+}
+
+//const { token, clientId, guildId } = require("./config.json");
+
 const { getLineups } = require("./schedule.js");
 const { getSuggestions } = require("./search.js");
 const { getGuaranteedLineups } = require("./main.js");
@@ -48,7 +67,7 @@ async function lineupFunction(interaction, en)
     const future = en ? "Future lineups" : "Будущие сетапы";
     const linkDisclaimer = en ? "Clicking a lineup opens the WTLineup website with the list of vehicles" :
         "Нажатие на сетап направляет на веб-сайт WTLineup со списком техники";
-    const authors = en ? "by Solawk and _nik4ik_" : "от Solawk и _nik4ik_";
+    const authors = en ? "by Solawk" : "от Solawk";
 
     // Links
     function link(lineup)
@@ -100,14 +119,9 @@ async function searchFunction(interaction, en)
 
     // String localization
     const name = en ? "Search results - " : "Результаты поиска - ";
-    const availableNow = en ? "Available now" : "Доступны сейчас";
-    const availableIn = en ? "In " : "Через ";
-    const hours = en ? " h " : " ч ";
-    const minutes = en ? " min" : " мин";
-    const future = en ? "Future lineups" : "Будущие сетапы";
     const linkDisclaimer = en ? "Clicking a lineup opens the WTLineup website with the list of vehicles" :
         "Нажатие на сетап направляет на веб-сайт WTLineup со списком техники";
-    const authors = en ? "by Solawk and _nik4ik_" : "от Solawk и _nik4ik_";
+    const authors = en ? "by Solawk" : "от Solawk";
 
     // Links
     function link(lineup)
