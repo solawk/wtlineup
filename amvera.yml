@@ -1,8 +1,0 @@
-meta:
-  environment: node
-  toolchain:
-    name: npm
-    version: 18
-
-run:
-  scriptName: bot.js
