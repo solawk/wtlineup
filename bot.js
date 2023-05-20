@@ -2,7 +2,7 @@ const { Client, Events, GatewayIntentBits, SlashCommandBuilder, EmbedBuilder, RE
 } = require("discord.js");
 const fetch = require("cross-fetch");
 
-let token, clientId, guildId;
+let token, clientId, guildId;//
 
 try
 {
