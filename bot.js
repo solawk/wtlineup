@@ -7,70 +7,70 @@ const fetch = require("cross-fetch");
 const SOLAWKID = "147774917071339520";
 const STATUSMSGIDS =
     [
-        //{ msg: "1109858752280150056", ch: "1109855719307620512" }
+        { msg: "1109929052124487840", ch: "1109855719307620512" }
     ];
 
 const thumbnails =
     {
-        l1_1: [ // V
+        l1_1: [
             "https://encyclopedia.warthunder.com/images/us_m5a1_stuart.png",
             "https://encyclopedia.warthunder.com/images/germ_sdkfz_234_2.png",
             "https://encyclopedia.warthunder.com/images/p-400.png",
             "https://encyclopedia.warthunder.com/images/bf-109e-1.png",
         ],
         l2_1: [
-            "https://encyclopedia.warthunder.com/images/us_m5a1_stuart.png",
-            "https://encyclopedia.warthunder.com/images/germ_sdkfz_234_2.png",
-            "https://encyclopedia.warthunder.com/images/us_m5a1_stuart.png",
-            "https://encyclopedia.warthunder.com/images/us_m5a1_stuart.png",
+            "https://encyclopedia.warthunder.com/images/ussr_t_34_1941.png",
+            "https://encyclopedia.warthunder.com/images/p-51_a-36.png",
+            "https://encyclopedia.warthunder.com/images/germ_pzkpfw_iv_ausf_f2.png",
+            "https://encyclopedia.warthunder.com/images/il_2_1942_luftwaffe.png",
         ],
         l3_1: [
-            "https://encyclopedia.warthunder.com/images/us_m5a1_stuart.png",
-            "https://encyclopedia.warthunder.com/images/germ_sdkfz_234_2.png",
-            "https://encyclopedia.warthunder.com/images/us_m5a1_stuart.png",
-            "https://encyclopedia.warthunder.com/images/us_m5a1_stuart.png",
+            "https://encyclopedia.warthunder.com/images/us_m18_hellcat.png",
+            "https://encyclopedia.warthunder.com/images/germ_kv_1_kwk_40.png",
+            "https://encyclopedia.warthunder.com/images/saab_b18b.png",
+            "https://encyclopedia.warthunder.com/images/bf-109f-1.png",
         ],
-        l4_1: [ // V
+        l4_1: [
             "https://encyclopedia.warthunder.com/images/ussr_t_34_85_zis_53.png",
             "https://encyclopedia.warthunder.com/images/germ_pzkpfw_vi_ausf_e_tiger.png",
             "https://encyclopedia.warthunder.com/images/f6f-3.png",
             "https://encyclopedia.warthunder.com/images/bf-109f-4.png",
         ],
         l5_1: [
-            "https://encyclopedia.warthunder.com/images/us_m5a1_stuart.png",
-            "https://encyclopedia.warthunder.com/images/germ_sdkfz_234_2.png",
-            "https://encyclopedia.warthunder.com/images/us_m5a1_stuart.png",
-            "https://encyclopedia.warthunder.com/images/us_m5a1_stuart.png",
+            "https://encyclopedia.warthunder.com/images/us_t26e5.png",
+            "https://encyclopedia.warthunder.com/images/germ_pzkpfw_vi_ausf_b_tiger_iip.png",
+            "https://encyclopedia.warthunder.com/images/wyvern_s4.png",
+            "https://encyclopedia.warthunder.com/images/bf-109g-14.png",
         ],
         l6_1: [
-            "https://encyclopedia.warthunder.com/images/us_m5a1_stuart.png",
-            "https://encyclopedia.warthunder.com/images/germ_sdkfz_234_2.png",
-            "https://encyclopedia.warthunder.com/images/us_m5a1_stuart.png",
-            "https://encyclopedia.warthunder.com/images/us_m5a1_stuart.png",
+            "https://encyclopedia.warthunder.com/images/ussr_t_44_100.png",
+            "https://encyclopedia.warthunder.com/images/germ_panzerjager_tiger.png",
+            "https://encyclopedia.warthunder.com/images/douglas_a_1h.png",
+            "https://encyclopedia.warthunder.com/images/ki_84_hei.png",
         ],
-        l8_2: [ // V
+        l8_2: [
             "https://encyclopedia.warthunder.com/images/ussr_t_54_1947.png",
             "https://encyclopedia.warthunder.com/images/germ_pzkpfw_maus.png",
             "https://encyclopedia.warthunder.com/images/tu-2_postwar_late.png",
             "https://encyclopedia.warthunder.com/images/a2d.png",
         ],
         l8_2_2: [
-            "https://encyclopedia.warthunder.com/images/ussr_t_54_1947.png",
-            "https://encyclopedia.warthunder.com/images/germ_pzkpfw_maus.png",
-            "https://encyclopedia.warthunder.com/images/tu-2_postwar_late.png",
-            "https://encyclopedia.warthunder.com/images/a2d.png",
+            "https://encyclopedia.warthunder.com/images/cn_ztz_59a.png",
+            "https://encyclopedia.warthunder.com/images/il_magach_5.png",
+            "https://encyclopedia.warthunder.com/images/su-11.png",
+            "https://encyclopedia.warthunder.com/images/f-84g_france.png",
         ],
         l9_2: [
-            "https://encyclopedia.warthunder.com/images/ussr_t_54_1947.png",
-            "https://encyclopedia.warthunder.com/images/germ_pzkpfw_maus.png",
-            "https://encyclopedia.warthunder.com/images/tu-2_postwar_late.png",
-            "https://encyclopedia.warthunder.com/images/a2d.png",
+            "https://encyclopedia.warthunder.com/images/ussr_t_64a_1971.png",
+            "https://encyclopedia.warthunder.com/images/il_merkava_mk_2d.png",
+            "https://encyclopedia.warthunder.com/images/mi_24d.png",
+            "https://encyclopedia.warthunder.com/images/bo_105cb2.png",
         ],
         l10_2: [
-            "https://encyclopedia.warthunder.com/images/ussr_t_54_1947.png",
-            "https://encyclopedia.warthunder.com/images/germ_pzkpfw_maus.png",
-            "https://encyclopedia.warthunder.com/images/tu-2_postwar_late.png",
-            "https://encyclopedia.warthunder.com/images/a2d.png",
+            "https://encyclopedia.warthunder.com/images/ussr_t_80bvm.png",
+            "https://encyclopedia.warthunder.com/images/germ_leopard_2a6.png",
+            "https://encyclopedia.warthunder.com/images/mig_29_9_13.png",
+            "https://encyclopedia.warthunder.com/images/f_16a_block_10.png",
         ],
     };
 
