@@ -33,29 +33,30 @@ function searchInput()
     searchTimeout = setTimeout(() => { searchSuggest(); }, 200);
 }
 
-function getSuggestions(input, source, glFuncFromBot)
+function getSuggestions(input, source, glFuncFromBot, amount)
 {
     let suggestionsStartWith = [];
     let suggestionsInclude = [];
 
     const glFunc = glFuncFromBot ? glFuncFromBot : getGuaranteedLineups;
+    const maxAmount = amount ? amount : 10;
 
     for (const v of source)
     {
-        if ((v.enName.toLowerCase().startsWith(input.toLowerCase()) || v.ruName.toLowerCase().startsWith(input.toLowerCase())) && suggestionsStartWith.length < 10)
+        if ((v.enName.toLowerCase().startsWith(input.toLowerCase()) || v.ruName.toLowerCase().startsWith(input.toLowerCase())) && suggestionsStartWith.length < maxAmount)
         {
-            suggestionsStartWith.push({ v: v, l: glFunc(v) });
+            suggestionsStartWith.push({v: v, l: glFunc(v)});
             continue;
         }
 
-        if ((v.enName.toLowerCase().includes(input.toLowerCase()) || v.ruName.toLowerCase().includes(input.toLowerCase())) && suggestionsInclude.length < 10)
+        if ((v.enName.toLowerCase().includes(input.toLowerCase()) || v.ruName.toLowerCase().includes(input.toLowerCase())) && suggestionsInclude.length < maxAmount)
         {
-            suggestionsInclude.push({ v: v, l: glFunc(v) });
+            suggestionsInclude.push({v: v, l: glFunc(v)});
         }
     }
 
     let suggestions = [...suggestionsStartWith];
-    let remainingCapacity = 10 - suggestions.length;
+    let remainingCapacity = maxAmount - suggestions.length;
 
     for (let i = 0; i < remainingCapacity && suggestionsInclude.length > 0; i++)
     {

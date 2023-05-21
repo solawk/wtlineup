@@ -1,9 +1,80 @@
-const { Client, Events, GatewayIntentBits, SlashCommandBuilder, EmbedBuilder, REST, Routes
+// Requirements and constants
+const { Client, Events, GatewayIntentBits, EmbedBuilder, ActionRowBuilder,
+    ButtonBuilder, ButtonStyle, ModalBuilder, TextInputBuilder, TextInputStyle
 } = require("discord.js");
 const fetch = require("cross-fetch");
 
-let token, clientId;
+const SOLAWKID = "147774917071339520";
+const STATUSMSGIDS =
+    [
+        { msg: "1109858752280150056", ch: "1109855719307620512" }
+    ];
 
+const thumbnails =
+    {
+        l1_1: [ // V
+            "https://encyclopedia.warthunder.com/images/us_m5a1_stuart.png",
+            "https://encyclopedia.warthunder.com/images/germ_sdkfz_234_2.png",
+            "https://encyclopedia.warthunder.com/images/p-400.png",
+            "https://encyclopedia.warthunder.com/images/bf-109e-1.png",
+        ],
+        l2_1: [
+            "https://encyclopedia.warthunder.com/images/us_m5a1_stuart.png",
+            "https://encyclopedia.warthunder.com/images/germ_sdkfz_234_2.png",
+            "https://encyclopedia.warthunder.com/images/us_m5a1_stuart.png",
+            "https://encyclopedia.warthunder.com/images/us_m5a1_stuart.png",
+        ],
+        l3_1: [
+            "https://encyclopedia.warthunder.com/images/us_m5a1_stuart.png",
+            "https://encyclopedia.warthunder.com/images/germ_sdkfz_234_2.png",
+            "https://encyclopedia.warthunder.com/images/us_m5a1_stuart.png",
+            "https://encyclopedia.warthunder.com/images/us_m5a1_stuart.png",
+        ],
+        l4_1: [ // V
+            "https://encyclopedia.warthunder.com/images/ussr_t_34_85_zis_53.png",
+            "https://encyclopedia.warthunder.com/images/germ_pzkpfw_vi_ausf_e_tiger.png",
+            "https://encyclopedia.warthunder.com/images/f6f-3.png",
+            "https://encyclopedia.warthunder.com/images/bf-109f-4.png",
+        ],
+        l5_1: [
+            "https://encyclopedia.warthunder.com/images/us_m5a1_stuart.png",
+            "https://encyclopedia.warthunder.com/images/germ_sdkfz_234_2.png",
+            "https://encyclopedia.warthunder.com/images/us_m5a1_stuart.png",
+            "https://encyclopedia.warthunder.com/images/us_m5a1_stuart.png",
+        ],
+        l6_1: [
+            "https://encyclopedia.warthunder.com/images/us_m5a1_stuart.png",
+            "https://encyclopedia.warthunder.com/images/germ_sdkfz_234_2.png",
+            "https://encyclopedia.warthunder.com/images/us_m5a1_stuart.png",
+            "https://encyclopedia.warthunder.com/images/us_m5a1_stuart.png",
+        ],
+        l8_2: [ // V
+            "https://encyclopedia.warthunder.com/images/ussr_t_54_1947.png",
+            "https://encyclopedia.warthunder.com/images/germ_pzkpfw_maus.png",
+            "https://encyclopedia.warthunder.com/images/tu-2_postwar_late.png",
+            "https://encyclopedia.warthunder.com/images/a2d.png",
+        ],
+        l8_2_2: [
+            "https://encyclopedia.warthunder.com/images/ussr_t_54_1947.png",
+            "https://encyclopedia.warthunder.com/images/germ_pzkpfw_maus.png",
+            "https://encyclopedia.warthunder.com/images/tu-2_postwar_late.png",
+            "https://encyclopedia.warthunder.com/images/a2d.png",
+        ],
+        l9_2: [
+            "https://encyclopedia.warthunder.com/images/ussr_t_54_1947.png",
+            "https://encyclopedia.warthunder.com/images/germ_pzkpfw_maus.png",
+            "https://encyclopedia.warthunder.com/images/tu-2_postwar_late.png",
+            "https://encyclopedia.warthunder.com/images/a2d.png",
+        ],
+        l10_2: [
+            "https://encyclopedia.warthunder.com/images/ussr_t_54_1947.png",
+            "https://encyclopedia.warthunder.com/images/germ_pzkpfw_maus.png",
+            "https://encyclopedia.warthunder.com/images/tu-2_postwar_late.png",
+            "https://encyclopedia.warthunder.com/images/a2d.png",
+        ],
+    };
+
+let token, clientId;
 try
 {
     // dev
@@ -18,12 +89,13 @@ catch (e)
     clientId = process.env.CLIENTID;
 }
 
-//const { token, clientId, guildId } = require("./config.json");
-
+// Functions from other modules
 const { getLineups } = require("./schedule.js");
 const { getSuggestions } = require("./search.js");
 const { getGuaranteedLineups } = require("./main.js");
+const { hrefOfVehicle } = require("./frontend.js");
 
+// Initialization
 const client = new Client({ intents: [
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMessages,
@@ -32,6 +104,7 @@ const client = new Client({ intents: [
     ] });
 
 let vehicles = null;
+let thumbnail = 7; // 0-3 - bottom, 4-7 - top
 
 client.once(Events.ClientReady, async () =>
 {
@@ -44,12 +117,70 @@ client.once(Events.ClientReady, async () =>
     console.log("Vehicles loaded successfully");
 });
 
+// Events
 client.on(Events.MessageCreate, async (message) => {
-    const ruLineupMsg = message.content.startsWith("!сетап");
-    const enLineupMsg = message.content.startsWith("!lineup");
+    const isSolawk = message.author.id === SOLAWKID;
+    const isInitMessage = message.content === "Приди, о великий искусственный интеллект";
 
-    if (ruLineupMsg) await message.reply({ content: "Бот теперь использует слэш-команды: /сетап, /поиск\nВведите \"/\" и дождитесь появления списка команд" });
-    if (enLineupMsg) await message.reply({ content: "Bot now uses slash-commands: /lineup, /search\nType \"/\" and wait for the command list to appear" });
+    if (isSolawk && isInitMessage)
+    {
+        const msg1 = new EmbedBuilder()
+            .setTitle("И да спустился бот на земли бичарские");
+
+        const botStatusMessage = await message.channel.send({ embeds: [ msg1 ] });
+
+        const msg2 = new EmbedBuilder()
+            .setTitle("И да спустился бот на земли бичарские")
+            .setDescription("И был id сообщения "
+                + botStatusMessage.id.toString() + ", а id канала "
+                + botStatusMessage.channel.id.toString());
+
+        await botStatusMessage.edit({ embeds: [ msg2 ] });
+    }
+});
+
+client.on(Events.InteractionCreate, async (interaction) =>
+{
+    if (!interaction.isButton()) return;
+
+    if (interaction.customId === "searchRu")
+    {
+        if (vehicles == null)
+        {
+            await interaction.reply({
+                content: "Бот только что запустился и не успел загрузить данные о технике, попробуйте снова через несколько секунд",
+                ephemeral: true });
+            return;
+        }
+
+        const modal = new ModalBuilder()
+            .setCustomId('searchModalRu')
+            .setTitle('Поиск техники');
+
+        const nameInput = new TextInputBuilder()
+            .setCustomId('searchNameInput')
+            .setLabel("Введите название техники (или его часть)")
+            .setStyle(TextInputStyle.Short);
+
+        const actionRow = new ActionRowBuilder().addComponents(nameInput);
+        modal.addComponents(actionRow);
+
+        await interaction.showModal(modal);
+    }
+});
+
+client.on(Events.InteractionCreate, async interaction => {
+    if (!interaction.isModalSubmit()) return;
+
+    if (interaction.customId === 'searchModalRu')
+    {
+        const name = interaction.fields.getTextInputValue('searchNameInput');
+
+        const message = await interaction.reply({ embeds: [ await searchFunction(name, false) ], ephemeral: true });
+        setTimeout(async () => {
+            message.delete().then().catch();
+        }, 5 * 60 * 1000);
+    }
 });
 
 const nationsEn =
@@ -80,12 +211,58 @@ const nationsRu =
         israel: "Израиль"
     };
 
-async function lineupFunction(interaction, en)
+async function refreshStatusMessages()
+{
+    for (const msg of STATUSMSGIDS)
+    {
+        const channel = await client.channels.fetch(msg.ch);
+        if (channel == null) continue;
+
+        const message = await channel.messages.fetch(msg.msg);
+        if (message == null) continue;
+
+        message.edit({ content: null, embeds: [ lineupFunction(null, false) ], components: [ menu(false) ] });
+    }
+}
+
+setInterval(async () =>
+{
+    if (vehicles == null) return;
+    thumbnail++;
+    if (thumbnail > 7) thumbnail = 0;
+    await refreshStatusMessages();
+}, 30 * 1000);
+
+function menu(en)
+{
+    if (en)
+    {
+        return new ActionRowBuilder()
+            .addComponents(
+                new ButtonBuilder()
+                    .setCustomId('searchEn')
+                    .setLabel('🔎 Vehicle search')
+                    .setStyle(ButtonStyle.Primary)
+            );
+    }
+    else
+    {
+        return new ActionRowBuilder()
+            .addComponents(
+                new ButtonBuilder()
+                    .setCustomId('searchRu')
+                    .setLabel('🔎 Поиск техники')
+                    .setStyle(ButtonStyle.Primary)
+            );
+    }
+}
+
+function lineupFunction(interaction, en)
 {
     const lineups = getLineups();
 
     // String localization
-    const name = en ? "Lineups" : "Сетапы";
+    const name = en ? "Simulator Battles Lineup Info Board" : "Сводка сетапов симуляторных боёв";
     const availableNow = en ? "Available now" : "Доступны сейчас";
     const availableIn = en ? "In " : "Через ";
     const hours = en ? " h " : " ч ";
@@ -94,9 +271,14 @@ async function lineupFunction(interaction, en)
     const linkDisclaimer = en ? "Clicking a lineup opens the WTLineup website with the list of vehicles" :
         "Нажатие на сетап направляет на веб-сайт WTLineup со списком техники";
 
+    const weekDaysEn = [ "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" ];
+    const weekDaysRu = [ "вс", "пн", "вт", "ср", "чт", "пт", "сб" ];
+    const weekDays = en ? weekDaysEn : weekDaysRu;
+
+    const authors = en ? "by Solawk" : "от Solawk";
+
     const boosty = "[Boosty](https://boosty.to/solawk)";
     const github = "[GitHub](https://github.com/solawk/wtlineup)";
-    const authors = en ? "by Solawk" : "от Solawk";
 
     // Links
     function link(lineup)
@@ -108,15 +290,23 @@ async function lineupFunction(interaction, en)
     let futureLineupsString = "";
     for (let i = 0; i < 5; i++)
     {
-        futureLineupsString += lineups.future[i].date + " - [" + lineups.future[i].b + "](" + link(lineups.future[i].b)
+        futureLineupsString += lineups.future[i].date + " (" + weekDays[lineups.future[i].dayOfWeek] + ")"
+            + " - [" + lineups.future[i].b + "](" + link(lineups.future[i].b)
             + ") & " + "[" + lineups.future[i].t + "](" + link(lineups.future[i].t) + ")";
         if (i < 4) futureLineupsString += "\n";
     }
+
+    // Thumbnail
+    const isBottom = thumbnail < 4;
+    const thumbnailIndex = isBottom ? thumbnail : thumbnail - 4;
+    const property = isBottom ? "l" + lineups.bottomNow : "l" + lineups.topNow;
+    const thumbnailUrl = thumbnails[property][thumbnailIndex];
 
     const msg = new EmbedBuilder()
         .setTitle(name)
         .setDescription(linkDisclaimer)
         .setURL('https://solawk.github.io/wtlineup')
+        .setThumbnail(thumbnailUrl)
         .addFields(
             { name: availableNow,
                 value: "[**" + lineups.bottomNow + "**](" + link(lineups.bottomNow) + ") & " + "[**" + lineups.topNow + "**](" + link(lineups.topNow) + ")"},
@@ -129,28 +319,28 @@ async function lineupFunction(interaction, en)
         )
         .setFooter({ text: authors });
 
-    await interaction.reply({ embeds: [ msg ], ephemeral: true });
+    //await interaction.reply({ embeds: [ msg ], ephemeral: true });
+    return msg;
 }
 
-async function searchFunction(interaction, en)
+function searchFunction(query, en)
 {
-    if (vehicles == null)
-    {
-        await interaction.reply({ content: "Vehicles not loaded in!!! / Список техники не загружен!!!" });
-        return;
-    }
-
-    const query = interaction.options.getString(en ? "name" : "название");
-    const suggestions = getSuggestions(query, vehicles, getGuaranteedLineups);
+    //const query = interaction.options.getString(en ? "name" : "название");
+    const suggestions = getSuggestions(query, vehicles, getGuaranteedLineups, 8);
 
     // String localization
     const name = en ? "Search results - " : "Результаты поиска - ";
     const linkDisclaimer = en ? "Clicking a lineup opens the WTLineup website with the list of vehicles" :
         "Нажатие на сетап направляет на веб-сайт WTLineup со списком техники";
+    const deletingName = en ? "This message will be deleted in 5 minutes" :
+        "Это сообщение будет удалено через 5 минут";
+    const deletingDesc = en ? "If the bot has been restarted in this period of time and the message has not been deleted, delete it manually" :
+        "Если бот перезагружался за это время и оно не удалилось, удалите его самостоятельно";
+
+    const authors = en ? "by Solawk" : "от Solawk";
 
     const boosty = "[Boosty](https://boosty.to/solawk)";
     const github = "[GitHub](https://github.com/solawk/wtlineup)";
-    const authors = en ? "by Solawk" : "от Solawk";
 
     // Links
     function link(lineup)
@@ -173,82 +363,24 @@ async function searchFunction(interaction, en)
             if (i < s.l.length - 1) lineupsString += ", ";
         }
 
+        const vname = ((!en && s.v.ruName !== "") ? s.v.ruName : s.v.enName);
+        lineupsString += "\n[Найти " + vname + " в Google](" + hrefOfVehicle(s.v) + ")";
+
+        //const nameString = "[" + ((!en && s.v.ruName !== "") ? s.v.ruName : s.v.enName) + "](" + hrefOfVehicle(s.v) + ")";
+
         msg.addFields(
-            { name: ((!en && s.v.ruName !== "") ? s.v.ruName : s.v.enName) + " - " + (en ? nationsEn[s.v.nation] : nationsRu[s.v.nation]),
+            { name: vname + " - " + (en ? nationsEn[s.v.nation] : nationsRu[s.v.nation]),
                 value: lineupsString.length > 0 ? lineupsString : "-" }
         );
     }
 
-    msg.addFields({ name: " ", value: boosty + ", " + github });
+    msg.addFields({ name: deletingName, value: deletingDesc });
+    msg.addFields({ name: " ",
+        value: boosty + ", " + github });
 
-    await interaction.reply({ embeds: [ msg ], ephemeral: true });
+    //await interaction.reply({ embeds: [ msg ], ephemeral: true });
+
+    return msg;
 }
-
-const enLineupCmd = new SlashCommandBuilder()
-    .setName("lineup")
-    .setDescription("Simulator battles lineup information");
-const ruLineupCmd = new SlashCommandBuilder()
-    .setName("сетап")
-    .setDescription("Информация о сетапах симуляторных боёв");
-
-const enSearchCmd = new SlashCommandBuilder()
-    .setName("search")
-    .addStringOption(option =>
-        option
-            .setName('name')
-            .setDescription('Vehicle name'))
-    .setDescription("Query lineups by the vehicle name");
-const ruSearchCmd = new SlashCommandBuilder()
-    .setName("поиск")
-    .addStringOption(option =>
-        option
-            .setName('название')
-            .setDescription('Название техники'))
-    .setDescription("Запрос сетапов по названию техники");
-
-client.on(Events.InteractionCreate, async (interaction) =>
-{
-    if (!interaction.isChatInputCommand()) return;
-
-    switch (interaction.commandName)
-    {
-        case "lineup":
-            await lineupFunction(interaction, true);
-            return;
-
-        case "сетап":
-            await lineupFunction(interaction, false);
-            return;
-
-        case "search":
-            await searchFunction(interaction, true);
-            return;
-
-        case "поиск":
-            await searchFunction(interaction, false);
-            return;
-
-        default:
-            await interaction.reply({ content: "Команда не распознана / Invalid command", ephemeral: true });
-            return;
-    }
-});
 
 client.login(token);
-
-const rest = new REST().setToken(token);
-registerCommands();
-
-async function registerCommands()
-{
-    try
-    {
-        const commands = [ enLineupCmd, ruLineupCmd, enSearchCmd, ruSearchCmd ];
-        await rest.put(Routes.applicationCommands(clientId), { body: commands });
-        console.log("Global commands registered successfully");
-    }
-    catch (e)
-    {
-        console.log(e);
-    }
-}

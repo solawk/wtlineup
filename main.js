@@ -63,6 +63,7 @@ if (typeof exports === 'undefined')
         if (lastUpdate == null)
         {
             localStorage.setItem("lastUpdate", Date.now().toString());
+            refreshData();
         }
         else if (Date.now() - parseInt(lastUpdate) > 1000 * 60 * 60 * 12)
         {

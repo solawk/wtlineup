@@ -459,3 +459,10 @@ function toggleMenu()
         button.innerHTML = "<";
     }
 }
+
+// Bot integration
+
+(function(exports)
+{
+    exports.hrefOfVehicle = hrefOfVehicle
+})(typeof exports === 'undefined' ? this['frontend'] = {} : exports);

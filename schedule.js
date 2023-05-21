@@ -59,7 +59,7 @@ function getLineups()
         const tLineup = topLineups[top];
         const dateString = day.toString() + "." + month.toString();
 
-        futureLineups.push({ b: bLineup, t: tLineup, date: dateString })
+        futureLineups.push({ b: bLineup, t: tLineup, date: dateString, dayOfWeek: date.getDay() })
     }
 
     return { bottomNow: bottomLineupNow, topNow: topLineupNow,
