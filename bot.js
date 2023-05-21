@@ -48,8 +48,8 @@ client.on(Events.MessageCreate, async (message) => {
     const ruLineupMsg = message.content.startsWith("!сетап");
     const enLineupMsg = message.content.startsWith("!lineup");
 
-    if (ruLineupMsg) await message.reply({ content: "Бот теперь использует слэш-команды: /сетап, /поиск" });
-    if (enLineupMsg) await message.reply({ content: "Bot now uses slash-commands: /lineup, /search" });
+    if (ruLineupMsg) await message.reply({ content: "Бот теперь использует слэш-команды: /сетап, /поиск\nВведите \"/\" и дождитесь появления списка команд" });
+    if (enLineupMsg) await message.reply({ content: "Bot now uses slash-commands: /lineup, /search\nType \"/\" and wait for the command list to appear" });
 });
 
 const nationsEn =
