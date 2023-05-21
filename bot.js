@@ -56,6 +56,34 @@ client.on(Events.MessageCreate, async (message) => {
     if (enLineupMsg) await message.reply({ content: "Bot now uses slash-commands: /lineup, /search" });
 });
 
+const nationsEn =
+    {
+        usa: "USA",
+        germany: "Germany",
+        ussr: "USSR",
+        britain: "Britain",
+        france: "France",
+        italy: "Italy",
+        japan: "Japan",
+        china: "China",
+        sweden: "Sweden",
+        israel: "Israel"
+    };
+
+const nationsRu =
+    {
+        usa: "США",
+        germany: "Германия",
+        ussr: "СССР",
+        britain: "Великобритания",
+        france: "Франция",
+        italy: "Италия",
+        japan: "Япония",
+        china: "Китай",
+        sweden: "Швеция",
+        israel: "Израиль"
+    };
+
 async function lineupFunction(interaction, en)
 {
     const lineups = getLineups();
@@ -69,6 +97,9 @@ async function lineupFunction(interaction, en)
     const future = en ? "Future lineups" : "Будущие сетапы";
     const linkDisclaimer = en ? "Clicking a lineup opens the WTLineup website with the list of vehicles" :
         "Нажатие на сетап направляет на веб-сайт WTLineup со списком техники";
+
+    const boosty = "[Boosty](https://boosty.to/solawk)";
+    const github = "[GitHub](https://github.com/solawk/wtlineup)";
     const authors = en ? "by Solawk" : "от Solawk";
 
     // Links
@@ -76,9 +107,6 @@ async function lineupFunction(interaction, en)
     {
         return "https://solawk.github.io/wtlineup/?select=" + lineup;
     }
-
-    const boosty = "[Boosty](https://boosty.to/solawk)";
-    const github = "[GitHub](https://github.com/solawk/wtlineup)";
 
     // Future lineups
     let futureLineupsString = "";
@@ -123,6 +151,9 @@ async function searchFunction(interaction, en)
     const name = en ? "Search results - " : "Результаты поиска - ";
     const linkDisclaimer = en ? "Clicking a lineup opens the WTLineup website with the list of vehicles" :
         "Нажатие на сетап направляет на веб-сайт WTLineup со списком техники";
+
+    const boosty = "[Boosty](https://boosty.to/solawk)";
+    const github = "[GitHub](https://github.com/solawk/wtlineup)";
     const authors = en ? "by Solawk" : "от Solawk";
 
     // Links
@@ -130,9 +161,6 @@ async function searchFunction(interaction, en)
     {
         return "https://solawk.github.io/wtlineup/?select=" + lineup;
     }
-
-    const boosty = "[Boosty](https://boosty.to/solawk)";
-    const github = "[GitHub](https://github.com/solawk/wtlineup)";
 
     const msg = new EmbedBuilder()
         .setTitle(name + query)
@@ -150,7 +178,7 @@ async function searchFunction(interaction, en)
         }
 
         msg.addFields(
-            { name: (!en && s.v.ruName !== "") ? s.v.ruName : s.v.enName,
+            { name: ((!en && s.v.ruName !== "") ? s.v.ruName : s.v.enName) + " - " + (en ? nationsEn[s.v.nation] : nationsRu[s.v.nation]),
                 value: lineupsString.length > 0 ? lineupsString : "-" }
         );
     }
