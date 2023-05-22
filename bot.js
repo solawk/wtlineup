@@ -392,6 +392,7 @@ function searchFunction(query, en)
 
     // String localization
     const name = en ? "Search results - " : "Результаты поиска - ";
+    const noneFound = en ? "No matching vehicles" : "Подходящей техники не найдено";
     const linkDisclaimer = en ? "Clicking a lineup opens the WTLineup website with the list of vehicles" :
         "Нажатие на сетап направляет на веб-сайт WTLineup со списком техники";
     const deletingName = en ? "This message will be deleted in 5 minutes" :
@@ -479,6 +480,11 @@ function searchFunction(query, en)
             { name: vname + " - " + (en ? nationsEn[s.v.nation] : nationsRu[s.v.nation]),
                 value: lineupsString.length > 0 ? lineupsString : "-" }
         );
+    }
+
+    if (suggestions.length === 0)
+    {
+        msg.addFields({ name: noneFound, value: "** **" });
     }
 
     msg.addFields({ name: deletingName, value: deletingDesc });
