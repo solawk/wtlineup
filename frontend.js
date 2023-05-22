@@ -436,7 +436,7 @@ function getClass(cl)
 function hrefOfVehicle(v)
 {
     return "https://www.google.com/search?q=War+Thunder+"
-        + v.enName.toString().replace(" ", "+") + "+" + v.nation.toString();
+        + v.enName.toString().replaceAll(" ", "+") + "+" + v.nation.toString();
 }
 
 let isMenuOpen = false;

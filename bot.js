@@ -7,7 +7,8 @@ const fetch = require("cross-fetch");
 const SOLAWKID = "147774917071339520";
 const STATUSMSGIDS =
     [
-        { msg: "1109929052124487840", ch: "1109855719307620512" }
+        { msg: "1109929052124487840", ch: "1109855719307620512" },
+        { msg: "1110079898975993856", ch: "1109917653075775600" },
     ];
 
 const thumbnails =
