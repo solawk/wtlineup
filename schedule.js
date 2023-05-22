@@ -7,6 +7,56 @@ const topLineups = [ "9_2", "8_2", "10_2", "8_2_2" ];
 const whenBottomLineups = [ "", "", "", "", "", "" ]; // "now", "today" or number of days to change (1 = tomorrow, 2 = after tomorrow etc.)
 const whenTopLineups = [ "", "", "", "" ];
 
+const aviaBrackets =
+    // Lineups
+    [
+        // Diapasons
+        [
+            { min: "1.0", max: "2.0" },
+            { min: "2.3", max: "3.7" },
+            { min: "4.0", max: "5.0" },
+            { min: "5.3", max: "6.3" },
+            { min: "6.7", max: "7.7" },
+            { min: "8.0", max: "9.0" },
+            { min: "9.3", max: "10.3" },
+            { min: "10.7", max: "11.3" },
+            { min: "11.7", max: "12.0" },
+        ],
+        [
+            { min: "1.0", max: "2.0" },
+            { min: "2.3", max: "3.3" },
+            { min: "3.7", max: "4.7" },
+            { min: "5.0", max: "6.0" },
+            { min: "6.3", max: "7.3" },
+            { min: "7.7", max: "8.7" },
+            { min: "9.0", max: "10.0" },
+            { min: "10.3", max: "11.0" },
+            { min: "11.3", max: "12.0" },
+        ],
+        [
+            { min: "1.0", max: "1.7" },
+            { min: "2.0", max: "3.0" },
+            { min: "3.3", max: "4.3" },
+            { min: "4.7", max: "5.7" },
+            { min: "6.0", max: "7.0" },
+            { min: "7.3", max: "8.3" },
+            { min: "8.7", max: "9.7" },
+            { min: "10.0", max: "10.7" },
+            { min: "11.0", max: "12.0" },
+        ],
+        [
+            { min: "1.0", max: "1.7" },
+            { min: "2.0", max: "2.7" },
+            { min: "3.0", max: "4.0" },
+            { min: "4.3", max: "5.3" },
+            { min: "5.7", max: "6.7" },
+            { min: "7.0", max: "8.0" },
+            { min: "8.3", max: "9.3" },
+            { min: "9.7", max: "10.7" },
+            { min: "11.0", max: "12.0" },
+        ],
+    ];
+
 function getLineups()
 {
     // Now and next
@@ -80,10 +130,22 @@ function getLineups()
         if (whenTL[top] === "") whenTL[top] = isNextToday ? 1 + d : 2 + d;
     }
 
+    // Squadron
+    const squadron_diff = nowDateMs - squadronResetDate;
+    let squadron_diffInDaysUnfloored = squadron_diff / (1000 * 60 * 60 * 24);
+    if (squadron_diffInDaysUnfloored < 0) squadron_diffInDaysUnfloored += 3;
+    const squadron_diffInDaysUntilReset = 3 - (squadron_diffInDaysUnfloored % 3);
+
+    const squadron_totalMinutesRemaining = Math.floor(squadron_diffInDaysUntilReset * 24 * 60);
+    const squadron_daysRemaining = Math.floor(squadron_totalMinutesRemaining / (24 * 60));
+    const squadron_hoursRemaining = Math.floor((squadron_totalMinutesRemaining - (squadron_daysRemaining * 24 * 60)) / 60);
+    const squadron_minutesRemaining = squadron_totalMinutesRemaining - (squadron_daysRemaining * 24 * 60) - (squadron_hoursRemaining * 60);
+
     return { bottomNow: bottomLineupNow, topNow: topLineupNow,
         bottomNext: bottomLineupNext, topNext: topLineupNext,
         nextHours: nextHours, nextMinutes: nextMinutes,
-        future: futureLineups, whenBL: whenBL, whenTL: whenTL };
+        future: futureLineups, whenBL: whenBL, whenTL: whenTL,
+        sqD: squadron_daysRemaining, sqH: squadron_hoursRemaining, sqM: squadron_minutesRemaining };
 }
 
 function setSchedule()

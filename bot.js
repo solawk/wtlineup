@@ -6,6 +6,7 @@ const fetch = require("cross-fetch");
 
 const SOLAWKID = "147774917071339520";
 let STATUSMSGIDS;
+let REFRESHTIME;
 
 const thumbnails =
     {
@@ -83,6 +84,7 @@ try
         [
             { msg: "1109855599149195304", ch: "1100833282653966407" },
         ];
+    REFRESHTIME = 3;
 }
 catch (e)
 {
@@ -95,6 +97,7 @@ catch (e)
             { msg: "1109929052124487840", ch: "1109855719307620512" },
             { msg: "1110079898975993856", ch: "1109917653075775600" },
         ];
+    REFRESHTIME = 30;
 }
 
 // Functions from other modules
@@ -241,7 +244,7 @@ setInterval(async () =>
     thumbnail++;
     if (thumbnail > 7) thumbnail = 0;
     await refreshStatusMessages();
-}, 30 * 1000);
+}, REFRESHTIME * 1000);
 
 function menu(en)
 {
@@ -278,11 +281,16 @@ function lineupFunction(interaction, en)
     const name = en ? "Simulator Battles Lineup Info Board" : "Сводка сетапов симуляторных боёв";
     const availableNow = en ? "Available now" : "Доступны сейчас";
     const availableIn = en ? "In " : "Через ";
+    const days = en ? " d " : " д ";
     const hours = en ? " h " : " ч ";
     const minutes = en ? " min" : " мин";
     const future = en ? "Future lineups" : "Будущие сетапы";
+    const squadron = en ? "**Squadron activity** reset in" : "Сброс **полковой активности** через";
     const linkDisclaimer = en ? "Clicking a lineup opens the WTLineup website with the list of vehicles" :
         "Нажатие на сетап направляет на веб-сайт WTLineup со списком техники";
+    const firstDay = en ? " (1st day of the cycle)" : " (1-й день цикла)";
+    const secondDay = en ? " (2nd day of the cycle)" : " (2-й день цикла)";
+    const thirdDay = en ? " (3rd day of the cycle)" : " (3-й день цикла)";
 
     const weekDaysEn = [ "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" ];
     const weekDaysRu = [ "вс", "пн", "вт", "ср", "чт", "пт", "сб" ];
@@ -309,6 +317,16 @@ function lineupFunction(interaction, en)
         if (i < 4) futureLineupsString += "\n";
     }
 
+    // Squadron
+    let squadronResetString = lineups.sqD + days + lineups.sqH + hours + lineups.sqM + minutes;
+    let cycleDay;
+    switch (lineups.sqD)
+    {
+        case 2: cycleDay = firstDay; break;
+        case 1: cycleDay = secondDay; break;
+        case 0: cycleDay = thirdDay; break;
+    }
+
     // Thumbnail
     const isBottom = thumbnail < 4;
     const thumbnailIndex = isBottom ? thumbnail : thumbnail - 4;
@@ -321,12 +339,22 @@ function lineupFunction(interaction, en)
         .setURL('https://solawk.github.io/wtlineup')
         .setThumbnail(thumbnailUrl)
         .addFields(
+            {
+                name: "**Совместные СБ**", value: "** **"
+            },
             { name: availableNow,
-                value: "[**" + lineups.bottomNow + "**](" + link(lineups.bottomNow) + ") & " + "[**" + lineups.topNow + "**](" + link(lineups.topNow) + ")"},
+                value: "[**" + lineups.bottomNow + "**](" + link(lineups.bottomNow) + ") & " + "[**" + lineups.topNow + "**](" + link(lineups.topNow) + ")",
+                inline: true },
             { name: availableIn + lineups.nextHours + hours + lineups.nextMinutes + minutes,
-                value: "[**" + lineups.bottomNext + "**](" + link(lineups.bottomNext) + ") & " + "[**" + lineups.topNext + "**](" + link(lineups.topNext) + ")" },
+                value: "[**" + lineups.bottomNext + "**](" + link(lineups.bottomNext) + ") & " + "[**" + lineups.topNext + "**](" + link(lineups.topNext) + ")",
+                inline: true },
+            {
+                name: "** **", value: "** **"
+            },
             { name: future,
                 value: futureLineupsString },
+            { name: squadron,
+                value: squadronResetString + cycleDay },
             { name: " ",
                 value: boosty + ", " + github }
         )
