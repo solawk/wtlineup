@@ -1,5 +1,6 @@
 const keyDate = new Date(Date.UTC(2023, 3, 10, 11));
 const squadronResetDate = new Date(Date.UTC(2023, 3, 15, 0));
+const aviaKeyDate = new Date(Date.UTC(2023, 4, 23, 8))
 
 const bottomLineups = [ "6_1", "1_1", "3_1", "2_1", "5_1", "4_1" ];
 const topLineups = [ "9_2", "8_2", "10_2", "8_2_2" ];
@@ -141,11 +142,33 @@ function getLineups()
     const squadron_hoursRemaining = Math.floor((squadron_totalMinutesRemaining - (squadron_daysRemaining * 24 * 60)) / 60);
     const squadron_minutesRemaining = squadron_totalMinutesRemaining - (squadron_daysRemaining * 24 * 60) - (squadron_hoursRemaining * 60);
 
+    // Avia
+    const aviaDiff = nowDateMs - aviaKeyDate;
+    const aviaDiffInPairsUnfloored = aviaDiff / (1000 * 60 * 60 * 48);
+    const aviaDiffInPairs = Math.floor(aviaDiffInPairsUnfloored);
+
+    const aviaTotalMsRemaining = ((aviaDiffInPairs + 1) - aviaDiffInPairsUnfloored) * 48 * 60 * 60 * 1000;
+    const aviaTotalMinutesRemaining = Math.floor(((aviaDiffInPairs + 1) - aviaDiffInPairsUnfloored) * 48 * 60);
+    const aviaDaysRemaining = Math.floor(aviaTotalMinutesRemaining / (24 * 60));
+    const aviaHoursRemaining = Math.floor(aviaTotalMinutesRemaining / 60) - (aviaDaysRemaining * 24);
+    const aviaMinutesRemaining = aviaTotalMinutesRemaining - (aviaHoursRemaining * 60) - (aviaDaysRemaining * 24 * 60);
+
+    let aviaDiffInPairsModBrackets = aviaDiffInPairs % aviaBrackets.length;
+    if (aviaDiffInPairsModBrackets < 0) aviaDiffInPairsModBrackets += aviaBrackets.length;
+
+    const aviaIndexOfBracketNow = aviaDiffInPairsModBrackets;
+    const aviaIndexOfBracketNext = (aviaDiffInPairsModBrackets + 1) % aviaBrackets.length;
+
+    const aviaBracketNow = aviaBrackets[aviaIndexOfBracketNow];
+    const aviaBracketNext = aviaBrackets[aviaIndexOfBracketNext];
+
     return { bottomNow: bottomLineupNow, topNow: topLineupNow,
         bottomNext: bottomLineupNext, topNext: topLineupNext,
         nextHours: nextHours, nextMinutes: nextMinutes,
         future: futureLineups, whenBL: whenBL, whenTL: whenTL,
-        sqD: squadron_daysRemaining, sqH: squadron_hoursRemaining, sqM: squadron_minutesRemaining };
+        sqD: squadron_daysRemaining, sqH: squadron_hoursRemaining, sqM: squadron_minutesRemaining,
+        aviaNow: aviaBracketNow, aviaNext: aviaBracketNext,
+        aviaNextDays: aviaDaysRemaining, aviaNextHours: aviaHoursRemaining, aviaNextMinutes: aviaMinutesRemaining };
 }
 
 function setSchedule()

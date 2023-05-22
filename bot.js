@@ -279,6 +279,8 @@ function lineupFunction(interaction, en)
 
     // String localization
     const name = en ? "Simulator Battles Lineup Info Board" : "Сводка сетапов симуляторных боёв";
+    const gsb = en ? "**Ground SB**" : "**Совместные СБ**";
+    const asb = en ? "**Enduring Confrontation**" : "**Противостояние**";
     const availableNow = en ? "Available now" : "Доступны сейчас";
     const availableIn = en ? "In " : "Через ";
     const days = en ? " d " : " д ";
@@ -305,6 +307,19 @@ function lineupFunction(interaction, en)
     function link(lineup)
     {
         return "https://solawk.github.io/wtlineup/?select=" + lineup;
+    }
+
+    // Avia brackets
+    let aviaNowString = "";
+    for (let i = 0; i < lineups.aviaNow.length; i++)
+    {
+        aviaNowString += lineups.aviaNow[i].min.toString() + " - " + lineups.aviaNow[i].max.toString() + "\n";
+    }
+
+    let aviaNextString = "";
+    for (let i = 0; i < lineups.aviaNext.length; i++)
+    {
+        aviaNextString += lineups.aviaNext[i].min.toString() + " - " + lineups.aviaNext[i].max.toString() + "\n";
     }
 
     // Future lineups
@@ -340,7 +355,7 @@ function lineupFunction(interaction, en)
         .setThumbnail(thumbnailUrl)
         .addFields(
             {
-                name: "**Совместные СБ**", value: "** **"
+                name: gsb, value: "** **"
             },
             { name: availableNow,
                 value: "[**" + lineups.bottomNow + "**](" + link(lineups.bottomNow) + ") & " + "[**" + lineups.topNow + "**](" + link(lineups.topNow) + ")",
@@ -348,11 +363,17 @@ function lineupFunction(interaction, en)
             { name: availableIn + lineups.nextHours + hours + lineups.nextMinutes + minutes,
                 value: "[**" + lineups.bottomNext + "**](" + link(lineups.bottomNext) + ") & " + "[**" + lineups.topNext + "**](" + link(lineups.topNext) + ")",
                 inline: true },
-            {
-                name: "** **", value: "** **"
-            },
             { name: future,
                 value: futureLineupsString },
+            {
+                name: asb, value: "** **"
+            },
+            { name: availableNow,
+                value: aviaNowString,
+                inline: true },
+            { name: availableIn + lineups.aviaNextDays + days + lineups.aviaNextHours + hours + lineups.aviaNextMinutes + minutes,
+                value: aviaNextString,
+                inline: true },
             { name: squadron,
                 value: squadronResetString + cycleDay },
             { name: " ",
