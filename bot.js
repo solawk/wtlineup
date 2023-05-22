@@ -313,13 +313,13 @@ function lineupFunction(interaction, en)
     let aviaNowString = "";
     for (let i = 0; i < lineups.aviaNow.length; i++)
     {
-        aviaNowString += lineups.aviaNow[i].min.toString() + " - " + lineups.aviaNow[i].max.toString() + "\n";
+        aviaNowString += lineups.aviaNow[i].min.toString() + " - " + lineups.aviaNow[i].max.toString() + (i % 3 === 2 ? "\n" : "‎ ‎ ‎ ");
     }
 
     let aviaNextString = "";
     for (let i = 0; i < lineups.aviaNext.length; i++)
     {
-        aviaNextString += lineups.aviaNext[i].min.toString() + " - " + lineups.aviaNext[i].max.toString() + "\n";
+        aviaNextString += lineups.aviaNext[i].min.toString() + " - " + lineups.aviaNext[i].max.toString() + (i % 3 === 2 ? "\n" : "‎ ‎ ‎ ");
     }
 
     // Future lineups
