@@ -477,7 +477,7 @@ function searchFunction(query, en)
         //const nameString = "[" + ((!en && s.v.ruName !== "") ? s.v.ruName : s.v.enName) + "](" + hrefOfVehicle(s.v) + ")";
 
         msg.addFields(
-            { name: vname + " - " + (en ? nationsEn[s.v.nation] : nationsRu[s.v.nation]),
+            { name: vname + " - " + (en ? nationsEn[s.v.nation] : nationsRu[s.v.nation]) + ", " + s.v.br.toString(),
                 value: lineupsString.length > 0 ? lineupsString : "-" }
         );
     }
