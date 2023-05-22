@@ -5,11 +5,7 @@ const { Client, Events, GatewayIntentBits, EmbedBuilder, ActionRowBuilder,
 const fetch = require("cross-fetch");
 
 const SOLAWKID = "147774917071339520";
-const STATUSMSGIDS =
-    [
-        { msg: "1109929052124487840", ch: "1109855719307620512" },
-        { msg: "1110079898975993856", ch: "1109917653075775600" },
-    ];
+let STATUSMSGIDS;
 
 const thumbnails =
     {
@@ -82,16 +78,27 @@ try
     const configFile = require("./config.json");
     token = configFile.token;
     clientId = configFile.clientId;
+
+    STATUSMSGIDS =
+        [
+            { msg: "1109855599149195304", ch: "1100833282653966407" },
+        ];
 }
 catch (e)
 {
     // prod
     token = process.env.TOKEN;
     clientId = process.env.CLIENTID;
+
+    STATUSMSGIDS =
+        [
+            { msg: "1109929052124487840", ch: "1109855719307620512" },
+            { msg: "1110079898975993856", ch: "1109917653075775600" },
+        ];
 }
 
 // Functions from other modules
-const { getLineups } = require("./schedule.js");
+const { getLineups, BL, TL } = require("./schedule.js");
 const { getSuggestions } = require("./search.js");
 const { getGuaranteedLineups } = require("./main.js");
 const { hrefOfVehicle } = require("./frontend.js");
@@ -106,6 +113,8 @@ const client = new Client({ intents: [
 
 let vehicles = null;
 let thumbnail = 7; // 0-3 - bottom, 4-7 - top
+let whenBL = [ "", "", "", "", "", "" ];
+let whenTL = [ "", "", "", "" ];
 
 client.once(Events.ClientReady, async () =>
 {
@@ -262,6 +271,9 @@ function lineupFunction(interaction, en)
 {
     const lineups = getLineups();
 
+    whenBL = lineups.whenBL;
+    whenTL = lineups.whenTL;
+
     // String localization
     const name = en ? "Simulator Battles Lineup Info Board" : "Сводка сетапов симуляторных боёв";
     const availableNow = en ? "Available now" : "Доступны сейчас";
@@ -327,7 +339,7 @@ function lineupFunction(interaction, en)
 function searchFunction(query, en)
 {
     //const query = interaction.options.getString(en ? "name" : "название");
-    const suggestions = getSuggestions(query, vehicles, getGuaranteedLineups, 8);
+    const suggestions = getSuggestions(query, vehicles, getGuaranteedLineups, 10);
 
     // String localization
     const name = en ? "Search results - " : "Результаты поиска - ";
@@ -361,7 +373,52 @@ function searchFunction(query, en)
         for (let i = 0; i < s.l.length; i++)
         {
             lineupsString += "[" + s.l[i] + "](" + link(s.l[i]) + ")";
-            if (i < s.l.length - 1) lineupsString += ", ";
+
+            // Day
+            const isBottom = s.l[i].endsWith("1");
+            const indexOfLineup = isBottom ? BL.indexOf(s.l[i]) : TL.indexOf(s.l[i]);
+            const when = isBottom ? whenBL[indexOfLineup] : whenTL[indexOfLineup];
+
+            const whenRu =
+                {
+                    whenNow: "доступен сейчас!",
+                    whenToday: "будет позже сегодня",
+                    whenTomorrow: "будет завтра",
+                    whenAfterTomorrow: "будет послезавтра",
+                    whenAfterDaysBefore: "будет через ",
+                    whenAfterDaysAfter: " д",
+                };
+
+            const whenEn =
+                {
+                    whenNow: "available now!",
+                    whenToday: "available later today",
+                    whenTomorrow: "available tomorrow",
+                    whenAfterTomorrow: "available after tomorrow",
+                    whenAfterDaysBefore: "available after ",
+                    whenAfterDaysAfter: " days",
+                };
+
+            if (when !== "")
+            {
+                let whenString = " ("
+                switch (when)
+                {
+                    case "now": whenString += en ? whenEn.whenNow : whenRu.whenNow; break;
+                    case "today": whenString += en ? whenEn.whenToday : whenRu.whenToday; break;
+                    case 1: whenString += en ? whenEn.whenTomorrow : whenRu.whenTomorrow; break;
+                    case 2: whenString += en ? whenEn.whenAfterTomorrow : whenRu.whenAfterTomorrow; break;
+
+                    default:
+                        whenString += (en ? whenEn.whenAfterDaysBefore : whenRu.whenAfterDaysBefore)
+                            + (when - 1).toString() + (en ? whenEn.whenAfterDaysAfter : whenRu.whenAfterDaysAfter);
+                        break;
+                }
+                whenString += ")";
+                lineupsString += whenString;
+            }
+
+            if (i < s.l.length - 1) lineupsString += "\n";
         }
 
         const vname = ((!en && s.v.ruName !== "") ? s.v.ruName : s.v.enName);

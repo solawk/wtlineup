@@ -62,10 +62,28 @@ function getLineups()
         futureLineups.push({ b: bLineup, t: tLineup, date: dateString, dayOfWeek: date.getDay() })
     }
 
+    // Search days
+    const whenBL = [ "", "", "", "", "", "" ]; // "now", "today" or number of days to change (1 = tomorrow, 2 = after tomorrow etc.)
+    const whenTL = [ "", "", "", "" ];
+    whenBL[indexOfBottomLineupNow] = "now";
+    whenTL[indexOfTopLineupNow] = "now";
+    const nowDate = new Date();
+    const nextDate = new Date(Date.now() + totalMsRemaining);
+    const isNextToday = nowDate.getHours() < nextDate.getHours();
+    whenBL[indexOfBottomLineupNext] = isNextToday ? "today" : 1;
+    whenTL[indexOfTopLineupNext] = isNextToday ? "today" : 1;
+    for (let d = 0; d < 5; d++)
+    {
+        const bottom = (diffInDaysModBottom + 2 + d) % bottomLineups.length;
+        const top = (diffInDaysModTop + 2 + d) % topLineups.length;
+        if (whenBL[bottom] === "") whenBL[bottom] = isNextToday ? 1 + d : 2 + d;
+        if (whenTL[top] === "") whenTL[top] = isNextToday ? 1 + d : 2 + d;
+    }
+
     return { bottomNow: bottomLineupNow, topNow: topLineupNow,
         bottomNext: bottomLineupNext, topNext: topLineupNext,
         nextHours: nextHours, nextMinutes: nextMinutes,
-        future: futureLineups};
+        future: futureLineups, whenBL: whenBL, whenTL: whenTL };
 }
 
 function setSchedule()
@@ -229,5 +247,7 @@ function toggleFuture()
 
 (function(exports)
 {
-    exports.getLineups = getLineups
+    exports.getLineups = getLineups;
+    exports.BL = bottomLineups;
+    exports.TL = topLineups
 })(typeof exports === 'undefined' ? this['schedule'] = {} : exports);
