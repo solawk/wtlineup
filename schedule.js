@@ -5,8 +5,8 @@ const aviaKeyDate = new Date(Date.UTC(2023, 4, 23, 8))
 const bottomLineups = [ "6_1", "1_1", "3_1", "2_1", "5_1", "4_1" ];
 const topLineups = [ "9_2", "8_2", "10_2", "8_2_2" ];
 
-const whenBottomLineups = [ "", "", "", "", "", "" ]; // "now", "today" or number of days to change (1 = tomorrow, 2 = after tomorrow etc.)
-const whenTopLineups = [ "", "", "", "" ];
+let whenBottomLineups = [ "", "", "", "", "", "" ]; // "now", "today" or number of days to change (1 = tomorrow, 2 = after tomorrow etc.)
+let whenTopLineups = [ "", "", "", "" ];
 
 const aviaBrackets =
     // Lineups
@@ -173,92 +173,19 @@ function getLineups()
 
 function setSchedule()
 {
+    const scheduleData = getLineups();
+
     // Lineups
-    const nowDateMs = Date.now();
+    el("sched_currentBottom").innerHTML = scheduleData.bottomNow;
+    el("sched_currentTop").innerHTML = scheduleData.topNow;
 
-    const diff = nowDateMs - keyDate;
-    const diffInDaysUnfloored = diff / (1000 * 60 * 60 * 24);
-    const diffInDays = Math.floor(diffInDaysUnfloored);
+    el("sched_nextBottom").innerHTML = scheduleData.bottomNext;
+    el("sched_nextTop").innerHTML = scheduleData.topNext;
 
-    const totalMsRemaining = ((diffInDays + 1) - diffInDaysUnfloored) * 24 * 60 * 60 * 1000;
-    const totalMinutesRemaining = Math.floor(((diffInDays + 1) - diffInDaysUnfloored) * 24 * 60);
-    const hoursRemaining = Math.floor(totalMinutesRemaining / 60);
-    const minutesRemaining = totalMinutesRemaining - (hoursRemaining * 60);
-
-    let diffInDaysModBottom = diffInDays % bottomLineups.length;
-    if (diffInDaysModBottom < 0) diffInDaysModBottom += bottomLineups.length;
-
-    let diffInDaysModTop = diffInDays % topLineups.length;
-    if (diffInDaysModTop < 0) diffInDaysModTop += topLineups.length;
-
-    const indexOfBottomLineupNext = (diffInDaysModBottom + 1) % bottomLineups.length;
-    const indexOfTopLineupNext = (diffInDaysModTop + 1) % topLineups.length;
-
-    const indexOfBottomLineupNow = diffInDaysModBottom;
-    const indexOfTopLineupNow = diffInDaysModTop;
-
-    const bottomLineupNow = bottomLineups[indexOfBottomLineupNow];
-    const topLineupNow = topLineups[indexOfTopLineupNow];
-
-    whenBottomLineups[indexOfBottomLineupNow] = "now";
-    whenTopLineups[indexOfTopLineupNow] = "now";
-
-    const bottomLineupNext = bottomLineups[indexOfBottomLineupNext];
-    const topLineupNext = topLineups[indexOfTopLineupNext];
-
-    const nowDate = new Date();
-    const nextDate = new Date(Date.now() + totalMsRemaining);
-    const isNextToday = nowDate.getHours() < nextDate.getHours();
-
-    whenBottomLineups[indexOfBottomLineupNext] = isNextToday ? "today" : 1;
-    whenTopLineups[indexOfTopLineupNext] = isNextToday ? "today" : 1;
-
-    el("sched_currentBottom").innerHTML = bottomLineupNow;
-    el("sched_currentTop").innerHTML = topLineupNow;
-
-    el("sched_nextBottom").innerHTML = bottomLineupNext;
-    el("sched_nextTop").innerHTML = topLineupNext;
-
-    el("sched_hours").innerHTML = hoursRemaining.toString();
-    el("sched_minutes").innerHTML = minutesRemaining.toString();
+    el("sched_hours").innerHTML = scheduleData.nextHours.toString();
+    el("sched_minutes").innerHTML = scheduleData.nextMinutes.toString();
 
     // Squadron
-
-    const squadron_diff = nowDateMs - squadronResetDate;
-    let squadron_diffInDaysUnfloored = squadron_diff / (1000 * 60 * 60 * 24);
-    if (squadron_diffInDaysUnfloored < 0) squadron_diffInDaysUnfloored += 3;
-    const squadron_diffInDaysUntilReset = 3 - (squadron_diffInDaysUnfloored % 3);
-
-    const squadron_totalMinutesRemaining = Math.floor(squadron_diffInDaysUntilReset * 24 * 60);
-    const squadron_daysRemaining = Math.floor(squadron_totalMinutesRemaining / (24 * 60));
-    const squadron_hoursRemaining = Math.floor((squadron_totalMinutesRemaining - (squadron_daysRemaining * 24 * 60)) / 60);
-    const squadron_minutesRemaining = squadron_totalMinutesRemaining - (squadron_daysRemaining * 24 * 60) - (squadron_hoursRemaining * 60);
-
-    // Future days
-
-    const nextRotation = nowDateMs + ((diffInDays + 1) - diffInDaysUnfloored) * 24 * 60 * 60 * 1000;
-    const futureDiv = el("scheduleFuture");
-    futureDiv.innerHTML = "";
-    for (let d = 0; d < 5; d++)
-    {
-        const date = new Date(nextRotation + (24 * 60 * 60 * 1000 * (1 + d)));
-        const day = date.getDate().toString();
-        let month = (date.getMonth() + 1).toString();
-        if (month.length === 1) month = '0' + month;
-
-        const bottom = (diffInDaysModBottom + 2 + d) % bottomLineups.length;
-        const top = (diffInDaysModTop + 2 + d) % topLineups.length;
-
-        const bLineup = bottomLineups[bottom];
-        const tLineup = topLineups[top];
-        const dateString = day.toString() + "." + month.toString();
-
-        futureDiv.innerHTML += "<span style='white-space: nowrap'>[<a class='undecoratedLinks' onclick='clickOnScheduleLineup(this)'>" + bLineup + "</a>]<span class='lineupsAmpersand'> & </span>[<a class='undecoratedLinks' onclick='clickOnScheduleLineup(this)'>" + tLineup + "</a>]</span> <span style='white-space: nowrap'> – " + dateString + " </span>";
-        futureDiv.innerHTML += "<br>";
-
-        if (whenBottomLineups[bottom] === "") whenBottomLineups[bottom] = isNextToday ? 1 + d : 2 + d;
-        if (whenTopLineups[top] === "") whenTopLineups[top] = isNextToday ? 1 + d : 2 + d;
-    }
 
     const upperSquadronSpan = document.createElement("span");
     const lowerSquadronSpan = document.createElement("span");
@@ -274,15 +201,34 @@ function setSchedule()
     lowerSquadronHSpan.id = "LOC_hLineup2";
     lowerSquadronMinSpan.id = "LOC_minLineup2";
 
+    const futureDiv = el("scheduleFuture");
+
     futureDiv.appendChild(upperSquadronSpan);
     futureDiv.innerHTML += "<br>";
     futureDiv.appendChild(lowerSquadronInSpan);
-    futureDiv.innerHTML += "&nbsp;" + squadron_daysRemaining + "&nbsp;";
+    futureDiv.innerHTML += "&nbsp;" + scheduleData.sqD + "&nbsp;";
     futureDiv.appendChild(lowerSquadronDSpan);
-    futureDiv.innerHTML += "&nbsp;" + squadron_hoursRemaining + "&nbsp;";
+    futureDiv.innerHTML += "&nbsp;" + scheduleData.sqH + "&nbsp;";
     futureDiv.appendChild(lowerSquadronHSpan);
-    futureDiv.innerHTML += "&nbsp;" + squadron_minutesRemaining + "&nbsp;";
+    futureDiv.innerHTML += "&nbsp;" + scheduleData.sqM + "&nbsp;";
     futureDiv.appendChild(lowerSquadronMinSpan);
+
+    // Future days
+
+    futureDiv.innerHTML = "";
+    for (let d = 0; d < 5; d++)
+    {
+        const bLineup = scheduleData.future[d].b;
+        const tLineup = scheduleData.future[d].t;
+        const dateString = scheduleData.future[d].date + " (<span id='LOC_weekDay" + scheduleData.future[d].dayOfWeek.toString() + "'></span>)";
+
+        futureDiv.innerHTML += "<span style='white-space: nowrap'>[<a class='undecoratedLinks' onclick='clickOnScheduleLineup(this)'>" + bLineup + "</a>]<span class='lineupsAmpersand'> & </span>[<a class='undecoratedLinks' onclick='clickOnScheduleLineup(this)'>" + tLineup + "</a>]</span> <span style='white-space: nowrap'> – " + dateString + " </span>";
+        futureDiv.innerHTML += "<br>";
+    }
+
+    // When
+    whenBottomLineups = scheduleData.whenBL;
+    whenTopLineups = scheduleData.whenTL;
 
     confirmLocale();
 }
