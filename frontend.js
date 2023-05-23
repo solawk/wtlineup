@@ -3,9 +3,16 @@ function el(name)
     return document.getElementById(name);
 }
 
-function toggleLineupDropdown()
+function toggleLineupDropdown(close)
 {
-    el("lineupDropdownDiv").classList.toggle("dropdownShow");
+    if (!close)
+    {
+        el("lineupDropdownDiv").classList.toggle("dropdownShow");
+    }
+    else
+    {
+        el("lineupDropdownDiv").classList.remove("dropdownShow");
+    }
 }
 
 let teamBlue = null;

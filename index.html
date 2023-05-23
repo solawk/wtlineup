@@ -53,7 +53,7 @@
                             <td class="headerTDs" style="width: 33%">
                                 <span id="LOC_lineupSpan" class="textShadow" style="user-select: none; font-size: 2em">Lineup</span>
                                 <button id="lineupButton" onclick="toggleLineupDropdown()"
-                                        onfocusout="if (!el('lineupDropdownDiv').contains(event.relatedTarget)) toggleLineupDropdown()"
+                                        onfocusout="if (!el('lineupDropdownDiv').contains(event.relatedTarget)) toggleLineupDropdown(true)"
                                         class="suggestion lineupSuggestion"><span id="lineupSpan">4_1</span></button>
                                 <div id="lineupDropdownDiv" class="dropdownContent">
                                     <button onclick="selectLineup('1_1')" class="suggestion lineupSuggestion">1_1</button>
