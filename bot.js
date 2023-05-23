@@ -279,8 +279,8 @@ function lineupFunction(interaction, en)
 
     // String localization
     const name = en ? "Simulator Battles Lineup Info Board" : "Сводка сетапов симуляторных боёв";
-    const gsb = en ? "**Ground SB**" : "**Совместные СБ**";
-    const asb = en ? "**Enduring Confrontation**" : "**Противостояние**";
+    const gsb = en ? "**Ground SB** now" : "**Совместные СБ** сейчас";
+    const asb = en ? "**Enduring Confrontation** now" : "**Противостояние** сейчас";
     const availableNow = en ? "Available now" : "Доступны сейчас";
     const availableIn = en ? "In " : "Через ";
     const days = en ? " d " : " д ";
@@ -354,21 +354,15 @@ function lineupFunction(interaction, en)
         .setURL('https://solawk.github.io/wtlineup')
         .setThumbnail(thumbnailUrl)
         .addFields(
-            {
-                name: gsb, value: "** **"
-            },
-            { name: availableNow,
+            { name: gsb,
                 value: "[**" + lineups.bottomNow + "**](" + link(lineups.bottomNow) + ") & " + "[**" + lineups.topNow + "**](" + link(lineups.topNow) + ")",
                 inline: true },
             { name: availableIn + lineups.nextHours + hours + lineups.nextMinutes + minutes,
-                value: "[**" + lineups.bottomNext + "**](" + link(lineups.bottomNext) + ") & " + "[**" + lineups.topNext + "**](" + link(lineups.topNext) + ")",
+                value: "[" + lineups.bottomNext + "](" + link(lineups.bottomNext) + ") & " + "[" + lineups.topNext + "](" + link(lineups.topNext) + ")",
                 inline: true },
             { name: future,
                 value: futureLineupsString },
-            {
-                name: asb, value: "** **"
-            },
-            { name: availableNow,
+            { name: asb,
                 value: aviaNowString,
                 inline: true },
             { name: availableIn + lineups.aviaNextDays + days + lineups.aviaNextHours + hours + lineups.aviaNextMinutes + minutes,
