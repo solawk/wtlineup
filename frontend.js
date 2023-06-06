@@ -48,7 +48,7 @@ function selectLineup(name, ignoreToggle) // type = bottom or top lineup
         nbspSpan("lineupFlagsRed");
         el("lineupFlagsRed").appendChild(getNation("sweden", true));
         nbspSpan("lineupFlagsRed");
-        if (parseInt(name.split("_")[0]) >= 3)
+        if (parseInt(name.split("_")[0]) >= 5)
         {
             el("lineupFlagsRed").appendChild(getNation("israel", true));
             nbspSpan("lineupFlagsRed");
