@@ -7,6 +7,7 @@ const fetch = require("cross-fetch");
 const SOLAWKID = "147774917071339520";
 let STATUSMSGIDS;
 let REFRESHTIME;
+const VEHICLESREFRESHTIME = 8 * 60 * 60 * 1000;
 
 const thumbnails =
     {
@@ -123,12 +124,19 @@ client.once(Events.ClientReady, async () =>
 {
     console.log("Bot ready");
 
+    await fetchVehicles();
+    console.log("Vehicles loaded successfully");
+
+    setInterval(async () => { await fetchVehicles(); }, VEHICLESREFRESHTIME);
+});
+
+async function fetchVehicles()
+{
     // Fetching the database
     const response = await fetch("https://script.google.com/macros/s/AKfycbzq-ElAFHCDzk6dVqomddksLWLcNHbvBi2K5_4JZeh8OrejAt-isCrhleXiJYQA3A4Vnw/exec");
     const responseText = await response.text();
     vehicles = JSON.parse(responseText);
-    console.log("Vehicles loaded successfully");
-});
+}
 
 // Events
 client.on(Events.MessageCreate, async (message) => {
