@@ -73,13 +73,14 @@ const thumbnails =
         ],
     };
 
-let token, clientId;
+let token, clientId, probability;
 try
 {
     // dev
     const configFile = require("./config.json");
     token = configFile.token;
     clientId = configFile.clientId;
+    probability = parseFloat(configFile.probability);
 
     STATUSMSGIDS =
         [
@@ -92,6 +93,7 @@ catch (e)
     // prod
     token = process.env.TOKEN;
     clientId = process.env.CLIENTID;
+    probability = parseFloat(process.env.probability);
 
     STATUSMSGIDS =
         [
@@ -106,6 +108,8 @@ const { getLineups, BL, TL } = require("./schedule.js");
 const { getSuggestions } = require("./search.js");
 const { getGuaranteedLineups } = require("./main.js");
 const { hrefOfVehicle } = require("./frontend.js");
+//const configFile = require("./config.json");
+const { theFunnyImages, theFunnyNames, theFunnyDescriptions, theFunnyHashing } = require("./thefunny");
 
 // Initialization
 const client = new Client({ intents: [
@@ -188,6 +192,43 @@ client.on(Events.InteractionCreate, async (interaction) =>
 
         await interaction.showModal(modal);
     }
+
+    if (interaction.customId === "theFunny")
+    {
+        const modal = new ModalBuilder()
+            .setCustomId("theFunnyModal")
+            .setTitle("Какой ты вид хлеба");
+
+        modal.addComponents(
+        [
+            new ActionRowBuilder().addComponents(
+                    new TextInputBuilder()
+                        .setCustomId("cityInput")
+                        .setLabel("В каком городе ты не родился?")
+                        .setStyle(TextInputStyle.Short)
+            ),
+            new ActionRowBuilder().addComponents(
+                new TextInputBuilder()
+                    .setCustomId("colorInput")
+                    .setLabel("Какого цвета твой любимый амогус?")
+                    .setStyle(TextInputStyle.Short)
+            ),
+            new ActionRowBuilder().addComponents(
+                new TextInputBuilder()
+                    .setCustomId("summerInput")
+                    .setLabel("Как ты провёл это лето?")
+                    .setStyle(TextInputStyle.Short)
+            ),
+            new ActionRowBuilder().addComponents(
+                new TextInputBuilder()
+                    .setCustomId("riemannInput")
+                    .setLabel("Приведи контрпример к гипотезе Римана")
+                    .setStyle(TextInputStyle.Paragraph),
+            )
+        ]);
+
+        await interaction.showModal(modal);
+    }
 });
 
 client.on(Events.InteractionCreate, async interaction => {
@@ -198,6 +239,22 @@ client.on(Events.InteractionCreate, async interaction => {
         const name = interaction.fields.getTextInputValue('searchNameInput');
 
         const message = await interaction.reply({ embeds: [ await searchFunction(name, false) ], ephemeral: true });
+        setTimeout(async () => {
+            message.delete().then().catch();
+        }, 5 * 60 * 1000);
+    }
+
+    if (interaction.customId === 'theFunnyModal')
+    {
+        const values =
+            interaction.fields.getTextInputValue('cityInput') +
+            interaction.fields.getTextInputValue('colorInput') +
+            interaction.fields.getTextInputValue('summerInput') +
+            interaction.fields.getTextInputValue('riemannInput');
+
+        const choice = theFunnyHashing(values);
+
+        const message = await interaction.reply({ embeds: [ await theFunnyFunction(choice, false) ], ephemeral: true });
         setTimeout(async () => {
             message.delete().then().catch();
         }, 5 * 60 * 1000);
@@ -268,13 +325,20 @@ function menu(en)
     }
     else
     {
-        return new ActionRowBuilder()
+        const actionRow = new ActionRowBuilder()
             .addComponents(
                 new ButtonBuilder()
                     .setCustomId('searchRu')
                     .setLabel('🔎 Поиск техники')
-                    .setStyle(ButtonStyle.Primary)
-            );
+                    .setStyle(ButtonStyle.Primary));
+
+        if (Math.random() * 100 < probability) actionRow.addComponents(
+            new ButtonBuilder()
+                .setCustomId('theFunny')
+                .setLabel('🍞 Какой ты вид хлеба')
+                .setStyle(ButtonStyle.Secondary));
+
+        return actionRow;
     }
 }
 
@@ -494,6 +558,24 @@ function searchFunction(query, en)
         value: boosty + ", " + github });
 
     //await interaction.reply({ embeds: [ msg ], ephemeral: true });
+
+    return msg;
+}
+
+function theFunnyFunction(choice, en)
+{
+    const img = theFunnyImages[choice];
+    const chname = theFunnyNames[choice];
+    const chdesc = theFunnyDescriptions[choice];
+
+    const msg = new EmbedBuilder()
+        .setTitle("Результаты теста")
+        .setImage(img);
+
+    msg.addFields(
+        { name: "Ты " + chname + "!",
+            value: chdesc }
+    );
 
     return msg;
 }
