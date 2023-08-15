@@ -73,6 +73,9 @@ const thumbnails =
         ],
     };
 
+const msgsFile = require("../wtlineup_msg.json");
+STATUSMSGIDS = msgsFile.msgs;
+
 let token, clientId, probability;
 try
 {
@@ -81,12 +84,9 @@ try
     token = configFile.token;
     clientId = configFile.clientId;
     probability = parseFloat(configFile.probability);
-
-    STATUSMSGIDS =
-        [
-            { msg: "1109855599149195304", ch: "1100833282653966407" },
-        ];
     REFRESHTIME = 3;
+
+    console.log("--- DEV LAUNCHED ---");
 }
 catch (e)
 {
@@ -95,11 +95,6 @@ catch (e)
     clientId = process.env.CLIENTID;
     probability = parseFloat(process.env.probability);
 
-    STATUSMSGIDS =
-        [
-            { msg: "1109929052124487840", ch: "1109855719307620512" },
-            { msg: "1110079898975993856", ch: "1109917653075775600" },
-        ];
     REFRESHTIME = 30;
 }
 
