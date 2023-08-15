@@ -288,10 +288,28 @@ async function refreshStatusMessages()
 {
     for (const msg of STATUSMSGIDS)
     {
-        const channel = await client.channels.fetch(msg.ch);
+        let channel, message;
+
+        try
+        {
+            channel = await client.channels.fetch(msg.ch);
+        }
+        catch (e)
+        {
+            continue;
+        }
+
         if (channel == null) continue;
 
-        const message = await channel.messages.fetch(msg.msg);
+        try
+        {
+            message = await channel.messages.fetch(msg.msg);
+        }
+        catch (e)
+        {
+            continue;
+        }
+
         if (message == null) continue;
 
         message.edit({ content: null, embeds: [ lineupFunction(null, false) ], components: [ menu(false) ] });
