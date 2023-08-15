@@ -577,7 +577,7 @@ function theFunnyFunction(choice, en)
 
 const requestDeployment = new SlashCommandBuilder()
     .setName("развернуть")
-    .setDescription("Запросить развёртывание в этом канале");
+    .setDescription("Запросить развёртывание в этом канале (нужно право управления сервером)");
 
 const rest = new REST().setToken(token);
 registerCommands();
@@ -615,7 +615,9 @@ client.on(Events.InteractionCreate, async (interaction) =>
             {
                 const channel = interaction.channel;
                 const botStatusMessage = await channel.send("Запрос на развёртывание бота WTLineup был отправлен разработчику.\n" +
-                    "Когда он будет принят, это сообщение станет выводом для бота.");
+                    "Когда он будет принят, это сообщение станет выводом для бота.\n" +
+                    "Если вы удалите это сообщение и/или канал, бот не сломается, но лучше так не делать.\n" +
+                    "Пишите на Boosty (https://boosty.to/solawk), если есть вопросы.");
 
                 const msgid = botStatusMessage.id;
                 const chid = botStatusMessage.channel.id;
