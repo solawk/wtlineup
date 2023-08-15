@@ -1,10 +1,11 @@
 // Requirements and constants
-const { Client, Events, GatewayIntentBits, EmbedBuilder, ActionRowBuilder,
-    ButtonBuilder, ButtonStyle, ModalBuilder, TextInputBuilder, TextInputStyle
+const { Client, Events, GatewayIntentBits, EmbedBuilder, ActionRowBuilder, SlashCommandBuilder, REST, Routes,
+    ButtonBuilder, ButtonStyle, ModalBuilder, TextInputBuilder, TextInputStyle, PermissionsBitField
 } = require("discord.js");
 const fetch = require("cross-fetch");
 
 const SOLAWKID = "147774917071339520";
+const REQUESTSCH = "1141064242485801142";
 let STATUSMSGIDS;
 let REFRESHTIME;
 const VEHICLESREFRESHTIME = 8 * 60 * 60 * 1000;
@@ -103,7 +104,6 @@ const { getLineups, BL, TL } = require("./schedule.js");
 const { getSuggestions } = require("./search.js");
 const { getGuaranteedLineups } = require("./main.js");
 const { hrefOfVehicle } = require("./frontend.js");
-//const configFile = require("./config.json");
 const { theFunnyImages, theFunnyNames, theFunnyDescriptions, theFunnyHashing } = require("./thefunny");
 
 // Initialization
@@ -327,11 +327,11 @@ function menu(en)
                     .setLabel('🔎 Поиск техники')
                     .setStyle(ButtonStyle.Primary));
 
-        if (Math.random() * 100 < probability) actionRow.addComponents(
+        /*if (Math.random() * 100 < probability) actionRow.addComponents(
             new ButtonBuilder()
                 .setCustomId('theFunny')
                 .setLabel('🍞 Какой ты вид хлеба')
-                .setStyle(ButtonStyle.Secondary));
+                .setStyle(ButtonStyle.Secondary));*/
 
         return actionRow;
     }
@@ -574,5 +574,69 @@ function theFunnyFunction(choice, en)
 
     return msg;
 }
+
+const requestDeployment = new SlashCommandBuilder()
+    .setName("развернуть")
+    .setDescription("Запросить развёртывание в этом канале");
+
+const rest = new REST().setToken(token);
+registerCommands();
+
+async function registerCommands()
+{
+    try
+    {
+        const commands = [ requestDeployment ];
+        await rest.put(Routes.applicationCommands(clientId), { body: commands });
+        console.log("Commands registered successfully");
+    }
+    catch (e)
+    {
+        console.log(e);
+    }
+}
+
+client.on(Events.InteractionCreate, async (interaction) =>
+{
+    if (!interaction.isChatInputCommand()) return;
+
+    switch (interaction.commandName)
+    {
+        case "развернуть":
+            const guildMember = await interaction.guild.members.fetch(interaction.user);
+            const permissions = guildMember.permissions;
+            const isGuildManager = (permissions.bitfield & BigInt(1 << 5)) > 0;
+
+            if (!isGuildManager)
+            {
+                interaction.reply({ content: "Чтобы развернуть бота, нужно иметь право управления сервером!", ephemeral: true });
+            }
+            else
+            {
+                const channel = interaction.channel;
+                const botStatusMessage = await channel.send("Запрос на развёртывание бота WTLineup был отправлен разработчику.\n" +
+                    "Когда он будет принят, это сообщение станет выводом для бота.");
+
+                const msgid = botStatusMessage.id;
+                const chid = botStatusMessage.channel.id;
+                const username = interaction.user.username;
+                const servername = interaction.guild.name;
+
+                const reqch = await client.channels.fetch(REQUESTSCH);
+                if (reqch == null)
+                {
+                    console.log("Requests channel not found!!!");
+                }
+
+                await reqch.send("Сервер: " + servername + "\n" +
+                    "Пользователь: " + username + "\n" +
+                    "{ \"msg\": \"" + msgid + "\", \"ch\": \"" + chid + "\" }");
+
+                await interaction.reply({ content: "Это сообщение можно удалить", ephemeral: true });
+            }
+
+            return;
+    }
+});
 
 client.login(token);
