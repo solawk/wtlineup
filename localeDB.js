@@ -4,6 +4,7 @@ const en =
             searchSpan: "Search",
             switchLocale: "<img src='flags/britain.png' title='Переключить на русский'>",
             discord: "[Discord Bot]",
+            discordInvite: "[Invite the bot]",
             creditsSpan: "by Solawk",
             nation: "Nation",
             cl: "Class",
@@ -31,6 +32,7 @@ const en =
             noneFound: "No matching vehicles",
 
             cancel: "Cancel",
+            cancel2: "Cancel",
             creatingReport: "Creating a report",
             reportType: "Report type",
             addVehicle: "Add vehicle",
@@ -84,6 +86,7 @@ const ru =
             searchSpan: "Поиск",
             switchLocale: "<img src='flags/russia.png' title='Switch to English'>",
             discord: "[Discord Бот]",
+            discordInvite: "[Пригласить бота]",
             creditsSpan: "от Solawk",
             nation: "Нация",
             cl: "Класс",
@@ -111,6 +114,7 @@ const ru =
             noneFound: "Подходящей техники не найдено",
 
             cancel: "Отмена",
+            cancel2: "Отмена",
             creatingReport: "Создание репорта",
             reportType: "Тип репорта",
             addVehicle: "Добавить технику",

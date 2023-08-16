@@ -1,6 +1,6 @@
 // Requirements and constants
 const { Client, Events, GatewayIntentBits, EmbedBuilder, ActionRowBuilder, SlashCommandBuilder, REST, Routes,
-    ButtonBuilder, ButtonStyle, ModalBuilder, TextInputBuilder, TextInputStyle, PermissionsBitField
+    ButtonBuilder, ButtonStyle, ModalBuilder, TextInputBuilder, TextInputStyle, ActivityType
 } = require("discord.js");
 const fetch = require("cross-fetch");
 
