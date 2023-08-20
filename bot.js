@@ -140,7 +140,7 @@ async function fetchVehicles()
 }
 
 // Events
-client.on(Events.MessageCreate, async (message) => {
+/*client.on(Events.MessageCreate, async (message) => {
     const isSolawk = message.author.id === SOLAWKID;
     if (!isSolawk) return;
 
@@ -157,7 +157,7 @@ client.on(Events.MessageCreate, async (message) => {
     {
         await message.reply(solawkAnswer);
     }
-});
+});*/
 
 client.on(Events.InteractionCreate, async (interaction) =>
 {
