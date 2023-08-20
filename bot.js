@@ -6,6 +6,8 @@ const fetch = require("cross-fetch");
 
 const SOLAWKID = "147774917071339520";
 const REQUESTSCH = "1141064242485801142";
+const COPYCENTER = "1142770040303800440";
+let solawkAnswer = null;
 let STATUSMSGIDS;
 let REFRESHTIME;
 const VEHICLESREFRESHTIME = 8 * 60 * 60 * 1000;
@@ -140,22 +142,20 @@ async function fetchVehicles()
 // Events
 client.on(Events.MessageCreate, async (message) => {
     const isSolawk = message.author.id === SOLAWKID;
-    const isInitMessage = message.content === "Приди, о великий искусственный интеллект";
+    if (!isSolawk) return;
 
-    if (isSolawk && isInitMessage)
+    const isCopycenter = message.channel.id === COPYCENTER;
+    if (isCopycenter)
     {
-        const msg1 = new EmbedBuilder()
-            .setTitle("И да спустился бот на земли бичарские");
+        solawkAnswer = { content: message.content };
+        await message.reply("Принято");
+        return;
+    }
 
-        const botStatusMessage = await message.channel.send({ embeds: [ msg1 ] });
-
-        const msg2 = new EmbedBuilder()
-            .setTitle("И да спустился бот на земли бичарские")
-            .setDescription("И был id сообщения "
-                + botStatusMessage.id.toString() + ", а id канала "
-                + botStatusMessage.channel.id.toString());
-
-        await botStatusMessage.edit({ embeds: [ msg2 ] });
+    const isPing = message.mentions.has(client.user);
+    if (isSolawk && isPing)
+    {
+        await message.reply(solawkAnswer);
     }
 });
 
