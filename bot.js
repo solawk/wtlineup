@@ -382,8 +382,8 @@ function lineupFunction(interaction, en)
     let aviaNextString = "";
     for (let i = 0; i < lineups.aviaNext.length; i++)
     {
-        aviaNextString += lineups.aviaNext[i].min.toString()
-            + " - " + lineups.aviaNext[i].max.toString() + (i % 3 === 2 ? "\n" : "‎ ‎ ‎ ");
+        aviaNextString += "[" + lineups.aviaNext[i].min.toString() + " - " + lineups.aviaNext[i].max.toString() + "]("
+            + link(lineups.aviaNext[i].min.toString() + "-" + lineups.aviaNext[i].max.toString()) + ")" + (i % 3 === 2 ? "\n" : "‎ ‎ ‎ ");
     }
 
     // Future lineups
