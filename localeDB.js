@@ -78,6 +78,9 @@ const en =
             whenAfterTomorrow: "Available after tomorrow",
             whenAfterDaysBefore: "Available after ",
             whenAfterDaysAfter: " days",
+
+            groundModeButton: "Ground SB",
+            ecModeButton: "Air SB"
         };
 
 const ru =
@@ -160,6 +163,9 @@ const ru =
             whenAfterTomorrow: "Будет послезавтра",
             whenAfterDaysBefore: "Будет через ",
             whenAfterDaysAfter: " д",
+
+            groundModeButton: "Совместные СБ",
+            ecModeButton: "Воздушные СБ"
         };
 
 let locale = localStorage.getItem("locale") ? localStorage.getItem("locale") : "en";

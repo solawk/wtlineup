@@ -230,7 +230,7 @@ function setSchedule()
     whenBottomLineups = scheduleData.whenBL;
     whenTopLineups = scheduleData.whenTL;
 
-    confirmLocale();
+    //confirmLocale();
 }
 
 function whenIsLineup(lineup)

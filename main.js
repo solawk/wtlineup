@@ -1,3 +1,7 @@
+const allGroundLineups = [ "1_1", "2_1", "3_1", "4_1", "5_1", "6_1", "8_2", "8_2_2", "9_2", "10_2" ];
+
+// EC - aviaBrackets
+
 // Vehicles
 
 function getData()
@@ -57,7 +61,20 @@ if (typeof exports === 'undefined')
         console.log("Fetched from local storage");
         vehicles = JSON.parse(vehicles);
         showCenter();
-        if (localStorage.getItem("lineup")) selectLineup(localStorage.getItem("lineup"), true);
+        if (localStorage.getItem("lineup"))
+        {
+            const storedLineup = localStorage.getItem("lineup");
+            if (storedLineup.includes("-"))
+            {
+                setMode("ec");
+            }
+
+            selectLineup(storedLineup, true);
+        }
+        else
+        {
+            selectLineup("1_1", true);
+        }
         prepareForFirstDisplay();
 
         if (lastUpdate == null)
@@ -75,9 +92,17 @@ if (typeof exports === 'undefined')
 function prepareForFirstDisplay()
 {
     const selection = new URLSearchParams(window.location.search).get("select");
-    if (selection != null && [ "1_1", "2_1", "3_1", "4_1", "5_1", "6_1", "8_2", "8_2_2", "9_2", "10_2" ].includes(selection.toString()))
+    if (selection != null)
     {
-        selectLineup(selection, true);
+        if (allGroundLineups.includes(selection.toString()))
+        {
+            selectLineup(selection, true);
+        }
+        else (selection.includes("-"))
+        {
+            setMode("ec");
+            selectLineup(selection, true);
+        }
     }
 }
 
@@ -169,6 +194,21 @@ function getAllVehiclesInLineup(lineup, type)
     }
 
     return { blue: vehiclesBlue, red: vehiclesRed };
+}
+
+function getAllVehiclesInEC(start, end)
+{
+    const result = [];
+
+    for (const v of vehicles)
+    {
+        if (v.cl !== "fighter" && v.cl !== "attacker" && v.cl !== "bomber") continue;
+        if (v.br < start || v.br > end) continue;
+
+        result.push(v);
+    }
+
+    return result;
 }
 
 // Reports

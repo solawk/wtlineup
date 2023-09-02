@@ -1,13 +1,10 @@
 // Requirements and constants
 const { Client, Events, GatewayIntentBits, EmbedBuilder, ActionRowBuilder, SlashCommandBuilder, REST, Routes,
-    ButtonBuilder, ButtonStyle, ModalBuilder, TextInputBuilder, TextInputStyle, ActivityType
+    ButtonBuilder, ButtonStyle, ModalBuilder, TextInputBuilder, TextInputStyle
 } = require("discord.js");
 const fetch = require("cross-fetch");
 
-const SOLAWKID = "147774917071339520";
 const REQUESTSCH = "1141064242485801142";
-const COPYCENTER = "1142770040303800440";
-let solawkAnswer = null;
 let STATUSMSGIDS;
 let REFRESHTIME;
 const VEHICLESREFRESHTIME = 8 * 60 * 60 * 1000;
@@ -139,26 +136,6 @@ async function fetchVehicles()
     vehicles = JSON.parse(responseText);
 }
 
-// Events
-/*client.on(Events.MessageCreate, async (message) => {
-    const isSolawk = message.author.id === SOLAWKID;
-    if (!isSolawk) return;
-
-    const isCopycenter = message.channel.id === COPYCENTER;
-    if (isCopycenter)
-    {
-        solawkAnswer = { content: message.content };
-        await message.reply("Принято");
-        return;
-    }
-
-    const isPing = message.mentions.has(client.user);
-    if (isSolawk && isPing)
-    {
-        await message.reply(solawkAnswer);
-    }
-});*/
-
 client.on(Events.InteractionCreate, async (interaction) =>
 {
     if (!interaction.isButton()) return;
@@ -192,7 +169,7 @@ client.on(Events.InteractionCreate, async (interaction) =>
     {
         const modal = new ModalBuilder()
             .setCustomId("theFunnyModal")
-            .setTitle("Какой ты вид хлеба");
+            .setTitle(msgsFile.surveytitle);
 
         modal.addComponents(
         [
@@ -242,10 +219,10 @@ client.on(Events.InteractionCreate, async interaction => {
     if (interaction.customId === 'theFunnyModal')
     {
         const values =
-            interaction.fields.getTextInputValue('cityInput') +
-            interaction.fields.getTextInputValue('colorInput') +
-            interaction.fields.getTextInputValue('summerInput') +
-            interaction.fields.getTextInputValue('riemannInput');
+            interaction.fields.getTextInputValue('surveyInput1') +
+            interaction.fields.getTextInputValue('surveyInput2') +
+            interaction.fields.getTextInputValue('surveyInput3') +
+            interaction.fields.getTextInputValue('surveyInput4');
 
         const choice = theFunnyHashing(values);
 
@@ -345,11 +322,11 @@ function menu(en)
                     .setLabel('🔎 Поиск техники')
                     .setStyle(ButtonStyle.Primary));
 
-        /*if (Math.random() * 100 < probability) actionRow.addComponents(
+        if (Math.random() * 100 < probability) actionRow.addComponents(
             new ButtonBuilder()
                 .setCustomId('theFunny')
-                .setLabel('🍞 Какой ты вид хлеба')
-                .setStyle(ButtonStyle.Secondary));*/
+                .setLabel(msgsFile.surveyname)
+                .setStyle(ButtonStyle.Secondary));
 
         return actionRow;
     }
@@ -398,13 +375,15 @@ function lineupFunction(interaction, en)
     let aviaNowString = "";
     for (let i = 0; i < lineups.aviaNow.length; i++)
     {
-        aviaNowString += lineups.aviaNow[i].min.toString() + " - " + lineups.aviaNow[i].max.toString() + (i % 3 === 2 ? "\n" : "‎ ‎ ‎ ");
+        aviaNowString += "[" + lineups.aviaNow[i].min.toString() + " - " + lineups.aviaNow[i].max.toString() + "]("
+            + link(lineups.aviaNow[i].min.toString() + "-" + lineups.aviaNow[i].max.toString()) + ")" + (i % 3 === 2 ? "\n" : "‎ ‎ ‎ ");
     }
 
     let aviaNextString = "";
     for (let i = 0; i < lineups.aviaNext.length; i++)
     {
-        aviaNextString += lineups.aviaNext[i].min.toString() + " - " + lineups.aviaNext[i].max.toString() + (i % 3 === 2 ? "\n" : "‎ ‎ ‎ ");
+        aviaNextString += lineups.aviaNext[i].min.toString()
+            + " - " + lineups.aviaNext[i].max.toString() + (i % 3 === 2 ? "\n" : "‎ ‎ ‎ ");
     }
 
     // Future lineups

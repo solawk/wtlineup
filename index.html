@@ -52,22 +52,43 @@
                                 </table>
                             </td>
                             <td class="headerTDs" style="width: 33%">
-                                <span id="LOC_lineupSpan" class="textShadow" style="user-select: none; font-size: 2em">Lineup</span>
-                                <button id="lineupButton" onclick="toggleLineupDropdown()"
-                                        onfocusout="if (!el('lineupDropdownDiv').contains(event.relatedTarget)) toggleLineupDropdown(true)"
-                                        class="suggestion lineupSuggestion"><span id="lineupSpan">4_1</span></button>
-                                <div id="lineupDropdownDiv" class="dropdownContent">
-                                    <button onclick="selectLineup('1_1')" class="suggestion lineupSuggestion">1_1</button>
-                                    <button onclick="selectLineup('2_1')" class="suggestion lineupSuggestion">2_1</button>
-                                    <button onclick="selectLineup('3_1')" class="suggestion lineupSuggestion">3_1</button>
-                                    <button onclick="selectLineup('4_1')" class="suggestion lineupSuggestion">4_1</button>
-                                    <button onclick="selectLineup('5_1')" class="suggestion lineupSuggestion">5_1</button>
-                                    <button onclick="selectLineup('6_1')" class="suggestion lineupSuggestion">6_1</button>
-                                    <button onclick="selectLineup('8_2')" class="suggestion lineupSuggestion">8_2</button>
-                                    <button onclick="selectLineup('8_2_2')" class="suggestion lineupSuggestion">8_2_2</button>
-                                    <button onclick="selectLineup('9_2')" class="suggestion lineupSuggestion">9_2</button>
-                                    <button onclick="selectLineup('10_2')" class="suggestion lineupSuggestion">10_2</button>
-                                </div>
+                                <table style="width: 100%; height: 100%">
+                                    <tr style="height: 20%">
+                                        <td>
+                                            <button id="groundModeButton" onclick="setMode('ground')"
+                                                    class="suggestion lineupSuggestion" style="font-size: 1.2em;" disabled><img src="./icons/ground.png" style="width: 2em"></button>
+                                            <button id="ecModeButton" onclick="setMode('ec')"
+                                                    class="suggestion lineupSuggestion" style="font-size: 1.2em"><img src="./icons/ec.png" style="width: 2em"></button>
+                                        </td>
+                                    </tr>
+                                    <tr style="height: 10%">
+                                        <td>
+                                            <br>
+                                        </td>
+                                    </tr>
+                                    <tr style="height: 70%">
+                                        <td>
+                                            <span id="LOC_lineupSpan" class="textShadow" style="user-select: none; font-size: 2em">Lineup</span>
+                                            <button id="lineupButton" onclick="toggleLineupDropdown()"
+                                                    onfocusout="if (!el('lineupDropdownDiv').contains(event.relatedTarget)) toggleLineupDropdown(true)"
+                                                    class="suggestion lineupSuggestion"><span id="lineupSpan">4_1</span></button>
+                                            <div id="lineupDropdownDiv" class="dropdownContent">
+                                                <button onclick="selectLineup('1_1')" class="suggestion lineupSuggestion">1_1</button>
+                                                <button onclick="selectLineup('2_1')" class="suggestion lineupSuggestion">2_1</button>
+                                                <button onclick="selectLineup('3_1')" class="suggestion lineupSuggestion">3_1</button>
+                                                <button onclick="selectLineup('4_1')" class="suggestion lineupSuggestion">4_1</button>
+                                                <button onclick="selectLineup('5_1')" class="suggestion lineupSuggestion">5_1</button>
+                                                <button onclick="selectLineup('6_1')" class="suggestion lineupSuggestion">6_1</button>
+                                                <button onclick="selectLineup('8_2')" class="suggestion lineupSuggestion">8_2</button>
+                                                <button onclick="selectLineup('8_2_2')" class="suggestion lineupSuggestion">8_2_2</button>
+                                                <button onclick="selectLineup('9_2')" class="suggestion lineupSuggestion">9_2</button>
+                                                <button onclick="selectLineup('10_2')" class="suggestion lineupSuggestion">10_2</button>
+                                            </div>
+                                            <br>
+                                            <br>
+                                        </td>
+                                    </tr>
+                                </table>
                             </td>
                             <td style="width: 33%">
                                 <table style="width: 100%">
@@ -122,12 +143,16 @@
                 </td>
             </tr>
             <tr style="vertical-align: top">
-                <td style="width: 50%; text-align: right; padding: 0.2em" id="lineupFlagsRed">
 
-                </td>
-                <td style="width: 50%; text-align: left; padding: 0.2em" id="lineupFlagsBlue">
+                    <td style="width: 50%; text-align: right; padding: 0.2em" id="lineupFlagsRed">
 
-                </td>
+                    </td>
+                    <td style="width: 50%; text-align: left; padding: 0.2em" id="lineupFlagsBlue">
+
+                    </td>
+                    <td style="width: 100%; text-align: center; padding: 0.2em; display:none" id="lineupFlagsGray" colspan="2">
+
+                    </td>
             </tr>
             <tr style="vertical-align: top">
                 <td style="width: 50%">
@@ -232,12 +257,19 @@
         <br><a id="LOC_discordInvite" target="_blank" href="https://discord.com/oauth2/authorize?client_id=1109603571546193940&permissions=2147502080&scope=bot%20applications.commands" class="textShadow undecoratedLinks" style="font-size: 2em">[Invite the bot]</a>
     </div>
 </body>
+<script>
+    function el(name)
+    {
+        return document.getElementById(name);
+    }
+</script>
 <script src="localeDB.js"></script>
+<script src="schedule.js"></script>
+<script src="mode.js"></script>
 <script src="frontend.js"></script>
 <script src="main.js"></script>
 <script src="search.js"></script>
-<script src="locale.js"></script>
 <script src="report.js"></script>
-<script src="schedule.js"></script>
+<script src="locale.js"></script>
 <script src="bothelp.js"></script>
 </html>

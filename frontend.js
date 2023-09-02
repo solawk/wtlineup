@@ -1,8 +1,3 @@
-function el(name)
-{
-    return document.getElementById(name);
-}
-
 function toggleLineupDropdown(close)
 {
     if (!close)
@@ -32,7 +27,7 @@ function selectLineup(name, ignoreToggle) // type = bottom or top lineup
 
     const type = name.split("_")[1] === '1' ? "bottom" : "top";
 
-    el("lineupFlagsRed").innerHTML = el("lineupFlagsBlue").innerHTML = "";
+    el("lineupFlagsRed").innerHTML = el("lineupFlagsBlue").innerHTML = el("lineupFlagsGray").innerHTML = "";
 
     if (type === "bottom")
     {
@@ -86,9 +81,48 @@ function selectLineup(name, ignoreToggle) // type = bottom or top lineup
         el("lineupFlagsBlue").appendChild(getNation("israel", true));
     }
 
-    const lineupVehicles = getAllVehiclesInLineup(name, type);
-    teamBlue = lineupVehicles.blue;
-    teamRed = lineupVehicles.red;
+    el("lineupFlagsGray").appendChild(getNation("usa", true, true));
+    nbspSpan("lineupFlagsGray");
+    el("lineupFlagsGray").appendChild(getNation("germany", true, true));
+    nbspSpan("lineupFlagsGray");
+    el("lineupFlagsGray").appendChild(getNation("ussr", true, true));
+    nbspSpan("lineupFlagsGray");
+    el("lineupFlagsGray").appendChild(getNation("britain", true, true));
+    nbspSpan("lineupFlagsGray");
+    el("lineupFlagsGray").appendChild(getNation("japan", true, true));
+    nbspSpan("lineupFlagsGray");
+    el("lineupFlagsGray").appendChild(getNation("china", true, true));
+    nbspSpan("lineupFlagsGray");
+    el("lineupFlagsGray").appendChild(getNation("italy", true, true));
+    nbspSpan("lineupFlagsGray");
+    el("lineupFlagsGray").appendChild(getNation("france", true, true));
+    nbspSpan("lineupFlagsGray");
+    el("lineupFlagsGray").appendChild(getNation("sweden", true, true));
+    nbspSpan("lineupFlagsGray");
+    el("lineupFlagsGray").appendChild(getNation("israel", true, true));
+
+    if (mode === "ground")
+    {
+        const lineupVehicles = getAllVehiclesInLineup(name, type);
+        teamBlue = lineupVehicles.blue;
+        teamRed = lineupVehicles.red;
+    }
+    else
+    {
+        const startAndEnd = name.split("-");
+        const ecVehicles = getAllVehiclesInEC(parseFloat(startAndEnd[0]), parseFloat(startAndEnd[1]));
+
+        teamBlue = [];
+        teamRed = [];
+
+        for (let i = 0; i < ecVehicles.length; i++)
+        {
+            if (i % 2 === 0)
+                teamRed.push(ecVehicles[i]);
+            else
+                teamBlue.push(ecVehicles[i]);
+        }
+    }
 
     fillLineupTable([ "nameForward", "brForward", "classForward", "nationForward" ]);
     localStorage.setItem("lineup", name);
@@ -113,24 +147,30 @@ function selectNation(selectedNation, isDeselecting)
 
     for (const nation of allNations)
     {
-        const flag = el("nation_flag_" + nation);
-        if (flag == null) continue; // may happen for Israel
-
-        if (!isDeselecting)
+        function toggleFlag(nation, isGray)
         {
-            if (selectedNation !== nation)
+            const flag = el("nation_flag_" + nation + (isGray ? "_gray" : ""));
+            if (flag == null) return; // may happen for Israel
+
+            if (!isDeselecting)
             {
-                flag.classList.add("nationFlagUnselected");
+                if (selectedNation !== nation)
+                {
+                    flag.classList.add("nationFlagUnselected");
+                }
+                else
+                {
+                    flag.classList.remove("nationFlagUnselected");
+                }
             }
             else
             {
                 flag.classList.remove("nationFlagUnselected");
             }
         }
-        else
-        {
-            flag.classList.remove("nationFlagUnselected");
-        }
+
+        toggleFlag(nation, false);
+        toggleFlag(nation, true);
     }
 
     showOnlyNation = selectedNation;
@@ -142,6 +182,9 @@ function fillLineupTable(sortings)
     el("lineupBlue").innerHTML = "";
     el("lineupRed").innerHTML = "";
 
+    const tableHeaderBlueStyle = mode === "ground" ? "tableHeaderBlue" : "tableHeaderGray";
+    const tableHeaderRedStyle = mode === "ground" ? "tableHeaderRed" : "tableHeaderGray";
+
     // Head
     function addHeader(tableName, isLeftOrder)
     {
@@ -150,7 +193,7 @@ function fillLineupTable(sortings)
         tr.style.fontWeight = "bolder";
         el(tableName).appendChild(tr);
 
-        const headerClass = isLeftOrder ? "tableHeaderBlue" : "tableHeaderRed";
+        const headerClass = isLeftOrder ? tableHeaderBlueStyle : tableHeaderRedStyle;
 
         const tdNation = document.createElement("td");
         tdNation.innerHTML = locale === "en" ? en.nation : ru.nation;
@@ -310,21 +353,6 @@ function fillLineupTable(sortings)
         aName.href = hrefOfVehicle(vehicle);
         aName.classList.toggle("undecoratedLinks");
 
-        // Fetching repair cost
-        /*aName.onpointerenter = async (e) =>
-        {
-            const href = aName.href;
-            const response = await fetch(href, { mode: "no-cors" });
-            const htmlText = await response.text();
-            console.log(response);
-
-            const googlePageHtml = document.createElement("html");
-            googlePageHtml.innerHTML = htmlText;
-
-            //const wikiA = googlePageHtml.querySelector("a");
-            //console.log(wikiA);
-        }*/
-
         if (isLeftOrder)
         {
             tr.appendChild(tdNation);
@@ -358,12 +386,12 @@ function fillLineupTable(sortings)
     for (const v of teamRed)    addVehicle("lineupRed", v, false);
 }
 
-function getNation(nation, isChoosable)
+function getNation(nation, isChoosable, isGray)
 {
     const img = document.createElement("img");
     img.style.maxWidth = "2em";
     img.classList.add("nationFlags");
-    img.id = "nation_flag_" + nation;
+    img.id = "nation_flag_" + nation + (isGray ? "_gray" : "");
 
     if (isChoosable)
     {

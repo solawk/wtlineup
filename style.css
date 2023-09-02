@@ -7,6 +7,10 @@
     --bright-blue: #8888dde0;
     --header-blue: #7777dd;
     --vibrant-blue: #5555dd;
+
+    --bright-gray: #aaaaaad0;
+    --header-gray: #666666;
+    --vibrant-gray: #444444;
 }
 
 body
@@ -67,6 +71,18 @@ body
     background-color: var(--vibrant-blue);
 }
 
+.blue
+{
+    background-color: var(--bright-blue);
+}
+
+.vibrantBlue
+{
+    background-color: var(--vibrant-blue);
+    user-select: none;
+    text-shadow: 1px 1px 1px black;
+}
+
 .tableHeaderRed
 {
     background-color: var(--header-red);
@@ -79,21 +95,9 @@ body
     background-color: var(--vibrant-red);
 }
 
-.blue
-{
-    background-color: var(--bright-blue);
-}
-
 .red
 {
     background-color: var(--bright-red);
-}
-
-.vibrantBlue
-{
-    background-color: var(--vibrant-blue);
-    user-select: none;
-    text-shadow: 1px 1px 1px black;
 }
 
 .vibrantRed
@@ -219,4 +223,28 @@ body
     margin-bottom: 1em;
     background-color: #00000088;
     border-radius: 15px;
+}
+
+.tableHeaderGray
+{
+    background-color: var(--header-gray);
+    user-select: none;
+    cursor: pointer;
+}
+
+.tableHeaderGray:hover
+{
+    background-color: var(--vibrant-gray);
+}
+
+.gray
+{
+    background-color: var(--bright-gray);
+}
+
+.vibrantGray
+{
+    background-color: var(--vibrant-gray);
+    user-select: none;
+    text-shadow: 1px 1px 1px black;
 }

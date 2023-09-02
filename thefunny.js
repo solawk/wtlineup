@@ -85,6 +85,16 @@ function hash(str)
     return value % names.length;
 }
 
+function indeces(count)
+{
+    let result = [];
+    for (let i = 0; i < 4; i++)
+    {
+
+    }
+}
+
+
 module.exports =
     {
         theFunnyImages: images,
