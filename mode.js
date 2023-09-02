@@ -58,7 +58,7 @@ function setMode(newMode)
             }
         }
 
-        selectLineup(aviaBrackets[0][0].min + " - " + aviaBrackets[0][0].max, true);
+        selectLineup(aviaBrackets[0][0].min + "-" + aviaBrackets[0][0].max, true);
     }
 
     if (mode !== "ground")
