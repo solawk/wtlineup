@@ -111,7 +111,7 @@ const client = new Client({ intents: [
         GatewayIntentBits.GuildMessages,
         GatewayIntentBits.MessageContent,
         GatewayIntentBits.GuildMembers,
-    ]);
+    ]});
 
 let vehicles = null;
 let thumbnail = 7; // 0-3 - bottom, 4-7 - top
