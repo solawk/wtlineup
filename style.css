@@ -134,7 +134,12 @@ body
 
 .modeChoice
 {
-    background-color: #00000060;
+    background-color: #666666d0;
+}
+
+.modeChoice:hover
+{
+    background-color: #666666d0;
 }
 
 .lineupsAmpersand
