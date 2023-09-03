@@ -1,6 +1,6 @@
 let mode = "ground"; // ground / ec
 
-function setMode(newMode)
+function setMode(newMode, noSelecting)
 {
     mode = newMode;
     //fillLineupTable();
@@ -33,7 +33,11 @@ function setMode(newMode)
             el("lineupDropdownDiv").appendChild(button);
         }
 
-        selectLineup(allGroundLineups[0], true);
+        if (!noSelecting)
+        {
+            selectLineup(allGroundLineups[0], true);
+            console.log("selection ground");
+        }
     }
     else
     {
@@ -58,7 +62,11 @@ function setMode(newMode)
             }
         }
 
-        selectLineup(aviaBrackets[0][0].min + "-" + aviaBrackets[0][0].max, true);
+        if (!noSelecting)
+        {
+            selectLineup(aviaBrackets[0][0].min + "-" + aviaBrackets[0][0].max, true);
+            console.log("selection ec");
+        }
     }
 
     if (mode !== "ground")

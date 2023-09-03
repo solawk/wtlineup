@@ -17,14 +17,17 @@ function getData()
             localStorage.setItem("vehicles", this.responseText);
             localStorage.setItem("lastUpdate", Date.now().toString());
             showCenter();
-            if (localStorage.getItem("lineup"))
+            if (!prepareForFirstDisplay())
             {
-                selectLineup(localStorage.getItem("lineup"), true);
-                prepareForFirstDisplay();
-            }
-            else
-            {
-                selectLineup("1_1", true);
+                if (localStorage.getItem("lineup"))
+                {
+                    selectLineup(localStorage.getItem("lineup"), true);
+
+                }
+                else
+                {
+                    selectLineup("1_1", true);
+                }
             }
 
             el("refreshButton").disabled = false;
@@ -61,21 +64,24 @@ if (typeof exports === 'undefined')
         console.log("Fetched from local storage");
         vehicles = JSON.parse(vehicles);
         showCenter();
-        if (localStorage.getItem("lineup"))
+        if (!prepareForFirstDisplay())
         {
-            const storedLineup = localStorage.getItem("lineup");
-            if (storedLineup.includes("-"))
+            if (localStorage.getItem("lineup"))
             {
-                setMode("ec");
-            }
+                const storedLineup = localStorage.getItem("lineup");
+                if (storedLineup.includes("-"))
+                {
+                    setMode("ec");
+                }
 
-            selectLineup(storedLineup, true);
+                selectLineup(storedLineup, true);
+            }
+            else
+            {
+                selectLineup("1_1", true);
+            }
         }
-        else
-        {
-            selectLineup("1_1", true);
-        }
-        prepareForFirstDisplay();
+
 
         if (lastUpdate == null)
         {
@@ -96,14 +102,19 @@ function prepareForFirstDisplay()
     {
         if (allGroundLineups.includes(selection.toString()))
         {
+            setMode("ground", true);
             selectLineup(selection, true);
+            return true;
         }
-        else (selection.includes("-"))
+        else if (selection.includes("-"))
         {
-            setMode("ec");
+            setMode("ec", true);
             selectLineup(selection, true);
+            return true;
         }
     }
+
+    return false;
 }
 
 function showCenter()
