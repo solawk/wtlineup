@@ -112,7 +112,7 @@ const client = new Client({ intents: [
         GatewayIntentBits.MessageContent,
         GatewayIntentBits.GuildMembers,
     ],
-    shards: 'auto'});
+    shardCount: 'auto'});
 
 let vehicles = null;
 let thumbnail = 7; // 0-3 - bottom, 4-7 - top
