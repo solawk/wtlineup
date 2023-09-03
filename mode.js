@@ -3,7 +3,6 @@ let mode = "ground"; // ground / ec
 function setMode(newMode, noSelecting)
 {
     mode = newMode;
-    //fillLineupTable();
 
     el("lineupRed").classList.remove("red");
     el("lineupRed").classList.remove("gray");
@@ -36,8 +35,10 @@ function setMode(newMode, noSelecting)
         if (!noSelecting)
         {
             selectLineup(allGroundLineups[0], true);
-            console.log("selection ground");
         }
+
+        el("groundModeButton").classList.add("modeChoice");
+        el("ecModeButton").classList.remove("modeChoice");
     }
     else
     {
@@ -65,8 +66,10 @@ function setMode(newMode, noSelecting)
         if (!noSelecting)
         {
             selectLineup(aviaBrackets[0][0].min + "-" + aviaBrackets[0][0].max, true);
-            console.log("selection ec");
         }
+
+        el("groundModeButton").classList.remove("modeChoice");
+        el("ecModeButton").classList.add("modeChoice");
     }
 
     if (mode !== "ground")

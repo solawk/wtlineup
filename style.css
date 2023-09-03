@@ -132,6 +132,11 @@ body
     font-size: 2em;
 }
 
+.modeChoice
+{
+    background-color: #00000060;
+}
+
 .lineupsAmpersand
 {
     font-size: 0.8em;
