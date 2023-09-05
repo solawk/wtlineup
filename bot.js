@@ -322,11 +322,11 @@ function menu(en)
                     .setLabel('🔎 Поиск техники')
                     .setStyle(ButtonStyle.Primary));
 
-        if (Math.random() * 100 < probability) actionRow.addComponents(
+        /*if (Math.random() * 100 < probability) actionRow.addComponents(
             new ButtonBuilder()
                 .setCustomId('theFunny')
                 .setLabel(msgsFile.surveyname)
-                .setStyle(ButtonStyle.Secondary));
+                .setStyle(ButtonStyle.Secondary));*/
 
         return actionRow;
     }
