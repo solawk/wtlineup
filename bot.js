@@ -95,7 +95,7 @@ catch (e)
     clientId = process.env.CLIENTID;
     probability = parseFloat(process.env.probability);
 
-    REFRESHTIME = 120;
+    REFRESHTIME = 60;
 }
 
 // Functions from other modules

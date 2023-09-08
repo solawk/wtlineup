@@ -22,7 +22,6 @@ function getData()
                 if (localStorage.getItem("lineup"))
                 {
                     selectLineup(localStorage.getItem("lineup"), true);
-
                 }
                 else
                 {
