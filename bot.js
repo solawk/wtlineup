@@ -120,7 +120,7 @@ let whenTL = [ "", "", "", "" ];
 
 client.once(Events.ClientReady, async () =>
 {
-    console.log("Bot ready");
+    console.log("Bot ready at " + (new Date()).toString());
 
     await fetchVehicles();
     console.log("Vehicles loaded successfully");
