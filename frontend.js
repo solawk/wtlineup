@@ -19,6 +19,7 @@ let sorting = "nationForward";
 
 function selectLineup(name, ignoreToggle) // type = bottom or top lineup
 {
+    console.log(name);
     if (!ignoreToggle) toggleLineupDropdown();
 
     showOnlyNation = null;

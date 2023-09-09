@@ -70,13 +70,18 @@ if (typeof exports === 'undefined')
                 const storedLineup = localStorage.getItem("lineup");
                 if (storedLineup.includes("-"))
                 {
-                    setMode("ec");
+                    setMode("ec", true);
+                }
+                else
+                {
+                    setMode("ground", true);
                 }
 
                 selectLineup(storedLineup, true);
             }
             else
             {
+                setMode("ground", true);
                 selectLineup("1_1", true);
             }
         }
