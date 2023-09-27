@@ -1,12 +1,12 @@
-const keyDate = new Date(Date.UTC(2023, 3, 10, 11));
+const keyDate = new Date(Date.UTC(2023, 9, 27, 11));
 const squadronResetDate = new Date(Date.UTC(2023, 3, 15, 0));
 const aviaKeyDate = new Date(Date.UTC(2023, 4, 23, 8))
 
-const bottomLineups = [ "6_1", "1_1", "3_1", "2_1", "5_1", "4_1" ];
-const topLineups = [ "9_2", "8_2", "10_2", "8_2_2" ];
+const bottomLineups = [ "3_1", "2_1", "5_1", "4_1", "6_1", "1_1" ];
+const topLineups = [ "10_2", "8_2_2", "9_2", "11_2", "8_2"];
 
 let whenBottomLineups = [ "", "", "", "", "", "" ]; // "now", "today" or number of days to change (1 = tomorrow, 2 = after tomorrow etc.)
-let whenTopLineups = [ "", "", "", "" ];
+let whenTopLineups = [ "", "", "", "", "" ];
 
 const aviaBrackets =
     // Lineups
