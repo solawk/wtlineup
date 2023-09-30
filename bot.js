@@ -38,7 +38,7 @@ const thumbnails =
         l5_1: [
             "https://encyclopedia.warthunder.com/images/us_t26e5.png",
             "https://encyclopedia.warthunder.com/images/germ_pzkpfw_vi_ausf_b_tiger_iip.png",
-            "https://encyclopedia.warthunder.com/images/wyvern_s4.png",
+            "https://encyclopedia.warthunder.com/images/a-26b_10.png",
             "https://encyclopedia.warthunder.com/images/bf-109g-14.png",
         ],
         l6_1: [
@@ -66,6 +66,12 @@ const thumbnails =
             "https://encyclopedia.warthunder.com/images/bo_105cb2.png",
         ],
         l10_2: [
+            "https://encyclopedia.warthunder.com/images/ussr_t_90a.png",
+            "https://encyclopedia.warthunder.com/images/germ_leopard_2a4.png",
+            "https://encyclopedia.warthunder.com/images/su_25.png",
+            "https://encyclopedia.warthunder.com/images/f-4c.png",
+        ],
+        l11_2: [
             "https://encyclopedia.warthunder.com/images/ussr_t_80bvm.png",
             "https://encyclopedia.warthunder.com/images/germ_leopard_2a6.png",
             "https://encyclopedia.warthunder.com/images/mig_29_9_13.png",
