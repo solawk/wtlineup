@@ -3,7 +3,7 @@ const squadronResetDate = new Date(Date.UTC(2023, 3, 15, 0));
 const aviaKeyDate = new Date(Date.UTC(2023, 4, 23, 8))
 
 const bottomLineups = [ "3_1", "2_1", "5_1", "4_1", "6_1", "1_1" ];
-const topLineups = [ "10_2", "8_2_2", "9_2", "11_2", "8_2"];
+const topLineups = [ "10_2", "8_2_2", "9_2", "11_2", "8_2" ];
 
 let whenBottomLineups = [ "", "", "", "", "", "" ]; // "now", "today" or number of days to change (1 = tomorrow, 2 = after tomorrow etc.)
 let whenTopLineups = [ "", "", "", "", "" ];
@@ -115,7 +115,7 @@ function getLineups()
 
     // Search days
     const whenBL = [ "", "", "", "", "", "" ]; // "now", "today" or number of days to change (1 = tomorrow, 2 = after tomorrow etc.)
-    const whenTL = [ "", "", "", "" ];
+    const whenTL = [ "", "", "", "", "" ];
     whenBL[indexOfBottomLineupNow] = "now";
     whenTL[indexOfTopLineupNow] = "now";
     const nowDate = new Date();
