@@ -578,7 +578,7 @@ function theFunnyFunction(choice, en)
     return msg;
 }
 
-const requestDeployment = new SlashCommandBuilder()
+/*const requestDeployment = new SlashCommandBuilder()
     .setName("развернуть")
     .setDescription("Запросить развёртывание в этом канале (нужно право управления сервером)");
 
@@ -642,6 +642,6 @@ client.on(Events.InteractionCreate, async (interaction) =>
 
             return;
     }
-});
+});*/
 
 client.login(token);
