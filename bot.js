@@ -381,15 +381,23 @@ function lineupFunction(interaction, en)
     let aviaNowString = "";
     for (let i = 0; i < lineups.aviaNow.length; i++)
     {
-        aviaNowString += "[" + lineups.aviaNow[i].min.toString() + " - " + lineups.aviaNow[i].max.toString() + "]("
-            + link(lineups.aviaNow[i].min.toString() + "-" + lineups.aviaNow[i].max.toString()) + ")" + (i % 3 === 2 ? "\n" : "‎ ‎ ‎ ");
+        const isTenLineups = lineups.aviaNow.length === 10;
+        const addNewline = isTenLineups ? (i === 3 || (i > 3 && (i-4) % 3 === 2)) : (i % 3 === 2);
+        const addComma = i < lineups.aviaNow.length - 1;
+
+        aviaNowString += "[" + lineups.aviaNow[i].min.toString() + "-" + lineups.aviaNow[i].max.toString() + "]("
+            + link(lineups.aviaNow[i].min.toString() + "-" + lineups.aviaNow[i].max.toString()) + ")" + (addComma ? "," : "") + (addNewline ? "\n" : "‎ ");
     }
 
     let aviaNextString = "";
     for (let i = 0; i < lineups.aviaNext.length; i++)
     {
-        aviaNextString += "[" + lineups.aviaNext[i].min.toString() + " - " + lineups.aviaNext[i].max.toString() + "]("
-            + link(lineups.aviaNext[i].min.toString() + "-" + lineups.aviaNext[i].max.toString()) + ")" + (i % 3 === 2 ? "\n" : "‎ ‎ ‎ ");
+        const isTenLineups = lineups.aviaNext.length === 10;
+        const addNewline = isTenLineups ? (i === 3 || (i > 3 && (i-4) % 3 === 2)) : (i % 3 === 2);
+        const addComma = i < lineups.aviaNext.length - 1;
+
+        aviaNextString += "[" + lineups.aviaNext[i].min.toString() + "-" + lineups.aviaNext[i].max.toString() + "]("
+            + link(lineups.aviaNext[i].min.toString() + "-" + lineups.aviaNext[i].max.toString()) + ")" + (addComma ? "," : "") + (addNewline ? "\n" : "‎ ");
     }
 
     // Future lineups
@@ -398,7 +406,7 @@ function lineupFunction(interaction, en)
     {
         futureLineupsString += lineups.future[i].date + " (" + weekDays[lineups.future[i].dayOfWeek] + ")"
             + " - [" + lineups.future[i].b + "](" + link(lineups.future[i].b)
-            + ") & " + "[" + lineups.future[i].t + "](" + link(lineups.future[i].t) + ")";
+            + ") и " + "[" + lineups.future[i].t + "](" + link(lineups.future[i].t) + ")";
         if (i < 4) futureLineupsString += "\n";
     }
 
@@ -425,10 +433,10 @@ function lineupFunction(interaction, en)
         .setThumbnail(thumbnailUrl)
         .addFields(
             { name: gsb,
-                value: "[**" + lineups.bottomNow + "**](" + link(lineups.bottomNow) + ") & " + "[**" + lineups.topNow + "**](" + link(lineups.topNow) + ")",
+                value: "[**" + lineups.bottomNow + "**](" + link(lineups.bottomNow) + ") и " + "[**" + lineups.topNow + "**](" + link(lineups.topNow) + ")",
                 inline: true },
             { name: availableIn + lineups.nextHours + hours + lineups.nextMinutes + minutes,
-                value: "[" + lineups.bottomNext + "](" + link(lineups.bottomNext) + ") & " + "[" + lineups.topNext + "](" + link(lineups.topNext) + ")",
+                value: "[" + lineups.bottomNext + "](" + link(lineups.bottomNext) + ") и " + "[" + lineups.topNext + "](" + link(lineups.topNext) + ")",
                 inline: true },
             { name: future,
                 value: futureLineupsString },
