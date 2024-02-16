@@ -32,7 +32,7 @@ const thumbnails =
         l4_1: [
             "https://encyclopedia.warthunder.com/i/images/ussr_t_34_85_zis_53.png",
             "https://encyclopedia.warthunder.com/i/images/germ_pzkpfw_vi_ausf_e_tiger.png",
-            "https://encyclopedia.warthunder.com/i/images/f6f-3.png",
+            "https://encyclopedia.warthunder.com/i/images/p-38j_marge.png",
             "https://encyclopedia.warthunder.com/i/images/bf-109f-4.png",
         ],
         l5_1: [
