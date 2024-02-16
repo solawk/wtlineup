@@ -1,10 +1,9 @@
 // Requirements and constants
-const { Client, Events, GatewayIntentBits, EmbedBuilder, ActionRowBuilder, SlashCommandBuilder, REST, Routes,
+const { Client, Events, GatewayIntentBits, EmbedBuilder, ActionRowBuilder,
     ButtonBuilder, ButtonStyle, ModalBuilder, TextInputBuilder, TextInputStyle
 } = require("discord.js");
 const fetch = require("cross-fetch");
 
-const REQUESTSCH = "1141064242485801142";
 let STATUSMSGIDS;
 let REFRESHTIME;
 const VEHICLESREFRESHTIME = 8 * 60 * 60 * 1000;
@@ -109,7 +108,6 @@ const { getLineups, BL, TL } = require("./schedule.js");
 const { getSuggestions } = require("./search.js");
 const { getGuaranteedLineups } = require("./main.js");
 const { hrefOfVehicle } = require("./frontend.js");
-const { theFunnyImages, theFunnyNames, theFunnyDescriptions, theFunnyHashing } = require("./thefunny");
 
 // Initialization
 const client = new Client({ intents: [
@@ -122,7 +120,7 @@ const client = new Client({ intents: [
 let vehicles = null;
 let thumbnail = 7; // 0-3 - bottom, 4-7 - top
 let whenBL = [ "", "", "", "", "", "" ];
-let whenTL = [ "", "", "", "" ];
+let whenTL = [ "", "", "", "", "" ];
 
 client.once(Events.ClientReady, async () =>
 {
@@ -170,43 +168,6 @@ client.on(Events.InteractionCreate, async (interaction) =>
 
         await interaction.showModal(modal);
     }
-
-    if (interaction.customId === "theFunny")
-    {
-        const modal = new ModalBuilder()
-            .setCustomId("theFunnyModal")
-            .setTitle(msgsFile.surveytitle);
-
-        modal.addComponents(
-        [
-            new ActionRowBuilder().addComponents(
-                    new TextInputBuilder()
-                        .setCustomId("cityInput")
-                        .setLabel("В каком городе ты не родился?")
-                        .setStyle(TextInputStyle.Short)
-            ),
-            new ActionRowBuilder().addComponents(
-                new TextInputBuilder()
-                    .setCustomId("colorInput")
-                    .setLabel("Какого цвета твой любимый амогус?")
-                    .setStyle(TextInputStyle.Short)
-            ),
-            new ActionRowBuilder().addComponents(
-                new TextInputBuilder()
-                    .setCustomId("summerInput")
-                    .setLabel("Как ты провёл это лето?")
-                    .setStyle(TextInputStyle.Short)
-            ),
-            new ActionRowBuilder().addComponents(
-                new TextInputBuilder()
-                    .setCustomId("riemannInput")
-                    .setLabel("Приведи контрпример к гипотезе Римана")
-                    .setStyle(TextInputStyle.Paragraph),
-            )
-        ]);
-
-        await interaction.showModal(modal);
-    }
 });
 
 client.on(Events.InteractionCreate, async interaction => {
@@ -217,22 +178,6 @@ client.on(Events.InteractionCreate, async interaction => {
         const name = interaction.fields.getTextInputValue('searchNameInput');
 
         const message = await interaction.reply({ embeds: [ await searchFunction(name, false) ], ephemeral: true });
-        setTimeout(async () => {
-            message.delete().then().catch();
-        }, 5 * 60 * 1000);
-    }
-
-    if (interaction.customId === 'theFunnyModal')
-    {
-        const values =
-            interaction.fields.getTextInputValue('surveyInput1') +
-            interaction.fields.getTextInputValue('surveyInput2') +
-            interaction.fields.getTextInputValue('surveyInput3') +
-            interaction.fields.getTextInputValue('surveyInput4');
-
-        const choice = theFunnyHashing(values);
-
-        const message = await interaction.reply({ embeds: [ await theFunnyFunction(choice, false) ], ephemeral: true });
         setTimeout(async () => {
             message.delete().then().catch();
         }, 5 * 60 * 1000);
@@ -328,12 +273,6 @@ function menu(en)
                     .setLabel('🔎 Поиск техники')
                     .setStyle(ButtonStyle.Primary));
 
-        /*if (Math.random() * 100 < probability) actionRow.addComponents(
-            new ButtonBuilder()
-                .setCustomId('theFunny')
-                .setLabel(msgsFile.surveyname)
-                .setStyle(ButtonStyle.Secondary));*/
-
         return actionRow;
     }
 }
@@ -349,7 +288,6 @@ function lineupFunction(interaction, en)
     const name = en ? "Simulator Battles Lineup Info Board" : "Сводка сетапов симуляторных боёв";
     const gsb = en ? "**Ground SB** now" : "**Совместные СБ** сейчас";
     const asb = en ? "**Enduring Confrontation** now" : "**Противостояние** сейчас";
-    const availableNow = en ? "Available now" : "Доступны сейчас";
     const availableIn = en ? "In " : "Через ";
     const days = en ? " d " : " д ";
     const hours = en ? " h " : " ч ";
@@ -453,13 +391,11 @@ function lineupFunction(interaction, en)
         )
         .setFooter({ text: authors });
 
-    //await interaction.reply({ embeds: [ msg ], ephemeral: true });
     return msg;
 }
 
 function searchFunction(query, en)
 {
-    //const query = interaction.options.getString(en ? "name" : "название");
     const suggestions = getSuggestions(query, vehicles, getGuaranteedLineups, 10);
 
     // String localization
@@ -546,8 +482,6 @@ function searchFunction(query, en)
         const vname = ((!en && s.v.ruName !== "") ? s.v.ruName : s.v.enName);
         lineupsString += "\n[Найти " + vname + " в Google](" + hrefOfVehicle(s.v) + ")";
 
-        //const nameString = "[" + ((!en && s.v.ruName !== "") ? s.v.ruName : s.v.enName) + "](" + hrefOfVehicle(s.v) + ")";
-
         msg.addFields(
             { name: vname + " - " + (en ? nationsEn[s.v.nation] : nationsRu[s.v.nation]) + ", " + s.v.br.toString(),
                 value: lineupsString.length > 0 ? lineupsString : "-" }
@@ -563,93 +497,7 @@ function searchFunction(query, en)
     msg.addFields({ name: " ",
         value: boosty + ", " + github });
 
-    //await interaction.reply({ embeds: [ msg ], ephemeral: true });
-
     return msg;
 }
-
-function theFunnyFunction(choice, en)
-{
-    const img = theFunnyImages[choice];
-    const chname = theFunnyNames[choice];
-    const chdesc = theFunnyDescriptions[choice];
-
-    const msg = new EmbedBuilder()
-        .setTitle("Результаты теста")
-        .setImage(img);
-
-    msg.addFields(
-        { name: "Ты " + chname + "!",
-            value: chdesc }
-    );
-
-    return msg;
-}
-
-/*const requestDeployment = new SlashCommandBuilder()
-    .setName("развернуть")
-    .setDescription("Запросить развёртывание в этом канале (нужно право управления сервером)");
-
-const rest = new REST().setToken(token);
-registerCommands();
-
-async function registerCommands()
-{
-    try
-    {
-        const commands = [ requestDeployment ];
-        await rest.put(Routes.applicationCommands(clientId), { body: commands });
-        console.log("Commands registered successfully");
-    }
-    catch (e)
-    {
-        console.log(e);
-    }
-}
-
-client.on(Events.InteractionCreate, async (interaction) =>
-{
-    if (!interaction.isChatInputCommand()) return;
-
-    switch (interaction.commandName)
-    {
-        case "развернуть":
-            const guildMember = await interaction.guild.members.fetch(interaction.user);
-            const permissions = guildMember.permissions;
-            const isGuildManager = (permissions.bitfield & BigInt(1 << 5)) > 0;
-
-            if (!isGuildManager)
-            {
-                interaction.reply({ content: "Чтобы развернуть бота, нужно иметь право управления сервером!", ephemeral: true });
-            }
-            else
-            {
-                const channel = interaction.channel;
-                const botStatusMessage = await channel.send("Запрос на развёртывание бота WTLineup был отправлен разработчику.\n" +
-                    "Когда он будет принят, это сообщение станет выводом для бота.\n" +
-                    "Если вы удалите это сообщение и/или канал, бот не сломается, но лучше так не делать.\n" +
-                    "Пишите на Boosty (https://boosty.to/solawk), если есть вопросы.");
-
-                const msgid = botStatusMessage.id;
-                const chid = botStatusMessage.channel.id;
-                const username = interaction.user.username;
-                const servername = interaction.guild.name;
-
-                const reqch = await client.channels.fetch(REQUESTSCH);
-                if (reqch == null)
-                {
-                    console.log("Requests channel not found!!!");
-                }
-
-                await reqch.send("Сервер: " + servername + "\n" +
-                    "Пользователь: " + username + "\n" +
-                    "{ \"msg\": \"" + msgid + "\", \"ch\": \"" + chid + "\" }");
-
-                await interaction.reply({ content: "Это сообщение можно удалить", ephemeral: true });
-            }
-
-            return;
-    }
-});*/
 
 client.login(token);
