@@ -6,7 +6,7 @@ const fetch = require("cross-fetch");
 
 let STATUSMSGIDS;
 let REFRESHTIME;
-const VEHICLESREFRESHTIME = 8 * 60 * 60 * 1000;
+const VEHICLESREFRESHTIME = 1 * 60 * 60 * 1000;
 
 const thumbnails =
     {
