@@ -223,10 +223,6 @@ function setSchedule()
         const bLineup = scheduleData.future[d].b;
         const tLineup = scheduleData.future[d].t;
         const dateString = scheduleData.future[d].date + " (<span id='LOC_weekDay" + scheduleData.future[d].dayOfWeek.toString() + "'></span>)";
-        console.log(d);
-        console.log(scheduleData);
-        console.log(scheduleData.future[d].dayOfWeek);
-        console.log("------");
 
         futureDiv.innerHTML += "<span style='white-space: nowrap'>[<a class='undecoratedLinks' onclick='clickOnScheduleLineup(this)'>" + bLineup + "</a>]<span class='lineupsAmpersand'> & </span>[<a class='undecoratedLinks' onclick='clickOnScheduleLineup(this)'>" + tLineup + "</a>]</span> <span style='white-space: nowrap'> – " + dateString + " </span>";
         futureDiv.innerHTML += "<br>";
