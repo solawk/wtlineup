@@ -33,25 +33,59 @@ function searchInput()
     searchTimeout = setTimeout(() => { searchSuggest(); }, 200);
 }
 
-function getSuggestions(input, source, glFuncFromBot, amount)
+function getSuggestions(input, source, glFuncFromBot, amount, ecBr)
 {
     let suggestionsStartWith = [];
     let suggestionsInclude = [];
 
-    const glFunc = glFuncFromBot ? glFuncFromBot : getGuaranteedLineups;
+    const isBot = glFuncFromBot ? true : false;
+    const glFunc = isBot ? glFuncFromBot : getGuaranteedLineups;
     const maxAmount = amount ? amount : 10;
+
+    const isECmode = isBot ? false : mode === "ec";
+    const ecBrackets = isBot ? ecBr : aviaBrackets;
+
+    const isPlane = (v) => {return v.cl === "fighter" || v.cl === "attacker" || v.cl === "bomber"};
+
+    function addECLineups(v, l)
+    {
+        if ((isECmode || isBot) && isPlane(v))
+        {
+            if (!isBot) l = [];
+            const brf = parseFloat(v.br);
+            for (const bracket of ecBrackets)
+            {
+                for (const ecLineup of bracket)
+                {
+                    if (parseFloat(ecLineup.min) <= brf && parseFloat(ecLineup.max) >= brf)
+                    {
+                        const lineupString = ecLineup.min + "-" + ecLineup.max;
+                        if (!l.includes(lineupString)) l.push(lineupString);
+                    }
+                }
+            }
+        }
+
+        return l;
+    }
 
     for (const v of source)
     {
+        if (isECmode && !isPlane(v)) continue;
+
         if ((v.enName.toLowerCase().startsWith(input.toLowerCase()) || v.ruName.toLowerCase().startsWith(input.toLowerCase())) && suggestionsStartWith.length < maxAmount)
         {
-            suggestionsStartWith.push({v: v, l: glFunc(v)});
+            let lineups = glFunc(v);
+            lineups = addECLineups(v, lineups);
+            suggestionsStartWith.push({v: v, l: lineups});
             continue;
         }
 
         if ((v.enName.toLowerCase().includes(input.toLowerCase()) || v.ruName.toLowerCase().includes(input.toLowerCase())) && suggestionsInclude.length < maxAmount)
         {
-            suggestionsInclude.push({v: v, l: glFunc(v)});
+            let lineups = glFunc(v);
+            lineups = addECLineups(v, lineups);
+            suggestionsInclude.push({v: v, l: lineups});
         }
     }
 
@@ -82,6 +116,8 @@ function searchSuggest()
 
     suggestionsTable.innerHTML = "";
 
+    const isECmode = mode === "ec";
+
     for (const s of suggestions)
     {
         const tr = document.createElement("tr");
@@ -108,7 +144,9 @@ function searchSuggest()
 
         const lTable = document.createElement("table");
         tdLineups.appendChild(lTable);
+
         const lineups = s.l;
+
         for (const l of lineups)
         {
             if (l.length === 0) continue;

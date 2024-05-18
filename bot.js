@@ -104,7 +104,7 @@ catch (e)
 }
 
 // Functions from other modules
-const { getLineups, BL, TL } = require("./schedule.js");
+const { getLineups, whenIsLineup, BL, TL, AB } = require("./schedule.js");
 const { getSuggestions } = require("./search.js");
 const { getGuaranteedLineups } = require("./main.js");
 const { hrefOfVehicle } = require("./frontend.js");
@@ -121,6 +121,7 @@ let vehicles = null;
 let thumbnail = 7; // 0-3 - bottom, 4-7 - top
 let whenBL = [ "", "", "", "", "", "" ];
 let whenTL = [ "", "", "", "", "" ];
+let whenEC = [ "", "", "", "" ];
 
 client.once(Events.ClientReady, async () =>
 {
@@ -283,6 +284,7 @@ function lineupFunction(interaction, en)
 
     whenBL = lineups.whenBL;
     whenTL = lineups.whenTL;
+    whenEC = lineups.whenEC;
 
     // String localization
     const name = en ? "Simulator Battles Lineup Info Board" : "Сводка сетапов симуляторных боёв";
@@ -396,7 +398,7 @@ function lineupFunction(interaction, en)
 
 function searchFunction(query, en)
 {
-    const suggestions = getSuggestions(query, vehicles, getGuaranteedLineups, 10);
+    const suggestions = getSuggestions(query, vehicles, getGuaranteedLineups, 10, AB);
 
     // String localization
     const name = en ? "Search results - " : "Результаты поиска - ";
@@ -432,11 +434,6 @@ function searchFunction(query, en)
         {
             lineupsString += "[" + s.l[i] + "](" + link(s.l[i]) + ")";
 
-            // Day
-            const isBottom = s.l[i].endsWith("1");
-            const indexOfLineup = isBottom ? BL.indexOf(s.l[i]) : TL.indexOf(s.l[i]);
-            const when = isBottom ? whenBL[indexOfLineup] : whenTL[indexOfLineup];
-
             const whenRu =
                 {
                     whenNow: "доступен сейчас!",
@@ -456,6 +453,12 @@ function searchFunction(query, en)
                     whenAfterDaysBefore: "available after ",
                     whenAfterDaysAfter: " days",
                 };
+
+            // Day
+            const isEC = s.l[i].includes("-");
+            const isBottom = s.l[i].endsWith("1");
+            const indexOfLineup = isBottom ? BL.indexOf(s.l[i]) : TL.indexOf(s.l[i]);
+            const when = !isEC ? (isBottom ? whenBL[indexOfLineup] : whenTL[indexOfLineup]) : whenIsLineup(s.l[i]);
 
             if (when !== "")
             {

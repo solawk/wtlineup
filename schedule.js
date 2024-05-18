@@ -1,12 +1,13 @@
 const keyDate = new Date(Date.UTC(2023, 9, 27, 11));
 const squadronResetDate = new Date(Date.UTC(2023, 3, 15, 0));
-const aviaKeyDate = new Date(Date.UTC(2023, 4, 23, 8))
+const aviaKeyDate = new Date(Date.UTC(2023, 4, 23, 8));
 
 const bottomLineups = [ "3_1", "2_1", "5_1", "4_1", "6_1", "1_1" ];
 const topLineups = [ "10_2", "8_2_2", "9_2", "11_2", "8_2" ];
 
 let whenBottomLineups = [ "", "", "", "", "", "" ]; // "now", "today" or number of days to change (1 = tomorrow, 2 = after tomorrow etc.)
 let whenTopLineups = [ "", "", "", "", "" ];
+let whenECLineups = [ "", "", "", "" ];
 
 const aviaBrackets =
     // Lineups
@@ -146,7 +147,7 @@ function getLineups()
 
     // Avia
     const aviaDiff = nowDateMs - aviaKeyDate;
-    const aviaDiffInPairsUnfloored = aviaDiff / (1000 * 60 * 60 * 48);
+    const aviaDiffInPairsUnfloored = aviaDiff / (1000 * 60 * 60 * 48); // pair is 2 days
     const aviaDiffInPairs = Math.floor(aviaDiffInPairsUnfloored);
 
     const aviaTotalMsRemaining = ((aviaDiffInPairs + 1) - aviaDiffInPairsUnfloored) * 48 * 60 * 60 * 1000;
@@ -164,10 +165,21 @@ function getLineups()
     const aviaBracketNow = aviaBrackets[aviaIndexOfBracketNow];
     const aviaBracketNext = aviaBrackets[aviaIndexOfBracketNext];
 
+    whenECLineups[aviaIndexOfBracketNow] = "now";
+    const nextECDate = new Date(Date.now() + aviaTotalMsRemaining);
+    const isNextTomorrow = aviaDaysRemaining < 1;
+    const isNextECToday = isNextTomorrow ? nowDate.getHours() < nextECDate.getHours() : false;
+    whenECLineups[aviaIndexOfBracketNext] = isNextECToday ? "today" : (isNextTomorrow ? 1 : 2);
+    for (let d = 0; d < 3; d++)
+    {
+        const ecl = (aviaDiffInPairs + 2 + d) % aviaBrackets.length;
+        if (whenECLineups[ecl] === "") whenECLineups[ecl] = isNextECToday ? (1 + (2 * d) + (isNextTomorrow ? 1 : 2)) : (2 + (2 * d) + (isNextTomorrow ? 1 : 2));
+    }
+
     return { bottomNow: bottomLineupNow, topNow: topLineupNow,
         bottomNext: bottomLineupNext, topNext: topLineupNext,
         nextHours: nextHours, nextMinutes: nextMinutes,
-        future: futureLineups, whenBL: whenBL, whenTL: whenTL,
+        future: futureLineups, whenBL: whenBL, whenTL: whenTL, whenEC: whenECLineups,
         sqD: squadron_daysRemaining, sqH: squadron_hoursRemaining, sqM: squadron_minutesRemaining,
         aviaNow: aviaBracketNow, aviaNext: aviaBracketNext,
         aviaNextDays: aviaDaysRemaining, aviaNextHours: aviaHoursRemaining, aviaNextMinutes: aviaMinutesRemaining };
@@ -242,6 +254,40 @@ function whenIsLineup(lineup)
     if (index === -1)
     {
         index = topLineups.indexOf(lineup);
+
+        if (index === -1)
+        {
+            // EC
+
+            let earliest = 999;
+            let earliestb = -1;
+
+            for (let b = 0; b < 4; b++)
+            {
+                for (const ecl of aviaBrackets[b])
+                {
+                    if (lineup.startsWith(ecl.min) && lineup.endsWith(ecl.max))
+                    {
+                        if (whenECLineups[b] === "now")
+                        {
+                            return "now";
+                        }
+                        else if (whenECLineups[b] === "today")
+                        {
+                            return "today";
+                        }
+                        else if (whenECLineups[b] < earliest)
+                        {
+                            earliest = whenECLineups[b];
+                            earliestb = b;
+                        }
+                    }
+                }
+            }
+
+            return whenECLineups[earliestb];
+        }
+        
         return whenTopLineups[index];
     }
 
@@ -281,6 +327,8 @@ function toggleFuture()
 (function(exports)
 {
     exports.getLineups = getLineups;
+    exports.whenIsLineup = whenIsLineup;
     exports.BL = bottomLineups;
-    exports.TL = topLineups
+    exports.TL = topLineups;
+    exports.AB = aviaBrackets;
 })(typeof exports === 'undefined' ? this['schedule'] = {} : exports);
