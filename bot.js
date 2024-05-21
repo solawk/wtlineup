@@ -129,6 +129,14 @@ client.once(Events.ClientReady, async () =>
 
     await fetchVehicles();
     console.log("Vehicles loaded successfully");
+ 
+    const DEPLOYMENTCHANNELID = "1100833282653966407";
+    // Deployment
+    if (DEPLOYMENTCHANNELID != null)
+    {
+        const deploymentChannel = await client.channels.fetch(DEPLOYMENTCHANNELID);
+        await deploymentChannel.send("ඞඞඞ");
+    }
 
     setInterval(async () => { await fetchVehicles(); }, VEHICLESREFRESHTIME);
 });
@@ -243,6 +251,8 @@ async function refreshStatusMessages()
 
         message.edit({ content: null, embeds: [ lineupFunction(null, false) ], components: [ menu(false) ] });
     }
+
+    console.log(whenEC);
 }
 
 setInterval(async () =>
