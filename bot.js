@@ -130,7 +130,7 @@ client.once(Events.ClientReady, async () =>
     await fetchVehicles();
     console.log("Vehicles loaded successfully");
  
-    const DEPLOYMENTCHANNELID = "1100833282653966407";
+    const DEPLOYMENTCHANNELID = "1109917653075775600";
     // Deployment
     if (DEPLOYMENTCHANNELID != null)
     {
