@@ -252,7 +252,7 @@ async function refreshStatusMessages()
         message.edit({ content: null, embeds: [ lineupFunction(null, false) ], components: [ menu(false) ] });
     }
 
-    console.log(whenEC);
+    //console.log(whenEC);
 }
 
 setInterval(async () =>
@@ -305,12 +305,12 @@ function lineupFunction(interaction, en)
     const hours = en ? " h " : " ч ";
     const minutes = en ? " min" : " мин";
     const future = en ? "Future lineups" : "Будущие сетапы";
-    const squadron = en ? "**Squadron activity** reset in" : "Сброс **полковой активности** через";
+    const squadron = en ? "**Squadron activity** reset in" : "Сброс **полковой активности**";
     const linkDisclaimer = en ? "Clicking a lineup opens the WTLineup website with the list of vehicles" :
         "Нажатие на сетап направляет на веб-сайт WTLineup со списком техники";
-    const firstDay = en ? " (1st day of the cycle)" : " (1-й день цикла)";
-    const secondDay = en ? " (2nd day of the cycle)" : " (2-й день цикла)";
-    const thirdDay = en ? " (3rd day of the cycle)" : " (3-й день цикла)";
+    const firstDay = en ? " (1st day of the cycle)" : " (день 1/3)";
+    const secondDay = en ? " (2nd day of the cycle)" : " (день 2/3)";
+    const thirdDay = en ? " (3rd day of the cycle)" : " (день 3/3)";
 
     const weekDaysEn = [ "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" ];
     const weekDaysRu = [ "вс", "пн", "вт", "ср", "чт", "пт", "сб" ];
@@ -398,10 +398,9 @@ function lineupFunction(interaction, en)
                 inline: true },
             { name: squadron,
                 value: squadronResetString + cycleDay },
-            { name: " ",
+            { name: authors,
                 value: boosty + ", " + github }
-        )
-        .setFooter({ text: authors });
+        );
 
     return msg;
 }
