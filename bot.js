@@ -432,8 +432,7 @@ function searchFunction(query, en)
 
     const msg = new EmbedBuilder()
         .setTitle(name + query)
-        .setDescription(linkDisclaimer)
-        .setFooter({ text: authors });
+        .setDescription(linkDisclaimer);
 
     for (const s of suggestions)
     {
@@ -506,7 +505,7 @@ function searchFunction(query, en)
     }
 
     msg.addFields({ name: deletingName, value: deletingDesc });
-    msg.addFields({ name: " ",
+    msg.addFields({ name: authors,
         value: boosty + ", " + github });
 
     return msg;
