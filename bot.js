@@ -138,6 +138,8 @@ client.once(Events.ClientReady, async () =>
         await deploymentChannel.send("ඞඞඞ");
     }
 
+    refreshWhenLineups(getLineups());
+
     setInterval(async () => { await fetchVehicles(); }, VEHICLESREFRESHTIME);
 });
 
@@ -288,13 +290,18 @@ function menu(en)
     }
 }
 
+function refreshWhenLineups(lineups)
+{
+    whenBL = lineups.whenBL;
+    whenTL = lineups.whenTL;
+    whenEC = lineups.whenEC;
+}
+
 function lineupFunction(interaction, en)
 {
     const lineups = getLineups();
 
-    whenBL = lineups.whenBL;
-    whenTL = lineups.whenTL;
-    whenEC = lineups.whenEC;
+    refreshWhenLineups(lineups);
 
     // String localization
     const name = en ? "Simulator Battles Lineup Info Board" : "Сводка сетапов симуляторных боёв";
