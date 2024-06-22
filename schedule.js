@@ -22,7 +22,7 @@ const aviaBrackets =
             { min: "8.0", max: "9.0" },
             { min: "9.3", max: "10.3" },
             { min: "10.7", max: "11.7" },
-            { min: "12.0", max: "12.7" },
+            { min: "12.0", max: "13.0" },
         ],
         [
             { min: "1.0", max: "2.0" },
@@ -33,7 +33,7 @@ const aviaBrackets =
             { min: "7.7", max: "8.7" },
             { min: "9.0", max: "10.0" },
             { min: "10.3", max: "11.3" },
-            { min: "11.7", max: "12.7" },
+            { min: "11.7", max: "13.0" },
         ],
         [
             { min: "1.0", max: "1.7" },
@@ -45,7 +45,7 @@ const aviaBrackets =
             { min: "8.7", max: "9.7" },
             { min: "10.0", max: "10.7" },
             { min: "11.0", max: "11.7" },
-            { min: "12.0", max: "12.7" },
+            { min: "12.0", max: "13.0" },
         ],
         [
             { min: "1.0", max: "1.7" },
@@ -57,7 +57,7 @@ const aviaBrackets =
             { min: "8.3", max: "9.3" },
             { min: "9.7", max: "10.3" },
             { min: "10.7", max: "11.3" },
-            { min: "11.7", max: "12.7" },
+            { min: "11.7", max: "13.0" },
         ],
     ];
 
@@ -259,8 +259,8 @@ function whenIsLineup(lineup)
         {
             // EC
 
-            let earliest = 999;
-            let earliestb = -1;
+            let earliest = 999; // days
+            let earliestb = -1; // bracket
 
             for (let b = 0; b < 4; b++)
             {
