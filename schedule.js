@@ -297,6 +297,7 @@ function whenIsLineup(lineup)
 function clickOnScheduleLineup(elem)
 {
     const lineup = elem.innerHTML;
+    setMode("ground", true);
     selectLineup(lineup, true);
     window.scrollTo(0, 0);
 }
