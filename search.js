@@ -35,6 +35,7 @@ function searchInput()
 
 function getSuggestions(input, source, glFuncFromBot, amount, ecBr)
 {
+    let suggestionsExact = [];
     let suggestionsStartWith = [];
     let suggestionsInclude = [];
 
@@ -73,6 +74,14 @@ function getSuggestions(input, source, glFuncFromBot, amount, ecBr)
     {
         if (isECmode && !isPlane(v)) continue;
 
+        if ((v.enName.toLowerCase() === input.toLowerCase() || v.ruName.toLowerCase() === input.toLowerCase()) && suggestionsExact.length < maxAmount)
+        {
+            let lineups = glFunc(v);
+            lineups = addECLineups(v, lineups);
+            suggestionsExact.push({v: v, l: lineups});
+            continue;
+        }
+
         if ((v.enName.toLowerCase().startsWith(input.toLowerCase()) || v.ruName.toLowerCase().startsWith(input.toLowerCase())) && suggestionsStartWith.length < maxAmount)
         {
             let lineups = glFunc(v);
@@ -89,13 +98,13 @@ function getSuggestions(input, source, glFuncFromBot, amount, ecBr)
         }
     }
 
-    let suggestions = [...suggestionsStartWith];
-    let remainingCapacity = maxAmount - suggestions.length;
+    let suggestions = [...suggestionsExact, ...suggestionsStartWith, ...suggestionsInclude].slice(0, 10);
+    /*let remainingCapacity = maxAmount - suggestions.length;
 
     for (let i = 0; i < remainingCapacity && suggestionsInclude.length > 0; i++)
     {
         suggestions.push(suggestionsInclude.shift());
-    }
+    }*/
 
     //console.log(suggestions);
     return suggestions;
