@@ -110,7 +110,8 @@ function selectLineup(name, ignoreToggle) // type = bottom or top lineup
     }
     else
     {
-        const startAndEnd = name.split("-");
+        let startAndEnd = name.split("-");
+        if (startAndEnd.length === 1) startAndEnd = name.split("‑");
         const ecVehicles = getAllVehiclesInEC(parseFloat(startAndEnd[0]), parseFloat(startAndEnd[1]));
 
         teamBlue = [];
