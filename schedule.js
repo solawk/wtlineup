@@ -193,6 +193,11 @@ function setSchedule()
 {
     const scheduleData = getLineups();
 
+    function linkedLineup(mode, lineup)
+    {
+        return "[<a class='undecoratedLinks' onclick='clickOnScheduleLineup(this, \"" + mode + "\")'>" + lineup + "</a>]";
+    }
+
     // Lineups
     el("sched_currentBottom").innerHTML = scheduleData.bottomNow;
     el("sched_currentTop").innerHTML = scheduleData.topNow;
@@ -211,6 +216,8 @@ function setSchedule()
     const lowerSquadronDSpan = document.createElement("span");
     const lowerSquadronHSpan = document.createElement("span");
     const lowerSquadronMinSpan = document.createElement("span");
+    const squadronDayRow = document.createElement("span");
+    const squadronDay = document.createElement("span");
     upperSquadronSpan.style.whiteSpace = lowerSquadronSpan.style.whiteSpace = "nowrap";
 
     upperSquadronSpan.id = "LOC_squadronReset";
@@ -218,29 +225,86 @@ function setSchedule()
     lowerSquadronDSpan.id = "LOC_dLineup2";
     lowerSquadronHSpan.id = "LOC_hLineup2";
     lowerSquadronMinSpan.id = "LOC_minLineup2";
+    squadronDay.id = "LOC_squadronDay";
 
-    const futureDiv = el("scheduleFuture");
+    squadronDayRow.style.fontSize = "1.5em";
 
-    futureDiv.appendChild(upperSquadronSpan);
-    futureDiv.innerHTML += "<br>";
-    futureDiv.appendChild(lowerSquadronInSpan);
-    futureDiv.innerHTML += "&nbsp;" + scheduleData.sqD + "&nbsp;";
-    futureDiv.appendChild(lowerSquadronDSpan);
-    futureDiv.innerHTML += "&nbsp;" + scheduleData.sqH + "&nbsp;";
-    futureDiv.appendChild(lowerSquadronHSpan);
-    futureDiv.innerHTML += "&nbsp;" + scheduleData.sqM + "&nbsp;";
-    futureDiv.appendChild(lowerSquadronMinSpan);
+    const squadronActivity = el("squadronActivity");
+    squadronActivity.innerHTML = "";
+
+    squadronActivity.appendChild(upperSquadronSpan);
+    squadronActivity.innerHTML += "<br>";
+    squadronActivity.appendChild(lowerSquadronInSpan);
+    squadronActivity.innerHTML += "&nbsp;" + scheduleData.sqD + "&nbsp;";
+    squadronActivity.appendChild(lowerSquadronDSpan);
+    squadronActivity.innerHTML += "&nbsp;" + scheduleData.sqH + "&nbsp;";
+    squadronActivity.appendChild(lowerSquadronHSpan);
+    squadronActivity.innerHTML += "&nbsp;" + scheduleData.sqM + "&nbsp;";
+    squadronActivity.appendChild(lowerSquadronMinSpan);
+    squadronActivity.innerHTML += "<br><br>";
+    squadronActivity.appendChild(squadronDayRow);
+    squadronDayRow.appendChild(squadronDay);
+    squadronDayRow.innerHTML += "&nbsp;" + (3 - scheduleData.sqD) + " / 3&nbsp;";
+
+    // EC lineups
+
+    const ecNowDiv = document.createElement("span");
+    const ecInDiv = document.createElement("span");
+    const ecDDiv = document.createElement("span");
+    const ecHDiv = document.createElement("span");
+    const ecMDiv = document.createElement("span");
+    
+    ecNowDiv.id = "LOC_ecNow";
+    ecInDiv.id = "LOC_inLineup3";
+    ecDDiv.id = "LOC_dLineup3";
+    ecHDiv.id = "LOC_hLineup3";
+    ecMDiv.id = "LOC_minLineup3";
+
+    let aviaNowString = ":<br>";
+    for (let i = 0; i < scheduleData.aviaNow.length; i++)
+    {
+        const addComma = i < scheduleData.aviaNow.length - 1;
+
+        aviaNowString += linkedLineup("ec", scheduleData.aviaNow[i].min.toString() + "&#x2011;" + scheduleData.aviaNow[i].max.toString()) + (addComma ? " " : "");
+    }
+
+    let aviaNextString = ":<br>";
+    for (let i = 0; i < scheduleData.aviaNext.length; i++)
+    {
+        const addComma = i < scheduleData.aviaNext.length - 1;
+
+        aviaNextString += linkedLineup("ec", scheduleData.aviaNext[i].min.toString() + "&#x2011;" + scheduleData.aviaNext[i].max.toString()) + (addComma ? " " : "");
+    }
+
+    const ecLineups = el("ecLineups"); 
+    ecLineups.innerHTML = "";
+    ecLineups.appendChild(ecNowDiv);
+    ecLineups.innerHTML += aviaNowString + "<br><br>";
+    ecLineups.appendChild(ecInDiv);
+    ecLineups.innerHTML += " " + scheduleData.aviaNextDays + " ";
+    ecLineups.appendChild(ecDDiv);
+    ecLineups.innerHTML += " " + scheduleData.aviaNextHours + " ";
+    ecLineups.appendChild(ecHDiv);
+    ecLineups.innerHTML += " " + scheduleData.aviaNextMinutes + " ";
+    ecLineups.appendChild(ecMDiv);
+    ecLineups.innerHTML += aviaNextString;
 
     // Future days
 
+    const futureDiv = el("scheduleFuture");
     futureDiv.innerHTML = "";
+    const futureLineupsDiv = document.createElement("span");
+    futureLineupsDiv.id = "LOC_futureLineups";
+    futureDiv.appendChild(futureLineupsDiv);
+    futureDiv.innerHTML += ":<br>";
+
     for (let d = 0; d < 5; d++)
     {
         const bLineup = scheduleData.future[d].b;
         const tLineup = scheduleData.future[d].t;
         const dateString = scheduleData.future[d].date + " (<span id='LOC_weekDay" + scheduleData.future[d].dayOfWeek.toString() + "'></span>)";
 
-        futureDiv.innerHTML += "<span style='white-space: nowrap'>[<a class='undecoratedLinks' onclick='clickOnScheduleLineup(this)'>" + bLineup + "</a>]<span class='lineupsAmpersand'> & </span>[<a class='undecoratedLinks' onclick='clickOnScheduleLineup(this)'>" + tLineup + "</a>]</span> <span style='white-space: nowrap'> – " + dateString + " </span>";
+        futureDiv.innerHTML += "<span style='white-space: nowrap'>" + linkedLineup("ground", bLineup) + "<span class='lineupsAmpersand'> & </span>" + linkedLineup("ground", tLineup) + "</span> <span style='white-space: nowrap'> – " + dateString + " </span>";
         futureDiv.innerHTML += "<br>";
     }
 
@@ -298,10 +362,10 @@ function whenIsLineup(lineup)
     return whenBottomLineups[index];
 }
 
-function clickOnScheduleLineup(elem)
+function clickOnScheduleLineup(elem, mode)
 {
     const lineup = elem.innerHTML;
-    setMode("ground", true);
+    setMode(mode, true);
     selectLineup(lineup, true);
     window.scrollTo(0, 0);
 }
@@ -313,17 +377,19 @@ if (typeof exports === 'undefined')
     setInterval(() => { setSchedule(); }, 1000 * 30); // Every 30 seconds
 }
 
-function toggleFuture()
+function toggleAdditional()
 {
-    const futureDiv = el("scheduleFuture");
+    const futureDiv = el("additionalInfo");
 
     if (futureDiv.style.display === "none")
     {
-        futureDiv.style.display = "block";
+        futureDiv.style.display = "table-row";
+        localStorage.setItem("additional", "true");
     }
     else
     {
         futureDiv.style.display = "none";
+        localStorage.setItem("additional", "false");
     }
 }
 

@@ -51,6 +51,7 @@ body
     background-color: #303030;
     border-radius: 5px;
     padding: 0.5em;
+    border: 2px solid #1c1c1c;
 }
 
 .vehiclesTable
@@ -147,7 +148,7 @@ body
     font-size: 0.8em;
 }
 
-#scheduleFuture
+/*#scheduleFuture
 {
     background-color: #000000f8;
     width: 100%;
@@ -156,7 +157,7 @@ body
     line-height: 1.5em;
     padding-top: 1em;
     padding-bottom: 1em;
-}
+}*/
 
 .textShadow
 {
@@ -175,7 +176,7 @@ body
 
 .vehicleTd
 {
-    background-color: #0000000a;
+    background-color: #d8ec660a;
 }
 
 .undecoratedLinks

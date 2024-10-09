@@ -55,12 +55,12 @@ if (typeof exports === 'undefined')
 
     if (vehicles == null)
     {
-        console.log("Fetching from database");
+        //console.log("Fetching from database");
         getData();
     }
     else
     {
-        console.log("Fetched from local storage");
+        //console.log("Fetched from local storage");
         vehicles = JSON.parse(vehicles);
         showCenter();
         if (!prepareForFirstDisplay())
@@ -68,7 +68,7 @@ if (typeof exports === 'undefined')
             if (localStorage.getItem("lineup"))
             {
                 const storedLineup = localStorage.getItem("lineup");
-                if (storedLineup.includes("-"))
+                if (storedLineup.includes("."))
                 {
                     setMode("ec", true);
                 }
@@ -96,6 +96,18 @@ if (typeof exports === 'undefined')
         {
             refreshData();
         }
+    }
+
+    const additionalInfoOpened = localStorage.getItem("additional");
+    
+    const futureDiv = el("additionalInfo");
+    if (additionalInfoOpened === "true")
+    {
+        futureDiv.style.display = "table-row";
+    }
+    else
+    {
+        futureDiv.style.display = "none";
     }
 }
 

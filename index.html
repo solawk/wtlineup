@@ -128,16 +128,25 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <button onclick="toggleFuture()" class="undecoratedLinks semitransparentButtons" style="width:100%"><b>V</b></button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width: 100%; position: relative">
-                                            <div id="scheduleFuture" class="semitransparentButtons" style="display: none">
-                                            </div>
+                                            <button onclick="toggleAdditional()" class="undecoratedLinks semitransparentButtons" style="width: 100%"><b id="LOC_additional"></b></button>
                                         </td>
                                     </tr>
                                 </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <!-- Dropdown info menu -->
+            <tr id="additionalInfo" class="textShadow" style="vertical-align: top">
+                <td class="headerTDs" style="background-color: #2a2a2a" colspan="2">
+                    <table style="width: 100%">
+                        <tr style="width: 100%">
+                            <td id="squadronActivity" style="width: 30%">
+                            </td>
+                            <td id="ecLineups">
+                            </td>
+                            <td id="scheduleFuture" style="width: 30%">
                             </td>
                         </tr>
                     </table>
@@ -193,7 +202,7 @@
         </div>
     </div>
 
-    <div id="reportDiv" style="position: fixed; left: 0; top: 0; width: 100%; height: 100%; text-align: center; background-color: #000000f0; display: none">
+    <div id="reportDiv" style="position: fixed; left: 0; top: 0; width: 100%; height: 100%; padding-left: 2em; text-align: left; background-color: #000000f0; display: none">
         <br><button onclick="switchReportWindow(false)" style="font-size: 1.2em"><span id="LOC_cancel">Cancel</span></button>
         <h1><span id="LOC_creatingReport">Creating a report</span>:</h1>
         <span id="LOC_reportType">Report type</span>*:
