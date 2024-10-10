@@ -113,11 +113,12 @@ body
     background-color: #000000d0;
     text-align: left;
     user-select: none;
+    border-radius: 5px;
 }
 
 .suggestion:hover
 {
-    background-color: #111111ff;
+    background-color: #222222ff;
 }
 
 #searchInput
@@ -268,4 +269,9 @@ body
     background-color: var(--vibrant-gray);
     user-select: none;
     text-shadow: 1px 1px 1px black;
+}
+
+#langButton:hover
+{
+    filter: brightness(2);
 }

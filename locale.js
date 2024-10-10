@@ -1,4 +1,4 @@
-confirmLocale();
+//confirmLocale();
 
 function switchLocale()
 {

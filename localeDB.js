@@ -2,7 +2,7 @@ const en =
         {
             lineupSpan: "Lineup",
             searchSpan: "Search",
-            switchLocale: "<img src='flags/britain.png' title='Переключить на русский'>",
+            switchLocale: "<img src='flags/lang.png' id='langButton' title='Переключить на русский'>",
             discord: "[Discord Bot]",
             discordInvite: "[Invite the bot]",
             creditsSpan: "by Solawk",
@@ -95,7 +95,7 @@ const ru =
         {
             lineupSpan: "Сетап",
             searchSpan: "Поиск",
-            switchLocale: "<img src='flags/russia.png' title='Switch to English'>",
+            switchLocale: "<img src='flags/lang.png' id='langButton' title='Switch to English'>",
             discord: "[Discord Бот]",
             discordInvite: "[Пригласить бота]",
             creditsSpan: "от Solawk",

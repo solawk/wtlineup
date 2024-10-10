@@ -288,6 +288,7 @@ function setSchedule()
     ecLineups.innerHTML += " " + scheduleData.aviaNextMinutes + " ";
     ecLineups.appendChild(ecMDiv);
     ecLineups.innerHTML += aviaNextString;
+    ecLineups.style.fontSize = "0.9em";
 
     // Future days
 

@@ -142,7 +142,7 @@ function showCenter()
 function refreshData()
 {
     el("refreshButton").disabled = true;
-    el("refreshIcon").style.filter = "blur(5px)";
+    el("refreshIcon").style.filter = "blur(5px) brightness(0.5)";
     getData();
 }
 
