@@ -186,6 +186,11 @@ body
     cursor: pointer;
 }
 
+.undecoratedLinks:hover
+{
+    text-decoration: underline;
+}
+
 .scheduleTitles
 {
     font-size: 0.7em;
@@ -213,6 +218,11 @@ body
     background-color: #00000088;
     border-radius: 15px;
     color: white;
+}
+
+.semitransparentButtons:hover
+{
+    background-color: #30303088;
 }
 
 #utilsButton
