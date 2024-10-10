@@ -13,7 +13,7 @@ try
     // dev
     const configFile = require("./config.json");
     token = configFile.tgtoken;
-    refreshTime = 3;
+    refreshTime = 10;
 
     console.log("DEV LAUNCHED");
 }
@@ -48,12 +48,12 @@ if (1)
     const mainMsgId = 16;
     const widgetMsgId = 17;
 
-    const msgs = lineupFunction();
-
     //console.log(msgs);
 
-    setInterval(async () =>
+    async function refreshMessages()
     {
+        const msgs = lineupFunction();
+
         try
         {
             await bot.editMessageText(msgs[0], { chat_id: channelId, message_id: mainMsgId, parse_mode: "Markdown", link_preview_options: JSON.stringify({ is_disabled: true }) });
@@ -67,7 +67,11 @@ if (1)
         {
             await bot.editMessageText(msgs[1], { chat_id: channelId, message_id: widgetMsgId, parse_mode: "Markdown", link_preview_options: JSON.stringify({ is_disabled: true }) });
         } catch (e) {};
-    }, refreshTime * 1000)
+    }
+
+    refreshMessages();
+
+    setInterval(refreshMessages, refreshTime * 1000);
 }
 
 /*bot.on('text', async msg =>
