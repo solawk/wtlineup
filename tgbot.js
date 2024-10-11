@@ -95,8 +95,6 @@ function lineupFunction()
     const hours = en ? " h " : " ч ";
     const minutes = en ? " min" : " мин";
     const squadron = en ? "**Squadron activity** reset in" : "*Сброс полковой активности*";
-    const linkDisclaimer = en ? "Clicking a lineup opens the WTLineup website with the list of vehicles" :
-        "Нажатие на сетап направляет на веб-сайт WTLineup со списком техники";
     const firstDay = en ? " (1st day of the cycle)" : " (день 1/3)";
     const secondDay = en ? " (2nd day of the cycle)" : " (день 2/3)";
     const thirdDay = en ? " (3rd day of the cycle)" : " (день 3/3)";
@@ -105,7 +103,7 @@ function lineupFunction()
     const weekDaysRu = [ "вс", "пн", "вт", "ср", "чт", "пт", "сб" ];
     const weekDays = en ? weekDaysEn : weekDaysRu;
 
-    const authors = en ? "by Solawk" : "от Solawk";
+    const searchLink = "Поиск техники (в разработке)";
 
     const boosty = "[Boosty](https://boosty.to/solawk)";
     const github = "[GitHub](https://github.com/solawk/wtlineup)";
@@ -192,6 +190,7 @@ function lineupFunction()
     msg1 += "\n\n" + asb + "\n" + aviaNowString;
     msg1 += "\n" + "*" + availableIn + lineups.aviaNextDays + days + lineups.aviaNextHours + hours + lineups.aviaNextMinutes + minutes + ":*\n" + aviaNextString;
     msg1 += "\n\n" + squadron + "\n" + squadronResetString + cycleDay;
+    msg1 += "\n\n" + searchLink;
     msg1 += "\n\n" + boosty + ", " + github + ", " + wtlineupWebsite;
 
     msg2 += "[" + lineups.bottomNow + "](" + link(lineups.bottomNow) + ") и " + "[" + lineups.topNow + "](" + link(lineups.topNow) + ")";
