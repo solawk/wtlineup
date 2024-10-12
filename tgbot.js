@@ -236,6 +236,7 @@ function searchFunction(query)
 
     const boosty = "[Boosty](https://boosty.to/solawk)";
     const github = "[GitHub](https://github.com/solawk/wtlineup)";
+    const wtlineupBot = "[канал с расписанием сетапов](https://t.me/wtlineup)";
     const wtlineupWebsite = "[сайт WTLineup](https://bit.ly/wt-sim)";
 
     // Links
@@ -303,7 +304,7 @@ function searchFunction(query)
         msg += "\n" + noneFound;
     }
 
-    msg += "\n\n" + boosty + ", " + github + ", " + wtlineupWebsite;
+    msg += "\n\n" + boosty + ", " + github + ", " + wtlineupBot + ", " + wtlineupWebsite;
 
     return msg;
 }
