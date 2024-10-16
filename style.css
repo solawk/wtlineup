@@ -114,6 +114,7 @@ body
     text-align: left;
     user-select: none;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 .suggestion:hover
@@ -219,6 +220,7 @@ body
     background-color: #00000088;
     border-radius: 15px;
     color: white;
+    cursor: pointer;
 }
 
 .semitransparentButtons:hover
@@ -288,4 +290,9 @@ body
     margin-bottom: 0.5em;
     border-radius: 15px;
     background-color: #1c1c1c;
+}
+
+.flagFilter:hover
+{
+    filter: brightness(2);
 }

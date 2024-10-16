@@ -414,6 +414,8 @@ function getNation(nation, isChoosable, isGray)
         };
 
         img.style.maxWidth = "2.4em";
+        img.style.cursor = "pointer";
+        img.classList.add("flagFilter");
     }
 
     let src;
