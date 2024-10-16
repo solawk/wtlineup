@@ -497,6 +497,260 @@ function toggleMenu()
     }
 }
 
+function setMarathonInfo(info)
+{
+    //console.trace();
+    //console.log(info);
+    if (info == null) return
+
+    // COPY FROM MARATHON BOT START
+
+    const premiumM = [ "Акционный", "Премиумный" ];
+    const premiumF = [ "Акционная", "Премиумная" ];
+   
+    const premiumMen = [ "Gift", "Premium" ];
+    const premiumFen = [ "Gift", "Premium" ];
+
+    const dimensions =
+    {
+        light: 0,
+        medium: 0,
+        heavy: 0,
+        spg: 0,
+        spaa: 0,
+        fighter: 1,
+        attacker: 1,
+        bomber: 1,
+        heli: 1,
+        barge: 2,
+        boat: 2,
+        chaser: 2,
+        destroyer: 2,
+        cruiser: 2,
+        battleship: 2,
+    };
+
+    const classes =
+    {
+        light: "лёгкий танк",
+        medium: "средний танк",
+        heavy: "тяжёлый танк",
+        spg: "САУ",
+        spaa: "ЗСУ",
+        fighter: "истребитель",
+        attacker: "штурмовик",
+        bomber: "бомбардировщик",
+        heli: "вертолёт",
+        barge: "баржа",
+        boat: "катер",
+        chaser: "морской охотник",
+        destroyer: "эсминец",
+        cruiser: "крейсер",
+        battleship: "линкор",
+    };
+
+    const classesen =
+    {
+        light: "light tank",
+        medium: "medium tank",
+        heavy: "heavy tank",
+        spg: "SPG",
+        spaa: "SPAA",
+        fighter: "fighter",
+        attacker: "attacker",
+        bomber: "bomber",
+        heli: "helicopter",
+        barge: "barge",
+        boat: "boat",
+        chaser: "sub-chaser",
+        destroyer: "destroyer",
+        cruiser: "cruiser",
+        battleship: "battleship",
+    };
+
+    const clFeminine =
+    {
+        light:      false,
+        medium:     false,
+        heavy:      false,
+        spg:                true,
+        spaa:               true,
+        fighter:    false,
+        attacker:   false,
+        bomber:     false,
+        heli:       false,
+        barge:              true,
+        boat:       false,
+        chaser:     false,
+        destroyer:  false,
+        cruiser:    false,
+        battleship: false,
+    };
+
+    const nations =
+    {
+        usa: "США",
+        germany: "Германии",
+        ussr: "СССР",
+        britain: "Великобритании",
+        france: "Франции",
+        italy: "Италии",
+        japan: "Японии",
+        china: "Китая",
+        sweden: "Швеции",
+        israel: "Израиля"
+    };
+
+    const nationsen =
+    {
+        usa: "US",
+        germany: "german",
+        ussr: "USSR",
+        britain: "british",
+        france: "french",
+        italy: "italian",
+        japan: "japanese",
+        china: "chinese",
+        sweden: "swedish",
+        israel: "israeli"
+    };
+
+    const months =
+    [
+        "января", "февраля", "марта",
+        "апреля", "мая", "июня",
+        "июля", "августа", "сентября",
+        "октября", "ноября", "декабря"
+    ];
+
+    const monthsen =
+    [
+        "January", "February", "March",
+        "April", "May", "June",
+        "July", "August", "September",
+        "October", "November", "December"
+    ];
+
+    const ranks =
+    [
+        "3-", "4-", "5 ", "6 ", "7+"
+    ];
+
+    const ISRU = locale === "ru";
+
+    // Actual data
+
+    const currentDate = new Date();
+
+    const startDate = new Date(Date.UTC(currentDate.getUTCFullYear(), parseInt(info.startMonth) - 1, parseInt(info.startDay), parseInt(info.eventHour)));
+    const endDate = new Date(Date.UTC(new Date().getUTCFullYear() + (parseInt(info.startMonth) > parseInt(info.endMonth) ? 1 : 0), parseInt(info.endMonth) - 1, parseInt(info.endDay), parseInt(info.eventHour)));
+
+    const timeDifference = endDate.getTime() - startDate.getTime();
+    const durationInDays = timeDifference / (1000 * 60 * 60 * 24);
+    const durationInStages = Math.round(durationInDays / parseInt(info.daysPerStage));
+
+    const timeElapsed = currentDate.getTime() - startDate.getTime();
+    const isMarathonOver = timeElapsed > timeDifference;
+    const isMarathonNotStarted = currentDate < startDate;
+    const currentStage = Math.ceil(timeElapsed / (1000 * 60 * 60 * 24 * parseInt(info.daysPerStage)));
+
+    const stageStartTimestamp = startDate.getTime() + (1000 * 60 * 60 * 24 * parseInt(info.daysPerStage) * (currentStage - 1));
+    const stageTimeElapsed = currentDate.getTime() - stageStartTimestamp;
+    const stageEndTimestamp = startDate.getTime() + (1000 * 60 * 60 * 24 * parseInt(info.daysPerStage) * currentStage);
+
+    const remainingStageTime = stageEndTimestamp - currentDate.getTime();
+    const remainingStageDays = Math.floor(remainingStageTime / (1000 * 60 * 60 * 24));
+    const remainingStageHours = Math.floor(remainingStageTime / (1000 * 60 * 60)) - (remainingStageDays * 24);
+    const remainingStageMinutes = Math.floor(remainingStageTime / (1000 * 60)) - (remainingStageDays * 24 * 60) - (remainingStageHours * 60);
+
+    const halfhourMinutes = (currentStage > 1 && currentStage <= (durationInStages + 1) && stageTimeElapsed < (1000 * 60 * 30)) ? (30 - Math.floor(stageTimeElapsed / (1000 * 60))) : -1;
+
+    const modeMultipliers = [   parseFloat(info.multGAB), parseFloat(info.multGRB), parseFloat(info.multGSB),
+                                parseFloat(info.multAAB), parseFloat(info.multARB), parseFloat(info.multASB),
+                                parseFloat(info.multNAB), parseFloat(info.multNRB), parseFloat(info.multGSB) ];
+    const currentDimension = dimensions[info.class];
+    const rankMultipliers = [ parseFloat(info.multIII), parseFloat(info.multIV), parseFloat(info.multV), parseFloat(info.multVI), parseFloat(info.multVII) ];
+    const stageScore = parseInt(info.stageScore);
+    const couponScore = parseInt(info.couponScore);
+
+    const scores = [];
+    for (let mode = 0; mode < 3; mode++)
+    {
+        const modeMult = modeMultipliers[currentDimension * 3 + mode];
+        scores[mode] = [];
+        for (let rank = 0; rank < 5; rank++)
+        {
+            scores[mode][rank] = { stage: Math.ceil(stageScore / modeMult / rankMultipliers[rank]), coupon: Math.ceil(couponScore / modeMult / rankMultipliers[rank]) };
+        }
+    }
+
+    // Mental disorders
+
+    const premium = ISRU ? clFeminine[info.class] ? premiumF[parseInt(info.premium)] : premiumM[parseInt(info.premium)] : premiumFen[parseInt(info.premium)];
+    const duration = ISRU ? "Марафон проходит с " + info.startDay + (info.startMonth !== info.endMonth ? " " + months[parseInt(info.startMonth) - 1] : "")
+                        + " по " + info.endDay + " " + months[parseInt(info.endMonth) - 1]
+                        : "Marathon is active from " + info.startDay + (info.startMonth !== info.endMonth ? " of " + monthsen[parseInt(info.startMonth) - 1] : "")
+                        + " to " + info.endDay + " of " + monthsen[parseInt(info.endMonth) - 1];
+    const rewardStageString = ISRU ? info.rewardStage + (info.rewardStage < 5 ? " этапа" : " этапов") : info.rewardStage + " stages";
+    const currentStageString = ISRU ? "Текущий этап – " + currentStage + "/" + durationInStages
+                        : "Current stage – " + currentStage + "/" + durationInStages;
+    const stageRemaining = ISRU ? "Продлится " + remainingStageDays + " д " + remainingStageHours + " ч " + remainingStageMinutes + " м"
+                        : "Available for " + remainingStageDays + " d " + remainingStageHours + " h " + remainingStageMinutes + " min";
+    const halfhourRemaining = ISRU ? ((halfhourMinutes > -1) ? "<br>Предыдущий этап доступен ещё " + halfhourMinutes + " м" : "")
+                        : ((halfhourMinutes > -1) ? "<br>Previous stage available for " + halfhourMinutes + " more min" : "");
+
+    //                 "RR XXXXXX XXXXXX XXXXXX"
+    const modeHeader = ISRU ? "<tr><td>Ранг</td><td>АБ</td><td>РБ</td><td>СБ</td><tr>" : "<tr><td>Rank</td><td>AB</td><td>RB</td><td>SB</td><tr>";
+    let stageScores = modeHeader;
+    let couponScores = modeHeader;
+    for (let rank = 1; rank < 5; rank++)
+    {
+        stageScores += "<tr><td>" + ranks[rank] + "</td>";
+        couponScores += "<tr><td>" + ranks[rank] + "</td>";
+        for (let mode = 0; mode < 3; mode++)
+        {
+            if (currentDimension === 2 && mode === 2)
+            {
+                // Naval SB
+                stageScores += "<td>------</td>";
+                couponScores += "<td>------</td>";
+            }
+            else
+            {
+                stageScores += "<td>" + scores[mode][rank].stage + "</td>";
+                couponScores += "<td>" + scores[mode][rank].coupon + "</td>";
+            }
+        }
+        stageScores += "</tr>";
+        couponScores += "</tr>";
+    }
+
+    // COPY FROM MARATHON BOT END
+
+    el("maraName").innerHTML = info.name;
+    el("maraDesc").innerHTML = ISRU ? premium + " " + classes[info.class] + " " + info.rank + "-го ранга " + nations[info.nation]
+                                : premium + " " + nationsen[info.nation] + " " + classesen[info.class] + " of rank " + info.rank;
+    el("maraDates").innerHTML = duration;
+    el("maraStagesToReward").innerHTML = rewardStageString;
+    el("maraCurrentStage").innerHTML = ISRU ? (!isMarathonOver ? (!isMarathonNotStarted ? currentStageString : "Марафон скоро начнётся") : "Марафон завершился!")
+                                        : (!isMarathonOver ? (!isMarathonNotStarted ? currentStageString : "Marathon starts soon") : "Marathon is over!");
+    el("maraStageLeft").innerHTML =
+        ISRU ?
+        (!isMarathonOver ?
+            (!isMarathonNotStarted ? stageRemaining + halfhourRemaining : "Готовьтесь к гринду")
+            : "Ожидайте нового гринда" + halfhourRemaining)
+        :
+        (!isMarathonOver ?
+            (!isMarathonNotStarted ? stageRemaining + halfhourRemaining : "Stand by for the grind")
+            : "Pending new grind" + halfhourRemaining);
+
+    el("maraStageScore").innerHTML = info.stageScore;
+    el("maraUpgradeScore").innerHTML = info.couponScore;
+
+    el("maraStageTable").innerHTML = stageScores;
+    el("maraUpgradeTable").innerHTML = couponScores;
+}
+
 // Bot integration
 
 (function(exports)

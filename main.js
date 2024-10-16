@@ -6,6 +6,8 @@ const allGroundLineups = [ "1_1", "2_1", "3_1", "4_1", "5_1", "6_1", "8_2", "8_2
 
 function getData()
 {
+    // Vehicles
+    
     let xhr = new XMLHttpRequest();
     xhr.withCredentials = false;
 
@@ -40,17 +42,42 @@ function getData()
     });
 
     xhr.open("GET", "https://script.google.com/macros/s/AKfycbzq-ElAFHCDzk6dVqomddksLWLcNHbvBi2K5_4JZeh8OrejAt-isCrhleXiJYQA3A4Vnw/exec");
+    xhr.send(null);
+}
 
+function getMarathonData()
+{
+    // Marathon
+
+    xhr = new XMLHttpRequest();
+
+    xhr.addEventListener("readystatechange", function ()
+    {
+        if (this.readyState === 4)
+        {
+            marathonInfo = JSON.parse(this.responseText);
+            localStorage.setItem("marathonInfo", this.responseText);
+            setMarathonInfo(marathonInfo);
+        }
+        else
+        {
+            console.log(this.status);
+        }
+    });
+
+    xhr.open("GET", "https://script.google.com/macros/s/AKfycbxQjCwoHuVz99y5TVllX0heOy1iMEcFRlh0qRXjwUV2pi2SpctktC3GYFcOXOpmG6LQ/exec");
     xhr.send(null);
 }
 
 // Contains an array of all vehicles in the database
 let vehicles;
+let marathonInfo;
 let lastUpdate;
 
 if (typeof exports === 'undefined')
 {
     vehicles = localStorage.getItem("vehicles");
+    marathonInfo = localStorage.getItem("marathonInfo");
     lastUpdate = localStorage.getItem("lastUpdate");
 
     if (vehicles == null)
@@ -62,6 +89,7 @@ if (typeof exports === 'undefined')
     {
         //console.log("Fetched from local storage");
         vehicles = JSON.parse(vehicles);
+        marathonInfo = JSON.parse(marathonInfo);
         showCenter();
         if (!prepareForFirstDisplay())
         {
@@ -98,8 +126,16 @@ if (typeof exports === 'undefined')
         }
     }
 
+    if (marathonInfo != null)
+    {
+        setMarathonInfo(marathonInfo);
+    }
+    else
+    {
+        getMarathonData();
+    }
+
     const additionalInfoOpened = localStorage.getItem("additional");
-    
     const futureDiv = el("additionalInfo");
     if (additionalInfoOpened === "true")
     {
@@ -108,6 +144,17 @@ if (typeof exports === 'undefined')
     else
     {
         futureDiv.style.display = "none";
+    }
+
+    const marathonInfoOpened = localStorage.getItem("marathonTab");
+    const maraDiv = el("marathonInfoMenu");
+    if (marathonInfoOpened === "true")
+    {
+        maraDiv.style.display = "table-row";
+    }
+    else
+    {
+        maraDiv.style.display = "none";
     }
 }
 
@@ -144,6 +191,7 @@ function refreshData()
     el("refreshButton").disabled = true;
     el("refreshIcon").style.filter = "blur(5px) brightness(0.5)";
     getData();
+    getMarathonData();
 }
 
 function getAllLineupsOfBottomAircraft(v)

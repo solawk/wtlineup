@@ -37,4 +37,7 @@ function confirmLocale()
 
     if (teamBlue != null) fillLineupTable();
     localStorage.setItem("locale", locale);
+
+    if (typeof marathonInfo === "undefined") return;
+    setMarathonInfo(marathonInfo);
 }

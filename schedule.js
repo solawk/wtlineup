@@ -394,6 +394,22 @@ function toggleAdditional()
     }
 }
 
+function toggleMarathon()
+{
+    const maraDiv = el("marathonInfoMenu");
+
+    if (maraDiv.style.display === "none")
+    {
+        maraDiv.style.display = "table-row";
+        localStorage.setItem("marathonTab", "true");
+    }
+    else
+    {
+        maraDiv.style.display = "none";
+        localStorage.setItem("marathonTab", "false");
+    }
+}
+
 // Bot integration
 
 (function(exports)

@@ -88,7 +88,12 @@ const en =
             whenAfterDaysAfter: " days",
 
             groundModeButton: "Ground SB",
-            ecModeButton: "Air SB"
+            ecModeButton: "Air SB",
+
+            marathon: "Marathon",
+            maraRewardStagePre: "Vehicle available after ",
+            maraStageScorePre: "Score per stage",
+            maraUpgradeScorePre: "Score for coupon",
         };
 
 const ru =
@@ -181,7 +186,12 @@ const ru =
             whenAfterDaysAfter: " д",
 
             groundModeButton: "Совместные СБ",
-            ecModeButton: "Воздушные СБ"
+            ecModeButton: "Воздушные СБ",
+
+            marathon: "Марафон",
+            maraRewardStagePre: "Наградная техника выдаётся за ",
+            maraStageScorePre: "Очков на этап",
+            maraUpgradeScorePre: "Очков на купон",
         };
 
 let locale = localStorage.getItem("locale") ? localStorage.getItem("locale") : "en";

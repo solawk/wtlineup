@@ -94,7 +94,7 @@
                             <td style="width: 33%">
                                 <table style="width: 100%">
                                     <tr>
-                                        <td class="headerTDs">
+                                        <td class="headerTDs" colspan="2">
                                             <div id="scheduleDiv" class="textShadow" style="font-size: 1.3em">
                                                 <table style="width: 100%">
                                                     <tr>
@@ -127,8 +127,11 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>
+                                        <td style="width: 70%">
                                             <button onclick="toggleAdditional()" class="undecoratedLinks semitransparentButtons" style="width: 100%"><b id="LOC_additional"></b></button>
+                                        </td>
+                                        <td style="width: 30%">
+                                            <button onclick="toggleMarathon()" class="undecoratedLinks semitransparentButtons" style="width: 100%"><b id="LOC_marathon"></b></button>
                                         </td>
                                     </tr>
                                 </table>
@@ -147,6 +150,31 @@
                             <td id="ecLineups">
                             </td>
                             <td id="scheduleFuture" style="width: 30%">
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <!-- Marathon info menu -->
+            <tr id="marathonInfoMenu" class="textShadow" style="vertical-align: top">
+                <td class="headerTDs" style="background-color: #2a2a2a" colspan="2">
+                    <table style="width: 100%">
+                        <tr style="width: 100%">
+                            <td id="maraInfotable" style="width: 30%">
+                                <span id="maraName">Если не загружается,</span><br>
+                                <span id="maraDesc">обновите данные</span><br><br>
+                                <span id="maraDates">-</span><br>
+                                <span id="LOC_maraRewardStagePre"></span><span id="maraStagesToReward">-</span><br><br>
+                                <span id="maraCurrentStage">If not loading</span><br>
+                                <span id="maraStageLeft">refresh data</span><br>
+                            </td>
+                            <td id="maraStage">
+                                <span id="LOC_maraStageScorePre"></span> – <span id="maraStageScore">-</span><br>
+                                <table id="maraStageTable" class="scoreTables"></table>
+                            </td>
+                            <td id="maraUpgrade">
+                                <span id="LOC_maraUpgradeScorePre"></span> – <span id="maraUpgradeScore">-</span><br>
+                                <table id="maraUpgradeTable" class="scoreTables"></table>
                             </td>
                         </tr>
                     </table>
