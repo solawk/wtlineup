@@ -35,7 +35,7 @@ const thumbnails =
             "https://encyclopedia.warthunder.com/i/images/bf-109f-4.png",
         ],
         l5_1: [
-            "https://encyclopedia.warthunder.com/i/images/us_t26e5.png",
+            "https://static.encyclopedia.warthunder.com/images/germ_pzkpfw_vi_ausf_b_tiger_iip.png",
             "https://encyclopedia.warthunder.com/i/images/germ_pzkpfw_vi_ausf_b_tiger_iip.png",
             "https://encyclopedia.warthunder.com/i/images/a-26b_10.png",
             "https://encyclopedia.warthunder.com/i/images/bf-109g-14.png",
