@@ -327,6 +327,7 @@ function lineupFunction(interaction, en)
 
     const boosty = "[Boosty](https://boosty.to/solawk)";
     const github = "[GitHub](https://github.com/solawk/wtlineup)";
+    const tg = "[Telegram](https://t.me/wtlineup)";
 
     // Links
     function link(lineup)
@@ -406,7 +407,7 @@ function lineupFunction(interaction, en)
             { name: squadron,
                 value: squadronResetString + cycleDay },
             { name: authors,
-                value: boosty + ", " + github }
+                value: boosty + ", " + github + ", " + tg }
         );
 
     return msg;
