@@ -644,8 +644,12 @@ function setMarathonInfo(info)
 
     const currentDate = new Date();
 
-    const startDate = new Date(Date.UTC(currentDate.getUTCFullYear(), parseInt(info.startMonth) - 1, parseInt(info.startDay), parseInt(info.eventHour)));
-    const endDate = new Date(Date.UTC(new Date().getUTCFullYear() + (parseInt(info.startMonth) > parseInt(info.endMonth) ? 1 : 0), parseInt(info.endMonth) - 1, parseInt(info.endDay), parseInt(info.eventHour)));
+    const isTransannual = info.startMonth === "12" && info.endMonth === "1";
+    const isJanuary = currentDate.getMonth() === 0;
+    const deductYear = isTransannual && isJanuary;
+
+    const startDate = new Date(Date.UTC(currentDate.getUTCFullYear() - (deductYear ? 1 : 0), parseInt(info.startMonth) - 1, parseInt(info.startDay), parseInt(info.eventHour)));
+    const endDate = new Date(Date.UTC(new Date().getUTCFullYear() + (parseInt(info.startMonth) > parseInt(info.endMonth) ? 1 : 0) - (deductYear ? 1 : 0), parseInt(info.endMonth) - 1, parseInt(info.endDay), parseInt(info.eventHour)));
 
     const timeDifference = endDate.getTime() - startDate.getTime();
     const durationInDays = timeDifference / (1000 * 60 * 60 * 24);
