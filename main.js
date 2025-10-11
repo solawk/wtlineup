@@ -222,14 +222,14 @@ function getAllLineupsOfBottomAircraft(v)
 
 function getGuaranteedLineups(v)
 {
-    const bottomAircraftLineups = getAllLineupsOfBottomAircraft(v);
+    let bottomAircraftLineups = getAllLineupsOfBottomAircraft(v);
 
     if (v.lineups !== "")
     {
         // Overriding bottom lineups if they are present
         let hasBottomLineupsListed = false;
         const listedLineups = v.lineups.split(" ");
-        for (const lineup in listedLineups) if (lineup.endsWith("_1")) hasBottomLineupsListed = true;
+        for (const lineup of listedLineups) if (lineup.includes("_1")) hasBottomLineupsListed = true;
         if (hasBottomLineupsListed) bottomAircraftLineups = null;
     }
 
