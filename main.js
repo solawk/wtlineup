@@ -199,6 +199,7 @@ function getAllLineupsOfBottomAircraft(v)
     const isAircraft = v.cl === "fighter" || v.cl === "attacker" || v.cl === "bomber";
     if (!isAircraft || v.br === "") return null; // Return null if the vehicle isn't a bottom lineup aircraft
     if (v.enName === "Sakeen") return []; // Богоизбранный самолёт богоизбранной нации
+    if (v.enName === "L-39ZA/ART Albatros") return []; // Не должен попадать в 6_1
 
     const lineups = [];
     const brRanges =
