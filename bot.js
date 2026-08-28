@@ -146,7 +146,7 @@ client.once(Events.ClientReady, async () =>
 async function fetchVehicles()
 {
     // Fetching the database
-    const response = await fetch("https://script.google.com/macros/s/AKfycbzq-ElAFHCDzk6dVqomddksLWLcNHbvBi2K5_4JZeh8OrejAt-isCrhleXiJYQA3A4Vnw/exec");
+    const response = await fetch("https://script.google.com/macros/s/AKfycbwVc1TL3Pm46Ipz4oVeEA8W0uwaVfmryIVwW7-BwcGeZQN3aNt_7z5JMNku0l9qcw3qWQ/exec");
     const responseText = await response.text();
     vehicles = JSON.parse(responseText);
 }
