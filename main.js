@@ -41,7 +41,7 @@ function getData()
         }
     });
 
-    xhr.open("GET", "https://script.google.com/macros/s/AKfycbxdmgdAEvdKfLxYxY6FTdVh-OdkyuHn8KVDi70qAWZf3FqlAqxqV-jYxxRjkuCYbcql4g/exec");
+    xhr.open("GET", "https://script.google.com/macros/s/AKfycbwVc1TL3Pm46Ipz4oVeEA8W0uwaVfmryIVwW7-BwcGeZQN3aNt_7z5JMNku0l9qcw3qWQ/exec");
     xhr.send(null);
 }
 
