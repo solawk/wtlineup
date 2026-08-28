@@ -295,7 +295,7 @@ function searchFunction(query)
         const vname = (s.v.ruName !== "" ? s.v.ruName : s.v.enName);
         lineupsString += "\n[Найти " + vname + " в Google](" + hrefOfVehicle(s.v).replaceAll("(", "").replaceAll(")", "") + ")";
 
-        msg += "\n\n*" + vname + "* - " + nationsRu[s.v.nation] + ", " + s.v.br.toString() + "\n";
+        msg += "\n\n*" + vname + "* - " + nationsRu[s.v.nation] + ", " + s.v.gbr.toString() + (s.v.abr !== "" && s.v.gbr !== s.v.abr ? "/" + s.v.abr.toString() : "") + "\n";
         msg += "\n" + lineupsString.length > 0 ? lineupsString : "-";
     }
 

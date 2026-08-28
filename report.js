@@ -24,8 +24,11 @@ function sendReport()
     const report_clButton = document.querySelector("input[name='report_cl']:checked");
     body.cl = report_clButton.value;
 
-    const report_brInput = el("report_br");
-    body.br = report_brInput.value.trim();
+    const report_gbrInput = el("report_gbr");
+    body.gbr = report_gbrInput.value.trim();
+
+    const report_abrInput = el("report_abr");
+    body.abr = report_abrInput.value.trim();
 
     const report_lineupsInput = el("report_lineups");
     body.lineups = report_lineupsInput.value.trim();

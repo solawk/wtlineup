@@ -300,6 +300,9 @@ function fillLineupTable(sortings)
             case "heli":        bStats.cl = 8; break;
         }
 
+        const br_a = mode === "ground" ? a.gbr : a.abr;
+        const br_b = mode === "ground" ? b.gbr : b.abr;
+
         switch (sorting)
         {
             case "nationForward": return aStats.nation - bStats.nation;
@@ -308,8 +311,8 @@ function fillLineupTable(sortings)
             case "classForward": return aStats.cl - bStats.cl;
             case "classInverse": return bStats.cl - aStats.cl;
 
-            case "brForward": return parseFloat(b.br !== "" ? b.br : "0.0") - parseFloat(a.br !== "" ? a.br : "0.0");
-            case "brInverse": return parseFloat(a.br !== "" ? a.br : "0.0") - parseFloat(b.br !== "" ? b.br : "0.0");
+            case "brForward": return parseFloat(br_b !== "" ? br_b : "0.0") - parseFloat(br_a !== "" ? br_a : "0.0");
+            case "brInverse": return parseFloat(br_a !== "" ? br_a : "0.0") - parseFloat(br_b !== "" ? br_b : "0.0");
 
             case "nameForward": return a.enName.localeCompare(b.enName);
             case "nameInverse": return b.enName.localeCompare(a.enName);
@@ -372,7 +375,7 @@ function fillLineupTable(sortings)
 
         tdNation.appendChild(getNation(vehicle.nation, false));
         tdClass.appendChild(getClass(vehicle.cl));
-        tdBR.innerHTML = vehicle.br;
+        tdBR.innerHTML = mode === "ground" ? vehicle.gbr : vehicle.abr;
         aName.innerHTML = (locale === "ru" && vehicle.ruName !== "") ? vehicle.ruName : vehicle.enName;
 
         tdNation.classList.add("vehicleTd");

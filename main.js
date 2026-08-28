@@ -41,7 +41,7 @@ function getData()
         }
     });
 
-    xhr.open("GET", "https://script.google.com/macros/s/AKfycbzq-ElAFHCDzk6dVqomddksLWLcNHbvBi2K5_4JZeh8OrejAt-isCrhleXiJYQA3A4Vnw/exec");
+    xhr.open("GET", "https://script.google.com/macros/s/AKfycbxdmgdAEvdKfLxYxY6FTdVh-OdkyuHn8KVDi70qAWZf3FqlAqxqV-jYxxRjkuCYbcql4g/exec");
     xhr.send(null);
 }
 
@@ -197,9 +197,8 @@ function refreshData()
 function getAllLineupsOfBottomAircraft(v)
 {
     const isAircraft = v.cl === "fighter" || v.cl === "attacker" || v.cl === "bomber";
-    if (!isAircraft || v.br === "") return null; // Return null if the vehicle isn't a bottom lineup aircraft
+    if (!isAircraft || v.gbr === "") return null; // Return null if the vehicle isn't a bottom lineup aircraft
     if (v.enName === "Sakeen") return []; // Богоизбранный самолёт богоизбранной нации
-    if (v.enName === "L-39ZA/ART Albatros") return []; // Не должен попадать в 6_1
 
     const lineups = [];
     const brRanges =
@@ -214,7 +213,7 @@ function getAllLineupsOfBottomAircraft(v)
 
     for (const lineup in brRanges)
     {
-        const isWithinRange = parseFloat(v.br) > brRanges[lineup][0] - 0.1 && parseFloat(v.br) < brRanges[lineup][1] + 0.1;
+        const isWithinRange = parseFloat(v.gbr) > brRanges[lineup][0] - 0.1 && parseFloat(v.gbr) < brRanges[lineup][1] + 0.1;
         if (isWithinRange) lineups.push(lineup);
     }
 
@@ -289,7 +288,7 @@ function getAllVehiclesInEC(start, end)
     for (const v of vehicles)
     {
         if (v.cl !== "fighter" && v.cl !== "attacker" && v.cl !== "bomber") continue;
-        if (v.br < start || v.br > end) continue;
+        if (v.abr < start || v.abr > end) continue;
 
         result.push(v);
     }

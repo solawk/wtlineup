@@ -53,7 +53,7 @@ function getSuggestions(input, source, glFuncFromBot, amount, ecBr)
         if ((isECmode || isBot) && isPlane(v))
         {
             if (!isBot) l = [];
-            const brf = parseFloat(v.br);
+            const brf = parseFloat(v.abr);
             for (const bracket of ecBrackets)
             {
                 for (const ecLineup of bracket)

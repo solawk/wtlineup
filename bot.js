@@ -502,7 +502,7 @@ function searchFunction(query, en)
         lineupsString += "\n[Найти " + vname + " в Google](" + hrefOfVehicle(s.v) + ")";
 
         msg.addFields(
-            { name: vname + " - " + (en ? nationsEn[s.v.nation] : nationsRu[s.v.nation]) + ", " + s.v.br.toString(),
+            { name: vname + " - " + (en ? nationsEn[s.v.nation] : nationsRu[s.v.nation]) + ", " + s.v.gbr.toString() + (s.v.abr !== "" && s.v.gbr !== s.v.abr ? "/" + s.v.abr.toString() : ""),
                 value: lineupsString.length > 0 ? lineupsString : "-" }
         );
     }
